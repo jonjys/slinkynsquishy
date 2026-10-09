@@ -91,13 +91,13 @@ input,select{width:100%;border:1px solid var(--line);border-radius:12px;padding:
   </section>
   <div class="blobs">
     <div class="blob b1"><b>8 sek</b>tills den är sig själv igen</div>
-    <div class="blob b2"><b>129 kr</b>butter squishy, moms i</div>
+    <div class="blob b2"><b>79 kr</b>butter squishy, moms i</div>
     <div class="blob b3"><b>0 läcka</b>solid kärna, ingen pärla</div>
   </div>
   <h2 id="shop">Mosa en</h2>
   <div class="grid" id="grid"></div>
-  <div class="note">Förbeställning. Första lagret skickas när EN 71-rapporten är inne. Inget kort dras här. 49 kr frakt, fri över 399 kr. 3+ och inte i munnen. Säljs av Nytto Labs.</div>
-  <button class="btn butter" id="addClass" type="button">Klasspaket 12 · 399 kr · fri frakt</button>
+  <div class="note">Förbeställning. Första lagret skickas när EN 71-rapporten är inne. Inget kort dras här. 39 kr frakt, fri över 199 kr. 3+ och inte i munnen. Säljs av Nytto Labs.</div>
+  <button class="btn butter" id="addClass" type="button">Klasspaket 12 · 249 kr · fri frakt</button>
 </main>
 <footer><div class="wrap">Slink'nSquishy · slinkynsquishy.se · hello@nyttolabs.com · Söderköping. Värm den inte. Ät den inte.</div></footer>
 <div class="drawer" id="drawer">
@@ -116,12 +116,12 @@ input,select{width:100%;border:1px solid var(--line);border-radius:12px;padding:
 </div>
 <script>
 const products=[
-  {id:"smor",name:"Butter squishy",price:129,img:"img/smor.jpg",meta:"den virala · slow-rise",blurb:"Smörpaketet. Mjukast i mitten."},
-  {id:"ost",name:"Ostkuben",price:99,img:"img/ost.jpg",meta:"tyst på skrivbordet",blurb:"En kub. Inget som läcker."},
-  {id:"toast",name:"Toasten",price:119,img:"img/toast.jpg",meta:"fastare kant",blurb:"Skiva med mjuk mitt."},
-  {id:"mochi",name:"Mochi-trion",price:179,img:"img/mochi.jpg",meta:"kanin, katt, groda",blurb:"Tre att inte kunna välja mellan."},
-  {id:"kula",name:"Persikan",price:89,img:"img/kula.jpg",meta:"en hand",blurb:"Minsta mosa."},
-  {id:"klass",name:"Klasspaket 12",price:399,img:"img/smor.jpg",meta:"fri frakt",blurb:"Tolv smör. En klass."}
+  {id:"smor",name:"Butter squishy",price:79,img:"img/smor.jpg",meta:"den virala · slow-rise",blurb:"Smörpaketet. Mjukast i mitten."},
+  {id:"ost",name:"Ostkuben",price:69,img:"img/ost.jpg",meta:"tyst på skrivbordet",blurb:"En kub. Inget som läcker."},
+  {id:"toast",name:"Toasten",price:79,img:"img/toast.jpg",meta:"fastare kant",blurb:"Skiva med mjuk mitt."},
+  {id:"mochi",name:"Mochi-trion",price:99,img:"img/mochi.jpg",meta:"kanin, katt, groda",blurb:"Tre att inte kunna välja mellan."},
+  {id:"kula",name:"Persikan",price:49,img:"img/kula.jpg",meta:"en hand",blurb:"Minsta mosa."},
+  {id:"klass",name:"Klasspaket 12",price:249,img:"img/smor.jpg",meta:"fri frakt",blurb:"Tolv smör. En klass."}
 ];
 const grid=document.getElementById("grid");
 products.filter(p=>p.id!=="klass").forEach(p=>{
@@ -137,7 +137,7 @@ function render(){
   document.getElementById("count").textContent=cart.reduce((s,x)=>s+x.qty,0);
   document.getElementById("lines").innerHTML=cart.map(x=>{const p=products.find(p=>p.id===x.id);return `<div class="line"><span>${p.name} × ${x.qty}</span><span>${p.price*x.qty} kr</span></div>`}).join("")||"<p class='meta'>Tom. Kläm något först.</p>";
   const sum=cart.reduce((s,x)=>s+products.find(p=>p.id===x.id).price*x.qty,0);
-  const ship=sum===0||sum>=399?0:49;
+  const ship=sum===0||sum>=199?0:39;
   document.getElementById("total").textContent=sum?`${sum+ship} kr${ship?" med frakt":" · fri frakt"}`:"";
 }
 document.getElementById("grid").onclick=e=>{if(e.target.dataset.id) add(e.target.dataset.id)};
