@@ -3,113 +3,77 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>slinkynsquishy — smöret</title>
+<title>slinkynsquishy</title>
 <meta name="description" content="Butter squishy, 79 kr. Solid skum. Fri frakt över 199 kr.">
 <link rel="canonical" href="https://www.slinkynsquishy.se/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Outfit:wght@380;520&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,640&family=Outfit:wght@400;520&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#1c140e;--paper:#f4efe8;--line:#e6ddd2;--yel:#e7b93a}
+:root{--ink:#1b140f;--paper:#f7f2ea;--yel:#f0c84a}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:Outfit,system-ui,sans-serif;font-weight:380}
-img{max-width:100%;display:block}
-button,input{font:inherit;color:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Outfit,system-ui,sans-serif}
+img{width:100%;display:block;object-fit:cover}
 a{color:inherit;text-decoration:none}
-nav{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;background:rgba(244,239,232,.92);backdrop-filter:blur(10px);z-index:5;border-bottom:1px solid transparent}
-.logo{font-family:Newsreader,serif;font-size:22px;letter-spacing:-.03em}
-.nav-a{display:flex;gap:18px;font-size:14px}
-.cart{border:0;background:transparent;cursor:pointer}
-.hero{display:grid;grid-template-columns:1.15fr .85fr;min-height:calc(100vh - 58px)}
-.shot{background:#efe6da;min-height:420px}
-.shot img{width:100%;height:100%;object-fit:cover;min-height:420px}
-.buy{padding:48px 40px;display:flex;flex-direction:column;justify-content:center}
-.kicker{letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:#8a7768}
-h1{font-family:Newsreader,serif;font-weight:500;font-size:68px;line-height:.9;margin:10px 0 8px;letter-spacing:-.03em}
-.price{font-family:Newsreader,serif;font-size:36px;margin:0 0 14px}
-.lead{max-width:34ch;font-size:17px;line-height:1.45}
-.btn{border:0;background:var(--ink);color:#f4efe8;border-radius:999px;padding:14px 18px;cursor:pointer;width:100%;margin-top:18px}
-.btn.yel{background:var(--yel);color:var(--ink)}
-.btn.ghost{background:transparent;border:1px solid var(--line)}
-.fine{color:#8a7768;font-size:13px;margin-top:10px}
-.thumbs{display:flex;gap:8px;margin-top:18px}
-.thumbs img{width:64px;height:64px;object-fit:cover;border-radius:8px;cursor:pointer;opacity:.7}
-.thumbs img.on{opacity:1;outline:1px solid var(--ink)}
-.tabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin:48px 20px 0;font-size:14px}
-.tabs button{border:0;background:transparent;padding:10px 0;cursor:pointer}
-.tabs button.on{border-bottom:2px solid var(--yel)}
-.panel{padding:22px 20px 80px;max-width:720px;line-height:1.5}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
-.card{background:#fffdf9;border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.card img{height:160px;width:100%;object-fit:cover}
-.card div{padding:10px 12px 12px}
-.card .off{color:#8a7768;font-size:13px}
-footer{border-top:1px solid var(--line);padding:22px 20px 40px;color:#8a7768;font-size:13px}
-.drawer{position:fixed;inset:0;background:rgba(28,20,14,.35);display:none;z-index:8}
+button,input{font:inherit}
+nav{height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;background:rgba(247,242,234,.94);z-index:4}
+.logo{font-family:Fraunces,serif;font-size:22px}
+.links{display:flex;gap:18px;font-size:14px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;min-height:calc(100vh - 60px)}
+.hero img{height:100%;min-height:560px}
+.buy{padding:64px 48px;display:flex;flex-direction:column;justify-content:flex-end}
+.kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8b7768}
+h1{font-family:Fraunces,serif;font-weight:560;font-size:84px;line-height:.86;margin:10px 0;letter-spacing:-.045em}
+.price{font-family:Fraunces,serif;font-size:32px}
+.btn{border:0;background:var(--ink);color:#fff;border-radius:999px;padding:15px 18px;width:100%;margin-top:16px;cursor:pointer}
+.fine{color:#8b7768;font-size:13px}
+.band{padding:28px 22px 64px}
+.band h2{font-family:Fraunces,serif;font-weight:560;font-size:36px;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px}
+.card{background:#fff;border-radius:18px;overflow:hidden}
+.card img{height:280px}
+.card div{padding:12px 14px 16px}
+.wide img{height:420px}
+footer{padding:18px 22px 36px;color:#8b7768;font-size:13px;border-top:1px solid #eadfD2}
+.drawer{position:fixed;inset:0;background:rgba(27,20,15,.4);display:none;z-index:6}
 .drawer.open{display:block}
-.sheet{position:absolute;right:0;top:0;height:100%;width:min(420px,100%);background:var(--paper);padding:18px;overflow:auto}
-.line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
-input{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px;margin:6px 0}
-.ok{display:none;background:#e7f0e2;border-radius:10px;padding:12px}
+.sheet{position:absolute;right:0;top:0;height:100%;width:min(400px,100%);background:var(--paper);padding:18px}
+.line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eadfd2}
+input{width:100%;border:1px solid #eadfd2;border-radius:10px;padding:11px;margin:6px 0}
 @media(max-width:800px){
-  .hero{grid-template-columns:1fr}
-  .buy{padding:22px 18px 28px}
-  h1{font-size:52px}
-  .nav-a{display:none}
-  .grid{grid-template-columns:1fr 1fr}
-  .shot img{min-height:360px;max-height:70vw}
+  .hero,.grid{grid-template-columns:1fr}
+  .links{display:none}
+  h1{font-size:58px}
+  .buy{padding:22px}
+  .hero img,.wide img,.card img{min-height:0;height:320px}
 }
 </style>
 </head>
 <body>
 <nav>
   <div class="logo">slinkynsquishy</div>
-  <div class="nav-a"><a href="#kann">Känn</a><a href="#fler">Fler</a><a href="#hit">Hit</a></div>
-  <button class="cart" id="open">Korg <span id="n">0</span></button>
+  <div class="links"><a href="#sort">Sortiment</a><a href="#hit">Frakt</a></div>
+  <button class="btn" id="open" style="width:auto;margin:0;padding:8px 14px">Korg <span id="n">0</span></button>
 </nav>
 <section class="hero">
-  <div class="shot"><img id="main" src="img/hand.jpg" alt="Hand som klämmer ett gult smör"></div>
+  <img src="img/stand.jpg" alt="Gult smör, stilla">
   <div class="buy">
-    <div class="kicker">butter squishy</div>
+    <div class="kicker">butter squishy · 14 cm</div>
     <h1>Smöret.</h1>
     <div class="price">79 kr</div>
-    <p class="lead">Den ger sig under tummen och reser sig på åtta sekunder. Solid skum. Ingen vätska.</p>
-    <button class="btn yel" id="add">Lägg i korgen</button>
-    <div class="fine">Fri frakt över 199 kr. Annars 39 kr. Förbeställning, inget dras.</div>
-    <div class="thumbs" id="thumbs">
-      <img class="on" src="img/hand.jpg" alt="Kläm">
-      <img src="img/smor.jpg" alt="Smör">
-      <img src="img/tre.jpg" alt="Tre">
-    </div>
+    <p>Solid skum. Åtta sekunder upp. Ingen vätska.</p>
+    <button class="btn" id="add">Lägg i korgen</button>
+    <p class="fine">Fri frakt över 199 kr. Annars 39 kr. Förbeställning.</p>
   </div>
 </section>
-<div class="tabs" id="tabs">
-  <button class="on" data-tab="kann">Känn</button>
-  <button data-tab="pase">I påsen</button>
-  <button data-tab="fler">Fler</button>
-  <button data-tab="hit">Hit</button>
-</div>
-<div class="panel" id="kann">
-  <p>Håll inne. Släpp. Den kommer tillbaka.</p>
-  <p>Till ett barn, eller till skrivbordet. Samma bit.</p>
-</div>
-<div class="panel" id="pase" hidden>
-  <p>14 × 4 cm. Omkring 42 gram. PU-skum, en kärna.</p>
-  <p>Ingen vätska, inga pärlor, ingen sand. Från 3 år. Inte i munnen. Inte i micron.</p>
-</div>
-<div class="panel" id="fler" hidden>
+<section class="band" id="sort">
+  <h2>Resten av bordet.</h2>
   <div class="grid">
-    <article class="card"><img src="img/tre.jpg" alt=""><div><b>3-pack</b><div>199 kr · fri frakt</div><button class="btn" id="add3">Ta tre</button></div></article>
-    <article class="card"><img src="img/tre.jpg" alt=""><div><b>Klassen</b><div>249 kr · 12 st</div><button class="btn" id="addc">Ta klassen</button></div></article>
-    <article class="card"><img src="img/ost.jpg" alt=""><div><b>Osten</b><div>69 kr</div><div class="off">Väntar på prov</div></div></article>
-    <article class="card"><img src="img/toast.jpg" alt=""><div><b>Toasten</b><div>79 kr</div><div class="off">Väntar på prov</div></div></article>
-    <article class="card"><img src="img/kula.jpg" alt=""><div><b>Persikan</b><div>49 kr</div><div class="off">Väntar på prov</div></div></article>
-    <article class="card"><img src="img/mochi.jpg" alt=""><div><b>Mochi</b><div>99 kr</div><div class="off">Väntar på prov</div></div></article>
+    <article class="card wide"><img src="img/familj.jpg" alt="Fem squishies på linne"><div><b>Hela bordet</b><div class="fine">Smör, ost, toast, persika, mochi</div></div></article>
+    <article class="card"><img src="img/tre.jpg" alt="Tre smör"><div><b>3-pack</b><div>199 kr · fri frakt</div><button class="btn" id="add3">Ta tre</button></div></article>
+    <article class="card"><img src="img/hand.jpg" alt="Tumme i smöret"><div><b>Klassen</b><div>249 kr · 12 st</div><button class="btn" id="addc">Ta klassen</button></div></article>
   </div>
-</div>
-<div class="panel" id="hit" hidden>
-  <p>PostNord från Söderköping. 14 dagars ånger, oöppnad påse. Skickas när lagret är inne.</p>
-</div>
-<footer>slinkynsquishy.se · Nytto Labs · Söderköping</footer>
+</section>
+<footer id="hit">PostNord från Söderköping. 14 dagars ånger. Inte i munnen. slinkynsquishy.se · Nytto Labs</footer>
 <div class="drawer" id="drawer"><div class="sheet">
   <div style="display:flex;justify-content:space-between"><b>Korg</b><button id="close">Stäng</button></div>
   <div id="lines"></div>
@@ -118,19 +82,18 @@ input{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px
     <input name="name" placeholder="Namn" required>
     <input name="email" type="email" placeholder="E-post" required>
     <input name="address" placeholder="Adress" required>
-    <button class="btn yel" type="submit">Spara förbeställningen</button>
+    <button class="btn" type="submit">Spara förbeställningen</button>
   </form>
-  <div class="ok" id="ok"></div>
 </div></div>
 <script>
-const products={smor:{name:"Smöret",price:79},tre:{name:"3-pack",price:199},klass:{name:"Klassen",price:249}};
+const P={smor:["Smöret",79],tre:["3-pack",199],klass:["Klassen",249]};
 let cart=JSON.parse(localStorage.getItem("slink")||"[]");
 function save(){localStorage.setItem("slink",JSON.stringify(cart));render()}
 function add(id){const h=cart.find(x=>x.id===id); if(h)h.qty++; else cart.push({id,qty:1}); save(); document.getElementById("drawer").classList.add("open")}
 function render(){
   document.getElementById("n").textContent=cart.reduce((s,x)=>s+x.qty,0);
-  document.getElementById("lines").innerHTML=cart.map(x=>`<div class="line"><span>${products[x.id].name} × ${x.qty}</span><span>${products[x.id].price*x.qty} kr</span></div>`).join("")||"<p class='fine'>Tom.</p>";
-  const sum=cart.reduce((s,x)=>s+products[x.id].price*x.qty,0);
+  document.getElementById("lines").innerHTML=cart.map(x=>`<div class="line"><span>${P[x.id][0]} × ${x.qty}</span><span>${P[x.id][1]*x.qty} kr</span></div>`).join("")||"<p class='fine'>Tom.</p>";
+  const sum=cart.reduce((s,x)=>s+P[x.id][1]*x.qty,0);
   const ship=sum===0||sum>=199?0:39;
   document.getElementById("sum").textContent=sum?`${sum+ship} kr${ship?"":" · fri frakt"}`:"";
 }
@@ -140,23 +103,7 @@ document.getElementById("addc").onclick=()=>add("klass");
 document.getElementById("open").onclick=()=>document.getElementById("drawer").classList.add("open");
 document.getElementById("close").onclick=()=>document.getElementById("drawer").classList.remove("open");
 document.getElementById("drawer").onclick=e=>{if(e.target.id==="drawer")e.target.classList.remove("open")};
-document.getElementById("form").onsubmit=e=>{
-  e.preventDefault(); if(!cart.length) return;
-  const id="SQ-"+Math.random().toString(36).slice(2,7).toUpperCase();
-  cart=[]; save();
-  const ok=document.getElementById("ok"); ok.style.display="block"; ok.textContent=id+" sparad. Inget dras.";
-};
-document.getElementById("thumbs").onclick=e=>{
-  if(e.target.tagName!=="IMG") return;
-  document.getElementById("main").src=e.target.src;
-  document.querySelectorAll(".thumbs img").forEach(i=>i.classList.remove("on"));
-  e.target.classList.add("on");
-};
-document.getElementById("tabs").onclick=e=>{
-  if(!e.target.dataset.tab) return;
-  document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on", b===e.target));
-  ["kann","pase","fler","hit"].forEach(id=>document.getElementById(id).hidden=id!==e.target.dataset.tab);
-};
+document.getElementById("form").onsubmit=e=>{e.preventDefault(); cart=[]; save()};
 render();
 </script>
 </body>
