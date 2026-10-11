@@ -1,110 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sv">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>slinkynsquishy</title>
-<meta name="description" content="Butter squishy, 79 kr. Solid skum. Fri frakt över 199 kr.">
-<link rel="canonical" href="https://www.slinkynsquishy.se/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,640&family=Outfit:wght@400;520&display=swap" rel="stylesheet">
-<style>
-:root{--ink:#1b140f;--paper:#f7f2ea;--yel:#f0c84a}
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:Outfit,system-ui,sans-serif}
-img{width:100%;display:block;object-fit:cover}
-a{color:inherit;text-decoration:none}
-button,input{font:inherit}
-nav{height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;background:rgba(247,242,234,.94);z-index:4}
-.logo{font-family:Fraunces,serif;font-size:22px}
-.links{display:flex;gap:18px;font-size:14px}
-.hero{display:grid;grid-template-columns:1.05fr .95fr;min-height:calc(100vh - 60px)}
-.hero img{height:100%;min-height:560px}
-.buy{padding:64px 48px;display:flex;flex-direction:column;justify-content:flex-end}
-.kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8b7768}
-h1{font-family:Fraunces,serif;font-weight:560;font-size:84px;line-height:.86;margin:10px 0;letter-spacing:-.045em}
-.price{font-family:Fraunces,serif;font-size:32px}
-.btn{border:0;background:var(--ink);color:#fff;border-radius:999px;padding:15px 18px;width:100%;margin-top:16px;cursor:pointer}
-.fine{color:#8b7768;font-size:13px}
-.band{padding:28px 22px 64px}
-.band h2{font-family:Fraunces,serif;font-weight:560;font-size:36px;margin:0 0 14px}
-.grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px}
-.card{background:#fff;border-radius:18px;overflow:hidden}
-.card img{height:280px}
-.card div{padding:12px 14px 16px}
-.wide img{height:420px}
-footer{padding:18px 22px 36px;color:#8b7768;font-size:13px;border-top:1px solid #eadfD2}
-.drawer{position:fixed;inset:0;background:rgba(27,20,15,.4);display:none;z-index:6}
-.drawer.open{display:block}
-.sheet{position:absolute;right:0;top:0;height:100%;width:min(400px,100%);background:var(--paper);padding:18px}
-.line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eadfd2}
-input{width:100%;border:1px solid #eadfd2;border-radius:10px;padding:11px;margin:6px 0}
-@media(max-width:800px){
-  .hero,.grid{grid-template-columns:1fr}
-  .links{display:none}
-  h1{font-size:58px}
-  .buy{padding:22px}
-  .hero img,.wide img,.card img{min-height:0;height:320px}
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>slinkynsquishy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#24170f; --paper:#f6efe4; --butter:#f2c14e; --foam:#fffaf3; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--ink); color: #fffaf3; font-family: Outfit, system-ui, sans-serif; }
+    button { cursor: pointer; font: inherit; }
+    .stage { position: relative; height: 100dvh; overflow: hidden; background: #1a120c; }
+    video, .still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .top, .dock { position: absolute; left: 0; right: 0; z-index: 2; }
+    .top { top: 0; display: flex; justify-content: space-between; align-items: center; padding: 16px; }
+    .brand { font-family: Fraunces, serif; font-size: 1.5rem; color: var(--ink); margin: 0; }
+    .bag { height: 44px; border: 0; border-radius: 999px; background: var(--ink); color: var(--paper); padding: 0 16px; }
+    .dock { bottom: 0; padding: 64px 16px 20px; background: linear-gradient(transparent, rgba(36,23,15,.82)); }
+    .picks { display: flex; gap: 8px; overflow: auto; padding-bottom: 12px; }
+    .picks button { width: 64px; height: 64px; padding: 0; border: 0; border-radius: 16px; overflow: hidden; flex: none; }
+    .picks button.on { outline: 2px solid var(--butter); }
+    .picks img { width: 100%; height: 100%; object-fit: cover; }
+    .row { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
+    h1 { font-family: Fraunces, serif; font-size: 3rem; line-height: .9; margin: 0; letter-spacing: -.04em; }
+    .price { font-family: Fraunces, serif; font-size: 1.8rem; margin: 0; }
+    .muted { margin: 4px 0 0; color: rgba(255,250,243,.8); }
+    .acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .acts button { height: 56px; border: 0; border-radius: 999px; }
+    .ghost { background: var(--paper); color: var(--ink); }
+    .buy { background: var(--butter); color: var(--ink); font-weight: 500; }
+    .sheet { display: none; position: fixed; inset: 0; background: rgba(36,23,15,.4); z-index: 5; }
+    .sheet.on { display: block; }
+    aside { position: absolute; top: 0; right: 0; bottom: 0; width: min(100%, 28rem); background: var(--paper); color: var(--ink); padding: 20px; display: flex; flex-direction: column; }
+    .line { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e4d5c4; padding: 14px 0; }
+    .qty { display: flex; gap: 8px; align-items: center; }
+    .qty button { width: 44px; height: 44px; border: 0; border-radius: 999px; background: var(--foam); }
+  </style>
 </head>
 <body>
-<nav>
-  <div class="logo">slinkynsquishy</div>
-  <div class="links"><a href="#sort">Sortiment</a><a href="#hit">Frakt</a></div>
-  <button class="btn" id="open" style="width:auto;margin:0;padding:8px 14px">Korg <span id="n">0</span></button>
-</nav>
-<section class="hero">
-  <img src="img/stand.jpg" alt="Gult smör, stilla">
-  <div class="buy">
-    <div class="kicker">butter squishy · 14 cm</div>
-    <h1>Smöret.</h1>
-    <div class="price">79 kr</div>
-    <p>Solid skum. Åtta sekunder upp. Ingen vätska.</p>
-    <button class="btn" id="add">Lägg i korgen</button>
-    <p class="fine">Fri frakt över 199 kr. Annars 39 kr. Förbeställning.</p>
+  <section class="stage">
+    <video id="film" src="img/klam.mp4" poster="img/klam.jpg" muted playsinline autoplay></video>
+    <img id="still" class="still" alt="" hidden>
+    <div class="top">
+      <p class="brand">slinkynsquishy</p>
+      <button class="bag" id="open" type="button">Korg <span id="n">0</span></button>
+    </div>
+    <div class="dock">
+      <div class="picks" id="picks"></div>
+      <div class="row">
+        <div>
+          <h1 id="name">Smöret</h1>
+          <p class="muted" id="line">Till barnet. Eller till dig.</p>
+        </div>
+        <p class="price" id="price">79 kr</p>
+      </div>
+      <div class="acts">
+        <button class="ghost" id="klam" type="button">Kläm</button>
+        <button class="buy" id="take" type="button">Ta den</button>
+      </div>
+    </div>
+  </section>
+  <div class="sheet" id="sheet">
+    <aside>
+      <div class="row">
+        <h1>Korgen</h1>
+        <button class="ghost" id="close" type="button" style="width:44px;height:44px;border-radius:999px">×</button>
+      </div>
+      <div id="lines" style="flex:1;overflow:auto"></div>
+      <p class="price" id="sum"></p>
+      <button class="buy" id="pay" type="button" style="width:100%;margin-top:12px">Betala</button>
+    </aside>
   </div>
-</section>
-<section class="band" id="sort">
-  <h2>Resten av bordet.</h2>
-  <div class="grid">
-    <article class="card wide"><img src="img/familj.jpg" alt="Fem squishies på linne"><div><b>Hela bordet</b><div class="fine">Smör, ost, toast, persika, mochi</div></div></article>
-    <article class="card"><img src="img/tre.jpg" alt="Tre smör"><div><b>3-pack</b><div>199 kr · fri frakt</div><button class="btn" id="add3">Ta tre</button></div></article>
-    <article class="card"><img src="img/hand.jpg" alt="Tumme i smöret"><div><b>Klassen</b><div>249 kr · 12 st</div><button class="btn" id="addc">Ta klassen</button></div></article>
-  </div>
-</section>
-<footer id="hit">PostNord från Söderköping. 14 dagars ånger. Inte i munnen. slinkynsquishy.se · Nytto Labs</footer>
-<div class="drawer" id="drawer"><div class="sheet">
-  <div style="display:flex;justify-content:space-between"><b>Korg</b><button id="close">Stäng</button></div>
-  <div id="lines"></div>
-  <p id="sum" class="price"></p>
-  <form id="form">
-    <input name="name" placeholder="Namn" required>
-    <input name="email" type="email" placeholder="E-post" required>
-    <input name="address" placeholder="Adress" required>
-    <button class="btn" type="submit">Spara förbeställningen</button>
-  </form>
-</div></div>
-<script>
-const P={smor:["Smöret",79],tre:["3-pack",199],klass:["Klassen",249]};
-let cart=JSON.parse(localStorage.getItem("slink")||"[]");
-function save(){localStorage.setItem("slink",JSON.stringify(cart));render()}
-function add(id){const h=cart.find(x=>x.id===id); if(h)h.qty++; else cart.push({id,qty:1}); save(); document.getElementById("drawer").classList.add("open")}
-function render(){
-  document.getElementById("n").textContent=cart.reduce((s,x)=>s+x.qty,0);
-  document.getElementById("lines").innerHTML=cart.map(x=>`<div class="line"><span>${P[x.id][0]} × ${x.qty}</span><span>${P[x.id][1]*x.qty} kr</span></div>`).join("")||"<p class='fine'>Tom.</p>";
-  const sum=cart.reduce((s,x)=>s+P[x.id][1]*x.qty,0);
-  const ship=sum===0||sum>=199?0:39;
-  document.getElementById("sum").textContent=sum?`${sum+ship} kr${ship?"":" · fri frakt"}`:"";
-}
-document.getElementById("add").onclick=()=>add("smor");
-document.getElementById("add3").onclick=()=>add("tre");
-document.getElementById("addc").onclick=()=>add("klass");
-document.getElementById("open").onclick=()=>document.getElementById("drawer").classList.add("open");
-document.getElementById("close").onclick=()=>document.getElementById("drawer").classList.remove("open");
-document.getElementById("drawer").onclick=e=>{if(e.target.id==="drawer")e.target.classList.remove("open")};
-document.getElementById("form").onsubmit=e=>{e.preventDefault(); cart=[]; save()};
-render();
-</script>
+  <script>
+    const shop = "https://pqwbeh-yy.myshopify.com/cart/";
+    const items = {
+      smor: { name: "Smöret", price: 79, line: "Till barnet. Eller till dig.", img: "img/smor.jpg", id: "58793534456139" },
+      toast: { name: "Toasten", price: 79, line: "Den som ser ut som frukost.", img: "img/toast.jpg", id: "58793534521675" },
+      ost: { name: "Osten", price: 69, line: "Hål att trycka tummen i.", img: "img/ost.jpg", id: "58793534587211" },
+      persika: { name: "Persikan", price: 49, line: "Liten nog för fickan.", img: "img/persika.jpg", id: "58793534816587" },
+      mochi: { name: "Mochi", price: 99, line: "Tre som försvinner.", img: "img/mochi.jpg", id: "58793534882123" },
+      tre: { name: "Tre smör", price: 199, line: "Fri frakt.", img: "img/tre.jpg", id: "58793535603019" },
+      klass: { name: "Klassen", price: 249, line: "Tolv stycken. Fri frakt.", img: "img/hand.jpg", id: "58793535668555" }
+    };
+    const picks = ["smor", "toast", "ost", "persika", "mochi"];
+    let pick = "smor";
+    let cart = [];
+    const film = document.getElementById("film");
+    const still = document.getElementById("still");
+    function show(id) {
+      pick = id;
+      const item = items[id];
+      document.getElementById("name").textContent = item.name;
+      document.getElementById("line").textContent = item.line;
+      document.getElementById("price").textContent = item.price + " kr";
+      document.getElementById("klam").textContent = id === "smor" ? "Kläm" : "Se klämmen";
+      if (id === "smor") {
+        still.hidden = true;
+        film.hidden = false;
+        film.currentTime = 0;
+        film.play();
+      } else {
+        film.pause();
+        film.hidden = true;
+        still.hidden = false;
+        still.src = item.img;
+      }
+      drawPicks();
+    }
+    function drawPicks() {
+      document.getElementById("picks").innerHTML = picks.map((id) =>
+        `<button class="${id === pick ? "on" : ""}" data-id="${id}" type="button"><img src="${items[id].img}" alt="${items[id].name}"></button>`
+      ).join("");
+    }
+    function drawCart() {
+      const n = cart.reduce((s, l) => s + l.qty, 0);
+      const goods = cart.reduce((s, l) => s + items[l.id].price * l.qty, 0);
+      document.getElementById("n").textContent = n;
+      document.getElementById("lines").innerHTML = cart.map((l) =>
+        `<div class="line"><div><strong>${items[l.id].name}</strong><div>${items[l.id].price} kr</div></div><div class="qty"><button data-m="${l.id}" type="button">−</button><span>${l.qty}</span><button data-p="${l.id}" type="button">+</button></div></div>`
+      ).join("") || "<p>Tom.</p>";
+      document.getElementById("sum").textContent = goods ? goods + " kr" : "";
+    }
+    function add(id) {
+      const hit = cart.find((l) => l.id === id);
+      if (hit) hit.qty += 1; else cart.push({ id, qty: 1 });
+      drawCart();
+      document.getElementById("sheet").classList.add("on");
+    }
+    document.getElementById("picks").onclick = (e) => {
+      const b = e.target.closest("button");
+      if (b) show(b.dataset.id);
+    };
+    document.getElementById("klam").onclick = () => {
+      if (pick !== "smor") show("smor");
+      else { film.currentTime = 0; film.play(); }
+    };
+    film.onclick = () => { film.currentTime = 0; film.play(); };
+    document.getElementById("take").onclick = () => add(pick);
+    document.getElementById("open").onclick = () => document.getElementById("sheet").classList.add("on");
+    document.getElementById("close").onclick = () => document.getElementById("sheet").classList.remove("on");
+    document.getElementById("sheet").onclick = (e) => { if (e.target.id === "sheet") e.currentTarget.classList.remove("on"); };
+    document.getElementById("lines").onclick = (e) => {
+      const m = e.target.dataset.m, p = e.target.dataset.p, id = m || p;
+      if (!id) return;
+      const line = cart.find((l) => l.id === id);
+      line.qty += p ? 1 : -1;
+      if (line.qty < 1) cart = cart.filter((l) => l.id !== id);
+      drawCart();
+    };
+    document.getElementById("pay").onclick = () => {
+      if (!cart.length) return;
+      location.href = shop + cart.map((l) => items[l.id].id + ":" + l.qty).join(",");
+    };
+    show("smor");
+    drawCart();
+  </script>
 </body>
 </html>
