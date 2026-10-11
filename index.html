@@ -2,168 +2,421 @@
 <html lang="sv">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>slinkynsquishy</title>
+  <meta name="description" content="Mjuka squishies. Fri frakt över 199 kr.">
+  <meta name="theme-color" content="#f4efe6">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="sv_SE">
+  <meta property="og:url" content="https://slinkynsquishy.se/">
+  <meta property="og:title" content="slinkynsquishy">
+  <meta property="og:description" content="Mjuka squishies. Fri frakt över 199 kr.">
+  <meta property="og:image" content="https://slinkynsquishy.se/img/klam.jpg">
+  <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Outfit:wght@400;500&display=swap">
+  <link rel="preload" href="img/klam.jpg" as="image" fetchpriority="high">
   <style>
-    :root { --ink:#1c140e; --paper:#f4efe6; --line:#e4d9c8; --card:#fffaf3; }
+    :root {
+      --paper: #f4efe6;
+      --ink: #1c140e;
+      --muted: #6d5c4a;
+      --card: #fffaf3;
+      --hair: rgba(28, 20, 14, .12);
+      --serif: "Fraunces", Georgia, "Times New Roman", serif;
+      --sans: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --gutter: 16px;
+      color-scheme: light;
+    }
+
     * { box-sizing: border-box; }
-    html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: Outfit, system-ui, sans-serif; }
-    button, a { font: inherit; color: inherit; }
-    button { cursor: pointer; }
-    img, video { display: block; max-width: 100%; }
-    header { position: sticky; top: 0; z-index: 4; display: flex; justify-content: space-between; align-items: center; padding: 16px 28px; background: rgba(244,239,230,.92); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; }
-    .logo { font-family: Fraunces, serif; font-size: 1.55rem; letter-spacing: -.03em; text-decoration: none; }
-    .bag { height: 42px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--ink); color: var(--paper); }
-    .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(280px, .8fr); gap: 56px; align-items: center; max-width: 1120px; margin: 0 auto; padding: 28px 28px 8px; }
-    .stage { position: relative; aspect-ratio: 1; border-radius: 28px; overflow: hidden; background: #e8e0d2; }
-    .stage video, .stage img { width: 100%; height: 100%; object-fit: cover; }
-    .replay { position: absolute; left: 14px; bottom: 14px; height: 40px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--card); }
-    .buy h1 { font-family: Fraunces, serif; font-size: clamp(3.4rem, 6vw, 5.4rem); line-height: .88; letter-spacing: -.045em; margin: 8px 0 12px; }
-    .eyebrow, .ship, .line { margin: 0; color: #6d5c4a; }
-    .price { font-family: Fraunces, serif; font-size: 2rem; margin: 18px 0; }
-    .take { height: 56px; width: min(100%, 280px); border: 0; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 1.05rem; }
-    .ship { margin-top: 14px; font-size: .95rem; }
-    .grid { max-width: 1120px; margin: 0 auto; padding: 36px 28px 80px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 18px; }
-    .cell { display: grid; gap: 8px; align-content: start; }
-    .card { display: grid; gap: 10px; padding: 0; border: 0; background: transparent; text-align: left; }
-    .card .pic { aspect-ratio: 1; border-radius: 22px; overflow: hidden; background: #e8e0d2; }
-    .card img { width: 100%; height: 100%; object-fit: cover; }
-    .card.on .pic { outline: 2px solid var(--ink); outline-offset: 4px; }
-    .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-    .meta strong { font-family: Fraunces, serif; font-size: 1.35rem; font-weight: 560; }
-    .add { justify-self: start; padding: 0; border: 0; background: none; text-decoration: underline; text-underline-offset: 3px; }
-    .sheet { display: none; position: fixed; inset: 0; background: rgba(28,20,14,.35); z-index: 6; }
-    .sheet.on { display: block; }
-    aside { position: absolute; top: 0; right: 0; bottom: 0; width: min(100%, 26rem); background: var(--card); padding: 22px; display: flex; flex-direction: column; }
-    .line-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
-    .qty { display: flex; align-items: center; gap: 8px; }
-    .qty button { width: 40px; height: 40px; border: 0; border-radius: 999px; background: var(--paper); }
-    .pay { margin-top: 16px; height: 56px; width: 100%; border: 0; border-radius: 999px; background: var(--ink); color: var(--paper); }
-    .close { width: 42px; height: 42px; border: 0; border-radius: 999px; background: var(--paper); }
-    @media (max-width: 860px) {
-      header, .hero, .grid { padding-left: 16px; padding-right: 16px; }
-      .hero { grid-template-columns: 1fr; gap: 22px; padding-top: 16px; }
-      .grid { grid-template-columns: 1fr 1fr; gap: 16px 12px; }
-      .buy h1 { font-size: 3.2rem; }
-      .take { width: 100%; }
+    html { background: var(--paper); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    html:has(dialog[open]) { overflow: hidden; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1rem/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+    h1, h2, p, ul { margin: 0; }
+    ul { padding: 0; list-style: none; }
+    img, video { display: block; }
+    button { margin: 0; font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+    .serif { font-family: var(--serif); font-optical-sizing: auto; font-weight: 420; }
+    .wrap { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: var(--gutter); }
+
+    /* Header */
+    .top { position: sticky; top: 0; z-index: 2; background: var(--paper); }
+    .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .logo { font-size: 1.4rem; letter-spacing: -.02em; line-height: 1; color: var(--ink); text-decoration: none; }
+    .pill { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; white-space: nowrap; }
+    .bag { gap: .35em; height: 40px; padding: 0 18px; background: var(--ink); color: var(--paper); font-weight: 500; font-size: .95rem; }
+    .bag span { font-variant-numeric: tabular-nums; }
+
+    /* Hero */
+    .hero { display: grid; padding-top: 4px; }
+    .frame {
+      position: relative; isolation: isolate; overflow: hidden;
+      width: 100%; max-width: max(280px, calc(100svh - 290px));
+      aspect-ratio: 1 / 1; border-radius: 24px; background: var(--card);
+    }
+    .frame video, .frame img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center; border-radius: inherit;
+    }
+    .frame [hidden] { display: none; }
+    .klam {
+      position: absolute; left: 14px; bottom: 14px; z-index: 1;
+      height: 38px; padding: 0 16px; background: var(--card); color: var(--ink);
+      font-weight: 500; font-size: .95rem; box-shadow: 0 1px 2px rgba(28, 20, 14, .12);
+    }
+
+    .buy { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: 16px; padding-top: 18px; }
+    .kind, .line, .take, .ship { grid-column: 1 / -1; }
+    .kind { color: var(--muted); font-size: .9rem; }
+    .title { font-size: 2.75rem; line-height: .95; letter-spacing: -.025em; margin-top: 4px; }
+    .title:focus { outline: none; }
+    .cost { grid-row: 2; grid-column: 2; font-size: 1.75rem; line-height: 1; }
+    .line { margin-top: 8px; font-size: 1.05rem; }
+    .take {
+      width: 100%; height: 56px; margin-top: 18px; padding: 0 24px;
+      background: var(--ink); color: var(--paper); font-weight: 500; font-size: 1.05rem;
+    }
+    .ship { margin-top: 12px; color: var(--muted); font-size: .875rem; }
+
+    /* Catalog */
+    .shop { padding-top: 48px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 12px; }
+    .card { display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; border-radius: 22px; }
+    .card:focus-visible { outline-offset: 8px; border-radius: 26px; }
+    .pic { display: block; aspect-ratio: 1 / 1; border-radius: 22px; overflow: hidden; background: var(--card); }
+    .pic img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .card[aria-pressed="true"] .pic { outline: 2px solid var(--ink); outline-offset: 4px; }
+    .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 12px; font-size: 1.1rem; line-height: 1.2; }
+
+    .wide { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; }
+    .wide-text { display: grid; gap: 6px; align-content: center; }
+    .wide-name { font-size: 1.9rem; line-height: 1; letter-spacing: -.025em; }
+    .wide-line { font-size: 1rem; }
+    .wide-cost { font-size: 1.25rem; margin-top: 6px; }
+
+    .foot { padding: 64px var(--gutter) 40px; color: var(--muted); font-size: .875rem; }
+
+    /* Cart */
+    .cart {
+      position: fixed; inset: 0 0 0 auto; margin: 0; padding: 0;
+      width: min(100%, 26rem); max-width: none; height: auto; max-height: none;
+      border: 0; background: var(--card); color: var(--ink);
+    }
+    .cart::backdrop { background: rgba(28, 20, 14, .28); }
+    .sheet { display: flex; flex-direction: column; height: 100%; }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 10px 24px; }
+    .sheet-head h2 { font-size: 1.75rem; line-height: 1; letter-spacing: -.02em; }
+    .close { height: 40px; padding: 0 16px; background: var(--paper); font-size: .95rem; }
+    .lines { flex: 1; overflow-y: auto; padding: 0 24px; overscroll-behavior: contain; }
+    .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--hair); }
+    .row-name { display: block; font-size: 1.2rem; line-height: 1.2; letter-spacing: -.01em; }
+    .row-cost { display: block; margin-top: 2px; color: var(--muted); }
+    .qty { display: flex; align-items: center; gap: 6px; }
+    .qty button { width: 40px; height: 40px; padding: 0; background: var(--paper); font-size: 1.15rem; line-height: 1; }
+    .qty output { min-width: 2ch; text-align: center; font-variant-numeric: tabular-nums; }
+    .empty { padding: 16px 0; }
+    .sheet-foot { padding: 18px 24px calc(24px + env(safe-area-inset-bottom)); border-top: 1px solid var(--hair); }
+    .sum { display: flex; justify-content: space-between; align-items: baseline; }
+    .sum-cost { font-size: 1.6rem; line-height: 1; }
+    .note { margin-top: 6px; color: var(--muted); font-size: .875rem; }
+    .pay { width: 100%; height: 56px; margin-top: 16px; background: var(--ink); color: var(--paper); font-weight: 500; font-size: 1.05rem; }
+    .pay[aria-disabled="true"] { cursor: default; }
+    .sheet[data-empty] .sum, .sheet[data-empty] .note { display: none; }
+    .sheet[data-empty] .pay { margin-top: 0; }
+
+    @media (min-width: 860px), (min-width: 600px) and (max-height: 520px) and (orientation: landscape) {
+      :root { --gutter: 28px; }
+      .top .wrap { height: 72px; }
+      .logo { font-size: 1.6rem; }
+      .bag { height: 42px; }
+
+      .hero {
+        --sq: min(calc((100% - 56px) * .55), max(240px, calc(100svh - 160px)));
+        grid-template-columns: minmax(0, var(--sq)) minmax(0, 1fr);
+        column-gap: 56px; align-items: center; padding-top: 28px;
+      }
+      .frame { max-width: none; border-radius: 28px; }
+      .klam { left: 18px; bottom: 18px; height: 40px; }
+
+      .buy { display: block; padding-top: 0; }
+      .kind { font-size: .95rem; }
+      .title { font-size: clamp(3.25rem, 7.2vw, 5rem); line-height: .92; letter-spacing: -.035em; margin-top: 10px; }
+      .line { margin-top: 18px; font-size: 1.125rem; }
+      .cost { margin-top: 26px; font-size: 2rem; }
+      .take { display: flex; max-width: 280px; margin-top: 22px; }
+      .ship { margin-top: 14px; }
+
+      .shop { padding-top: 64px; }
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 28px; }
+      .meta { font-size: 1.25rem; margin-top: 14px; }
+      .wide-text { grid-column: 2 / -1; padding-left: 16px; gap: 8px; }
+      .wide-name { font-size: 2.5rem; }
+      .wide-line { font-size: 1.05rem; }
+      .wide-cost { font-size: 1.4rem; }
+
+      .foot { padding-top: 88px; }
+    }
+
+    /* Phone on its side: keep the buy column beside the film. */
+    @media (max-height: 520px) and (min-width: 600px) and (orientation: landscape) {
+      .top .wrap { height: 60px; }
+      .hero { padding-top: 12px; }
+      .title { margin-top: 6px; }
+      .line { margin-top: 10px; }
+      .cost { margin-top: 14px; }
+      .take { margin-top: 14px; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <a class="logo" href="/">slinkynsquishy</a>
-    <button class="bag" id="open" type="button">Korg <span id="n">0</span></button>
+  <header class="top">
+    <div class="wrap">
+      <a class="logo serif" href="/">slinkynsquishy</a>
+      <button class="pill bag" id="open" type="button" aria-haspopup="dialog" aria-controls="cart">Korg <span id="count">0</span></button>
+    </div>
   </header>
-  <section class="hero">
-    <div class="stage">
-      <video id="film" src="img/klam.mp4" poster="img/klam.jpg" muted playsinline autoplay loop></video>
-      <img id="still" alt="" hidden>
-      <button class="replay" id="klam" type="button">Kläm</button>
-    </div>
-    <div class="buy">
-      <p class="eyebrow">Squishy</p>
-      <h1 id="name">Smöret</h1>
-      <p class="line" id="line">Till barnet. Eller till dig.</p>
-      <p class="price" id="price">79 kr</p>
-      <button class="take" id="take" type="button">Ta den</button>
-      <p class="ship">Fri frakt över 199 kr. Annars 39 kr.</p>
-    </div>
-  </section>
-  <section class="grid" id="grid"></section>
-  <div class="sheet" id="sheet">
-    <aside>
-      <div class="meta">
-        <h1 style="font-family:Fraunces,serif;font-size:2.4rem;margin:0">Korgen</h1>
-        <button class="close" id="close" type="button">×</button>
+
+  <main>
+    <section class="hero wrap" aria-labelledby="name">
+      <div class="frame">
+        <video id="film" src="img/klam.mp4" poster="img/klam.jpg" muted autoplay loop playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
+        <img id="still" src="" alt="" hidden>
+        <button class="pill klam" id="klam" type="button">Kläm</button>
       </div>
-      <div id="lines" style="flex:1;overflow:auto"></div>
-      <p class="price" id="sum"></p>
-      <button class="pay" id="pay" type="button">Betala</button>
-    </aside>
-  </div>
+      <div class="buy">
+        <p class="kind">Squishy</p>
+        <h1 class="title serif" id="name" tabindex="-1">Smöret</h1>
+        <p class="line" id="line">Till barnet. Eller till dig.</p>
+        <p class="cost serif" id="price">79 kr</p>
+        <button class="pill take" id="take" type="button">Ta den</button>
+        <p class="ship">Fri frakt över 199 kr. Annars 39 kr.</p>
+      </div>
+    </section>
+
+    <section class="shop wrap" aria-label="Alla">
+      <div class="grid" id="grid">
+        <button class="card" type="button" aria-pressed="true" data-id="smor" data-variant="58793534456139" data-price="79" data-img="img/smor.jpg" data-line="Till barnet. Eller till dig.">
+          <span class="pic"><img src="img/smor.jpg" alt="" loading="lazy" decoding="async"></span>
+          <span class="meta"><span class="serif">Smöret</span><span class="serif">79 kr</span></span>
+        </button>
+        <button class="card" type="button" aria-pressed="false" data-id="toast" data-variant="58793534521675" data-price="79" data-img="img/toast.jpg" data-line="Den som ser ut som frukost.">
+          <span class="pic"><img src="img/toast.jpg" alt="" loading="lazy" decoding="async"></span>
+          <span class="meta"><span class="serif">Toasten</span><span class="serif">79 kr</span></span>
+        </button>
+        <button class="card" type="button" aria-pressed="false" data-id="ost" data-variant="58793534587211" data-price="69" data-img="img/ost.jpg" data-line="Hål att trycka tummen i.">
+          <span class="pic"><img src="img/ost.jpg" alt="" loading="lazy" decoding="async"></span>
+          <span class="meta"><span class="serif">Osten</span><span class="serif">69 kr</span></span>
+        </button>
+        <button class="card" type="button" aria-pressed="false" data-id="persika" data-variant="58793534816587" data-price="49" data-img="img/persika.jpg" data-line="Liten nog för fickan.">
+          <span class="pic"><img src="img/persika.jpg" alt="" loading="lazy" decoding="async"></span>
+          <span class="meta"><span class="serif">Persikan</span><span class="serif">49 kr</span></span>
+        </button>
+        <button class="card" type="button" aria-pressed="false" data-id="mochi" data-variant="58793534882123" data-price="99" data-img="img/mochi.jpg" data-line="Tre som försvinner.">
+          <span class="pic"><img src="img/mochi.jpg" alt="" loading="lazy" decoding="async"></span>
+          <span class="meta"><span class="serif">Mochi</span><span class="serif">99 kr</span></span>
+        </button>
+        <button class="card" type="button" aria-pressed="false" data-id="tre" data-variant="58793535603019" data-price="199" data-img="img/tre.jpg" data-line="Fri frakt.">
+          <span class="pic"><img src="img/tre.jpg" alt="" loading="lazy" decoding="async"></span>
+          <span class="meta"><span class="serif">Tre smör</span><span class="serif">199 kr</span></span>
+        </button>
+        <button class="card wide" type="button" aria-pressed="false" data-id="klass" data-variant="58793535668555" data-price="249" data-img="img/hand.jpg" data-line="Tolv stycken. Fri frakt.">
+          <span class="pic"><img src="img/hand.jpg" alt="" loading="lazy" decoding="async"></span>
+          <span class="wide-text">
+            <span class="wide-name serif">Klassen</span>
+            <span class="wide-line">Tolv stycken. Fri frakt.</span>
+            <span class="wide-cost serif">249 kr</span>
+          </span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <p>Säljs av Nytto Labs. Betalning hos Shopify.</p>
+  </footer>
+
+  <dialog class="cart" id="cart" aria-labelledby="cart-title">
+    <div class="sheet" id="sheet">
+      <div class="sheet-head">
+        <h2 class="serif" id="cart-title">Korg</h2>
+        <button class="pill close" id="close" type="button">Stäng</button>
+      </div>
+      <div class="lines" id="lines"></div>
+      <div class="sheet-foot">
+        <div class="sum"><span>Summa</span><span class="sum-cost serif" id="sum">0 kr</span></div>
+        <p class="note" id="note"></p>
+        <button class="pill pay" id="pay" type="button">Betala</button>
+      </div>
+    </div>
+  </dialog>
+
   <script>
-    const shop = "https://pqwbeh-yy.myshopify.com/cart/";
-    const items = {
-      smor: { name: "Smöret", price: 79, line: "Till barnet. Eller till dig.", img: "img/smor.jpg", id: "58793534456139" },
-      toast: { name: "Toasten", price: 79, line: "Den som ser ut som frukost.", img: "img/toast.jpg", id: "58793534521675" },
-      ost: { name: "Osten", price: 69, line: "Hål att trycka tummen i.", img: "img/ost.jpg", id: "58793534587211" },
-      persika: { name: "Persikan", price: 49, line: "Liten nog för fickan.", img: "img/persika.jpg", id: "58793534816587" },
-      mochi: { name: "Mochi", price: 99, line: "Tre som försvinner.", img: "img/mochi.jpg", id: "58793534882123" },
-      tre: { name: "Tre smör", price: 199, line: "Fri frakt.", img: "img/tre.jpg", id: "58793535603019" },
-      klass: { name: "Klassen", price: 249, line: "Tolv stycken. Fri frakt.", img: "img/hand.jpg", id: "58793535668555" }
-    };
-    const order = ["smor", "toast", "ost", "persika", "mochi", "tre"];
-    let pick = "smor";
-    let cart = [];
-    const film = document.getElementById("film");
-    const still = document.getElementById("still");
-    function show(id) {
-      pick = id;
-      const item = items[id];
-      document.getElementById("name").textContent = item.name;
-      document.getElementById("line").textContent = item.line;
-      document.getElementById("price").textContent = item.price + " kr";
-      if (id === "smor") {
-        still.hidden = true;
-        film.hidden = false;
-        film.currentTime = 0;
-        film.play();
-      } else {
-        film.pause();
-        film.hidden = true;
-        still.hidden = false;
-        still.src = item.img;
+    (() => {
+      const SHOP = "https://pqwbeh-yy.myshopify.com/cart/";
+      const FREE = 199;
+      const SHIPPING = 39;
+      const KEY = "slinkynsquishy-korg";
+      const $ = (id) => document.getElementById(id);
+
+      const film = $("film");
+      const still = $("still");
+      const cartDialog = $("cart");
+      const cards = [...document.querySelectorAll(".card")];
+
+      const items = {};
+      for (const card of cards) {
+        const d = card.dataset;
+        items[d.id] = {
+          name: card.querySelector(".serif").textContent,
+          price: Number(d.price),
+          line: d.line,
+          img: d.img,
+          variant: d.variant
+        };
       }
-      draw();
-    }
-    function draw() {
-      document.getElementById("grid").innerHTML = order.map((id) => {
+
+      const kr = (n) => n.toLocaleString("sv-SE") + " kr";
+      let pick = "smor";
+
+      function play() {
+        film.currentTime = 0;
+        const p = film.play();
+        if (p) p.catch(() => {});
+      }
+
+      function show(id) {
         const item = items[id];
-        return `<article class="cell"><button class="card ${id === pick ? "on" : ""}" data-id="${id}" type="button"><span class="pic"><img src="${item.img}" alt="${item.name}"></span><span class="meta"><strong>${item.name}</strong><span>${item.price} kr</span></span></button></article>`;
-      }).join("");
-    }
-    function drawCart() {
-      const n = cart.reduce((s, l) => s + l.qty, 0);
-      const goods = cart.reduce((s, l) => s + items[l.id].price * l.qty, 0);
-      document.getElementById("n").textContent = n;
-      document.getElementById("lines").innerHTML = cart.map((l) =>
-        `<div class="line-row"><div><strong>${items[l.id].name}</strong><div>${items[l.id].price} kr</div></div><div class="qty"><button data-m="${l.id}" type="button">−</button><span>${l.qty}</span><button data-p="${l.id}" type="button">+</button></div></div>`
-      ).join("") || "<p>Tom.</p>";
-      document.getElementById("sum").textContent = goods ? goods + " kr" : "";
-    }
-    function add(id) {
-      const hit = cart.find((l) => l.id === id);
-      if (hit) hit.qty += 1; else cart.push({ id, qty: 1 });
+        if (!item) return;
+        const was = pick;
+        pick = id;
+        $("name").textContent = item.name;
+        $("line").textContent = item.line;
+        $("price").textContent = kr(item.price);
+        for (const card of cards) card.setAttribute("aria-pressed", String(card.dataset.id === id));
+        if (id === "smor") {
+          still.hidden = true;
+          still.removeAttribute("src");
+          film.hidden = false;
+          if (was !== "smor") play();
+        } else {
+          film.pause();
+          film.hidden = true;
+          still.src = item.img;
+          still.hidden = false;
+        }
+      }
+
+      // Cart
+      function load() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(KEY) || "[]");
+          if (Array.isArray(saved)) {
+            return saved
+              .filter((l) => l && items[l.id] && Number.isInteger(l.qty) && l.qty > 0)
+              .map((l) => ({ id: l.id, qty: Math.min(l.qty, 99) }));
+          }
+        } catch (e) {}
+        return [];
+      }
+      function save() {
+        try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch (e) {}
+      }
+
+      let cart = load();
+
+      function drawCart() {
+        const count = cart.reduce((s, l) => s + l.qty, 0);
+        const total = cart.reduce((s, l) => s + items[l.id].price * l.qty, 0);
+        $("count").textContent = count;
+        $("lines").innerHTML = cart.length
+          ? "<ul>" + cart.map((l) => {
+              const item = items[l.id];
+              return `<li class="row">
+                <div><span class="row-name serif">${item.name}</span><span class="row-cost serif">${kr(item.price * l.qty)}</span></div>
+                <div class="qty">
+                  <button class="pill" type="button" data-id="${l.id}" data-step="-1" aria-label="En ${item.name} färre">−</button>
+                  <output aria-label="Antal ${item.name}">${l.qty}</output>
+                  <button class="pill" type="button" data-id="${l.id}" data-step="1" aria-label="En ${item.name} till">+</button>
+                </div>
+              </li>`;
+            }).join("") + "</ul>"
+          : `<p class="empty">Tom.</p>`;
+        $("sum").textContent = kr(total);
+        $("note").textContent = total >= FREE ? "Fri frakt." : `Plus frakt ${SHIPPING} kr.`;
+        $("sheet").toggleAttribute("data-empty", !cart.length);
+        $("pay").setAttribute("aria-disabled", String(!cart.length));
+      }
+
+      function add(id) {
+        const hit = cart.find((l) => l.id === id);
+        if (hit) hit.qty = Math.min(hit.qty + 1, 99);
+        else cart.push({ id, qty: 1 });
+        save();
+        drawCart();
+        openCart();
+      }
+
+      function openCart() {
+        if (!cartDialog.open) cartDialog.showModal();
+      }
+
+      // Events
+      $("grid").addEventListener("click", (e) => {
+        const card = e.target.closest(".card");
+        if (!card) return;
+        show(card.dataset.id);
+        window.scrollTo(0, 0);
+        $("name").focus({ preventScroll: true });
+      });
+
+      $("klam").addEventListener("click", () => {
+        if (pick !== "smor") show("smor");
+        play();
+      });
+
+      $("take").addEventListener("click", () => add(pick));
+      $("open").addEventListener("click", openCart);
+      $("close").addEventListener("click", () => cartDialog.close());
+      cartDialog.addEventListener("click", (e) => {
+        if (e.target === cartDialog) cartDialog.close();
+      });
+
+      $("lines").addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-step]");
+        if (!btn) return;
+        const line = cart.find((l) => l.id === btn.dataset.id);
+        if (!line) return;
+        line.qty = Math.min(line.qty + Number(btn.dataset.step), 99);
+        const gone = line.qty < 1;
+        if (gone) cart = cart.filter((l) => l !== line);
+        save();
+        drawCart();
+        const again = $("lines").querySelector(`[data-id="${btn.dataset.id}"][data-step="${btn.dataset.step}"]`);
+        (again || $("close")).focus();
+      });
+
+      $("pay").addEventListener("click", () => {
+        if (!cart.length) return;
+        location.href = SHOP + cart.map((l) => `${items[l.id].variant}:${l.qty}`).join(",");
+      });
+
+      // Film
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        film.removeAttribute("autoplay");
+        film.pause();
+      }
+      window.addEventListener("pageshow", (e) => {
+        if (e.persisted && pick === "smor" && film.autoplay) film.play().catch(() => {});
+      });
+      window.addEventListener("storage", (e) => {
+        if (e.key === KEY) { cart = load(); drawCart(); }
+      });
+
       drawCart();
-      document.getElementById("sheet").classList.add("on");
-    }
-    document.getElementById("grid").onclick = (e) => {
-      const addBtn = e.target.closest("[data-add]");
-      if (addBtn) { add(addBtn.dataset.add); return; }
-      const card = e.target.closest("[data-id]");
-      if (card) { show(card.dataset.id); window.scrollTo({ top: 0, behavior: "smooth" }); }
-    };
-    document.getElementById("klam").onclick = () => { show("smor"); film.currentTime = 0; film.play(); };
-    document.getElementById("take").onclick = () => add(pick);
-    document.getElementById("open").onclick = () => document.getElementById("sheet").classList.add("on");
-    document.getElementById("close").onclick = () => document.getElementById("sheet").classList.remove("on");
-    document.getElementById("sheet").onclick = (e) => { if (e.target.id === "sheet") e.currentTarget.classList.remove("on"); };
-    document.getElementById("lines").onclick = (e) => {
-      const id = e.target.dataset.m || e.target.dataset.p;
-      if (!id) return;
-      const line = cart.find((l) => l.id === id);
-      line.qty += e.target.dataset.p ? 1 : -1;
-      if (line.qty < 1) cart = cart.filter((l) => l.id !== id);
-      drawCart();
-    };
-    document.getElementById("pay").onclick = () => {
-      if (!cart.length) return;
-      location.href = shop + cart.map((l) => items[l.id].id + ":" + l.qty).join(",");
-    };
-    show("smor");
-    drawCart();
+    })();
   </script>
 </body>
 </html>

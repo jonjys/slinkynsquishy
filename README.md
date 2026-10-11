@@ -1,4 +1,4 @@
-# Slink'nSquishy
+# slinkynsquishy
 
 Storefront for [slinkynsquishy.se](https://slinkynsquishy.se). Sold by Nytto Labs.
 
