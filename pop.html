@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>slinkynsquishy – kläm, släpp, igen</title>
+  <meta name="description" content="Squishies i solid skum som reser sig långsamt. Från 49 kr. Fri frakt från 199 kr, 14 dagars ångerrätt.">
+  <meta name="theme-color" content="#ffe234">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="sv_SE">
+  <meta property="og:url" content="https://slinkynsquishy.se/">
+  <meta property="og:title" content="slinkynsquishy – kläm, släpp, igen">
+  <meta property="og:description" content="Squishies i solid skum. Från 49 kr. Fri frakt från 199 kr.">
+  <meta property="og:image" content="https://slinkynsquishy.se/img/klam.jpg">
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&display=swap">
+  <link rel="preload" href="img/klam.jpg" as="image" fetchpriority="high">
+  <style>
+    :root {
+      --ink: #16121f;
+      --yolk: #ffe234;
+      --pink: #ff4f9e;
+      --blush: #ffd0e5;
+      --paper: #ffffff;
+      --linen: #ebe4d8;
+      --soft: rgba(22, 18, 31, .66);
+      --font: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --g: 16px;
+      --head: 60px;
+      --b: 3px;
+      color-scheme: light;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: calc(var(--head) + 16px); }
+    html:has(dialog[open]) { overflow: hidden; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1rem/1.5 var(--font); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+    h1, h2, h3, p, ul, ol, figure { margin: 0; }
+    ul, ol { padding: 0; list-style: none; }
+    img, video, svg { display: block; }
+    a { color: inherit; -webkit-tap-highlight-color: transparent; }
+    button { margin: 0; font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+    .wrap { width: 100%; max-width: 1400px; margin-inline: auto; padding-inline: max(var(--g), env(safe-area-inset-left)) max(var(--g), env(safe-area-inset-right)); }
+    .disp { font-weight: 800; font-stretch: 75%; letter-spacing: -.025em; line-height: .88; }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .ico { width: 1.1em; height: 1.1em; flex: none; }
+
+    /* Shared button: chunky, presses in like foam */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5em;
+      border: var(--b) solid var(--ink); border-radius: 999px; font-weight: 800; white-space: nowrap; text-decoration: none;
+      transition: transform .14s cubic-bezier(.3, .7, .4, 1.4), box-shadow .14s ease, background-color .15s;
+    }
+    .btn:active { transform: translate(3px, 3px) scale(.98); }
+
+    /* Free-shipping strip */
+    .strip { background: var(--ink); color: #fff; font-size: .8rem; font-weight: 600; }
+    .strip-in { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 32px; }
+    .strip b { color: var(--yolk); font-weight: 800; }
+    .meter { position: relative; display: block; width: 84px; height: 8px; border-radius: 99px; background: rgba(255, 255, 255, .2); overflow: hidden; flex: none; }
+    .meter span { position: absolute; inset: 0 auto 0 0; width: var(--p, 0%); background: var(--yolk); border-radius: inherit; transition: width .6s cubic-bezier(.2, .8, .2, 1); }
+    .strip[data-state="none"] .meter { display: none; }
+
+    /* Header */
+    .top { position: sticky; top: 0; z-index: 30; background: var(--yolk); border-bottom: var(--b) solid var(--ink); }
+    .top-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--head); }
+    .logo { display: inline-flex; align-items: center; font-weight: 800; font-stretch: 85%; font-size: 1.42rem; letter-spacing: -.035em; line-height: 1; text-decoration: none; padding-block: 8px; }
+    .logo-n {
+      display: inline-grid; place-items: center; width: 1.12em; height: 1.12em; margin: 0 .08em; padding-bottom: .1em;
+      background: var(--pink); border: 2.5px solid var(--ink); border-radius: 50%; font-size: .82em; transform: rotate(-10deg);
+    }
+    .nav { display: none; }
+    .bag { height: 44px; padding: 0 6px 0 14px; background: var(--ink); color: var(--yolk); font-size: .95rem; border-width: 0; }
+    .bag:hover { background: #2b2438; }
+    #count {
+      display: grid; place-items: center; min-width: 32px; height: 32px; padding: 0 8px; border-radius: 99px;
+      background: var(--paper); color: var(--ink); font-variant-numeric: tabular-nums; font-size: .95rem;
+    }
+    .bag[data-full] #count { background: var(--pink); }
+    .bag.bump #count { animation: bump .45s cubic-bezier(.3, .7, .4, 1.6); }
+    @keyframes bump { 40% { transform: scale(1.35); } }
+
+    /* Hero */
+    .hero { position: relative; background: var(--yolk); overflow: hidden; }
+    .hero-in { display: grid; grid-template-areas: "shout" "media" "buy"; gap: 12px; padding-block: 14px 28px; }
+    .shout-wrap { grid-area: shout; min-width: 0; }
+    .shout { font-size: clamp(2.5rem, 11.2vw, 8.6rem); white-space: nowrap; }
+    .from, .star { display: none; }
+    .shout .o { color: var(--pink); -webkit-text-stroke: .07em var(--ink); paint-order: stroke fill; }
+    .sub { display: none; }
+
+    .media { grid-area: media; position: relative; justify-self: center; width: min(100%, max(250px, calc(100svh - 486px))); }
+    .media::before {
+      content: ""; position: absolute; inset: 0; transform: translate(8px, 8px); border: var(--b) solid var(--ink);
+      border-radius: 26px; background: var(--pink);
+    }
+    .frame { position: relative; overflow: hidden; aspect-ratio: 1 / 1; border: var(--b) solid var(--ink); border-radius: 26px; background: var(--linen); isolation: isolate; }
+    .frame video, .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #film { object-position: 50% 72%; }
+    #still { object-position: 50% 50%; }
+    .frame[data-pick="tre"] #still { object-position: 50% 60%; }
+    .frame[data-pick="klass"] #still { object-position: 50% 68%; }
+    .frame [hidden] { display: none; }
+    .frame video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
+    .frame video::-webkit-media-controls { display: none !important; }
+    .klam {
+      position: absolute; left: 12px; bottom: 12px; z-index: 2; height: 40px; padding: 0 14px 0 10px;
+      background: var(--paper); font-size: .88rem; border-width: 2.5px; box-shadow: 3px 3px 0 var(--ink);
+    }
+    .klam:hover { background: var(--yolk); }
+    .klam::after { content: ""; position: absolute; inset: -4px; }
+
+    .seal { position: absolute; z-index: 3; top: -12px; left: -18px; width: 86px; height: 86px; transform: rotate(-12deg); pointer-events: none; }
+    .seal-spin { transform-origin: 60px 60px; animation: spin 18s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .buy { grid-area: buy; display: grid; gap: 12px; margin-top: 8px; }
+    .bb-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+    .kind { font-size: .72rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    #name { font-size: clamp(2.3rem, 10vw, 4.4rem); }
+    #name:focus { outline: none; }
+    .tags { display: grid; justify-items: end; flex: none; padding-right: 4px; }
+    .tag-sub {
+      position: relative; z-index: 1; margin-bottom: -7px; margin-right: 14px; padding: 2px 9px; background: var(--paper);
+      border: 2px solid var(--ink); border-radius: 99px; font-size: .7rem; font-weight: 800; white-space: nowrap; transform: rotate(4deg);
+    }
+    #price {
+      padding: 2px 12px 4px; background: var(--pink); border: var(--b) solid var(--ink); border-radius: 14px;
+      font-size: 1.75rem; font-weight: 800; font-stretch: 80%; line-height: 1.1; white-space: nowrap;
+      transform: rotate(-4deg); box-shadow: 3px 3px 0 var(--ink);
+    }
+    .line { font-size: .98rem; line-height: 1.35; color: var(--soft); max-width: 36em; }
+
+    .swap { min-height: 64px; display: grid; align-items: center; }
+    .packs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding-top: 10px; }
+    .pack {
+      position: relative; display: grid; gap: 0; padding: 8px 10px 7px; text-align: left; background: var(--paper);
+      border: 2.5px solid var(--ink); border-radius: 16px; line-height: 1.15; transition: background-color .15s, box-shadow .15s, transform .15s;
+    }
+    .pack:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
+    .pack b { font-size: 1.05rem; font-weight: 800; }
+    .pack span { font-size: .85rem; font-weight: 600; }
+    .pack i {
+      position: absolute; top: -11px; right: 6px; padding: 1px 7px; font-style: normal; font-size: .66rem; font-weight: 800;
+      background: var(--pink); border: 2px solid var(--ink); border-radius: 99px; white-space: nowrap;
+    }
+    .pack[aria-pressed="true"] { background: var(--ink); color: var(--yolk); box-shadow: 3px 3px 0 var(--pink); }
+    .pack[aria-pressed="true"] i { color: var(--ink); }
+    .perks { display: flex; flex-wrap: wrap; gap: 6px; }
+    .perks li { padding: 4px 11px; background: var(--paper); border: 2px solid var(--ink); border-radius: 99px; font-size: .82rem; font-weight: 700; }
+    .swap [hidden] { display: none; }
+
+    .take {
+      width: 100%; height: 60px; margin-top: 4px; background: var(--ink); color: var(--yolk); font-size: 1.2rem;
+      box-shadow: 5px 5px 0 0 var(--pink), 5px 5px 0 var(--b) var(--ink);
+    }
+    .take:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 0 var(--pink), 7px 7px 0 var(--b) var(--ink); }
+    .take:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 0 var(--pink), 1px 1px 0 var(--b) var(--ink); }
+    .pre { display: flex; align-items: center; gap: 8px; font-size: .84rem; font-weight: 600; line-height: 1.3; }
+    .pre::before { content: ""; width: 10px; height: 10px; flex: none; border-radius: 50%; background: var(--pink); border: 2px solid var(--ink); }
+    .trust { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .78rem; font-weight: 700; }
+    .trust li { display: inline-flex; align-items: center; gap: 5px; }
+    .trust .ico { width: 15px; height: 15px; }
+
+    /* Marquee */
+    .mq { position: relative; z-index: 2; overflow: hidden; padding-block: 18px; margin-block: -18px; pointer-events: none; background: linear-gradient(var(--yolk) 50%, var(--paper) 50%); }
+    .mq-band {
+      width: calc(100% + 80px); margin-left: -40px; background: var(--ink); color: var(--yolk);
+      border-block: var(--b) solid var(--ink); transform: rotate(-1.6deg);
+    }
+    .mq-track { display: flex; width: max-content; animation: slide 38s linear infinite; }
+    .mq-group { display: flex; align-items: center; flex: none; }
+    .mq-group span { padding: 14px 0; font-size: clamp(1.15rem, 2.6vw, 1.9rem); font-weight: 800; font-stretch: 80%; letter-spacing: -.01em; white-space: nowrap; }
+    .mq-group svg { width: 22px; height: 22px; margin-inline: 22px; color: var(--pink); flex: none; }
+    @keyframes slide { to { transform: translateX(-50%); } }
+
+    /* Section heads */
+    .sec { padding-block: 64px 72px; }
+    .h2 { font-size: clamp(2.7rem, 11vw, 6.6rem); }
+    .h2 mark { background: none; color: var(--pink); -webkit-text-stroke: .06em var(--ink); paint-order: stroke fill; }
+    .lede { margin-top: 14px; font-size: 1.05rem; line-height: 1.4; max-width: 34em; color: var(--soft); }
+    .lede b { color: var(--ink); }
+
+    /* Shop */
+    .shop { background: var(--paper); padding-top: 72px; }
+    .shop-head { display: grid; gap: 4px; margin-bottom: 30px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 12px; }
+    .card {
+      position: relative; display: flex; flex-direction: column; min-width: 0; background: var(--paper);
+      border: var(--b) solid var(--ink); border-radius: 22px; box-shadow: 4px 4px 0 var(--ink);
+      transition: transform .2s cubic-bezier(.3, .7, .4, 1.2), box-shadow .2s;
+    }
+    .card:has(.pic[aria-pressed="true"]) { box-shadow: 4px 4px 0 0 var(--pink), 4px 4px 0 var(--b) var(--ink); }
+    .pic {
+      position: relative; display: block; width: 100%; aspect-ratio: 1 / 1; padding: 0; border: 0; border-bottom: var(--b) solid var(--ink);
+      border-radius: 19px 19px 0 0; overflow: hidden; background: var(--linen);
+    }
+    .pic img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .card[data-id="smor"] .pic img { object-position: 50% 72%; }
+    .card[data-id="tre"] .pic img { object-position: 50% 60%; }
+    .pic:focus-visible { outline: 3px solid var(--ink); outline-offset: -7px; }
+    .badge {
+      position: absolute; top: 9px; left: 9px; padding: 2px 9px; background: var(--yolk); border: 2px solid var(--ink);
+      border-radius: 99px; font-size: .72rem; font-weight: 800; transform: rotate(-4deg); white-space: nowrap;
+    }
+    .badge.pink { background: var(--pink); }
+    .seen {
+      position: absolute; right: 9px; bottom: 9px; padding: 2px 9px; background: var(--ink); color: var(--yolk);
+      border-radius: 99px; font-size: .7rem; font-weight: 800; opacity: 0; transform: translateY(6px); transition: opacity .2s, transform .2s;
+    }
+    .pic[aria-pressed="true"] .seen { opacity: 1; transform: none; }
+    .info { display: flex; flex-direction: column; flex: 1; gap: 4px; padding: 10px 10px 10px; }
+    .info-top { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
+    .nm { font-size: 1.35rem; font-weight: 800; font-stretch: 80%; letter-spacing: -.02em; line-height: 1; }
+    .pr { font-size: 1.05rem; font-weight: 800; white-space: nowrap; }
+    .ln { font-size: .8rem; line-height: 1.3; color: var(--soft); }
+    .add {
+      width: 100%; height: 44px; margin-top: auto; background: var(--ink); color: var(--yolk); font-size: .9rem; gap: .35em; border-width: 0;
+    }
+    .info .ln { margin-bottom: 8px; }
+    .add:hover { background: var(--pink); color: var(--ink); }
+    .add .ico { width: 18px; height: 18px; }
+    .add[data-done] { background: var(--pink); color: var(--ink); }
+
+    /* Klassen */
+    .klass { grid-column: 1 / -1; margin-top: 18px; background: var(--pink); box-shadow: 6px 6px 0 var(--ink); }
+    .klass:has(.pic[aria-pressed="true"]) { box-shadow: 6px 6px 0 0 var(--yolk), 6px 6px 0 var(--b) var(--ink); }
+    .klass .pic { aspect-ratio: 1 / 1; }
+    .klass .pic img { object-position: 50% 68%; }
+    .klass-copy { display: grid; gap: 14px; padding: 20px 18px 22px; }
+    .klass-kick { display: flex; flex-wrap: wrap; gap: 6px; }
+    .klass-kick span { padding: 3px 10px; background: var(--yolk); border: 2px solid var(--ink); border-radius: 99px; font-size: .78rem; font-weight: 800; }
+    .klass-kick span:nth-child(2) { background: var(--paper); }
+    .klass-h { font-size: clamp(3.1rem, 15vw, 8.4rem); }
+    .klass-h .big { display: block; color: var(--yolk); -webkit-text-stroke: .07em var(--ink); paint-order: stroke fill; }
+    .klass-p { font-size: 1.02rem; line-height: 1.4; max-width: 30em; }
+    .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .facts li { padding: 10px 12px; background: var(--paper); border: 2.5px solid var(--ink); border-radius: 16px; line-height: 1.1; }
+    .facts b { display: block; font-size: 1.3rem; font-weight: 800; font-stretch: 80%; }
+    .facts span { font-size: .78rem; font-weight: 600; color: var(--soft); }
+    .klass .add { height: 58px; font-size: 1.1rem; background: var(--yolk); color: var(--ink); border-width: var(--b); box-shadow: 4px 4px 0 var(--ink); }
+    .klass .add:hover { background: var(--paper); }
+    .klass .pre::before { background: var(--yolk); }
+
+    /* How */
+    .how { background: var(--ink); color: #fff; }
+    .how :focus-visible, .foot :focus-visible, .bar :focus-visible, .strip :focus-visible { outline-color: var(--yolk); }
+    .how .h2 { color: var(--yolk); }
+    .how .h2 mark { color: var(--pink); -webkit-text-stroke: 0; }
+    .how .lede { color: rgba(255, 255, 255, .72); }
+    .steps { display: grid; gap: 14px; margin-top: 34px; counter-reset: s; }
+    .step { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 16px; padding: 18px 18px; border-radius: 24px; color: var(--ink); border: var(--b) solid var(--ink); }
+    .step:nth-child(1) { background: var(--yolk); }
+    .step:nth-child(2) { background: var(--pink); }
+    .step:nth-child(3) { background: var(--paper); }
+    .num { display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%; background: var(--ink); color: var(--yolk); font-size: 2.4rem; font-weight: 800; font-stretch: 75%; line-height: 1; }
+    .step h3 { font-size: 1.9rem; font-weight: 800; font-stretch: 78%; letter-spacing: -.02em; line-height: 1; }
+    .step p { margin-top: 4px; font-size: .95rem; line-height: 1.35; }
+    .ring { position: relative; width: 72px; height: 72px; }
+    .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .ring circle { fill: none; stroke-width: 9; }
+    .ring .bg { stroke: var(--linen); }
+    .ring .fg { stroke: var(--pink); stroke-dasharray: 189; stroke-dashoffset: 189; stroke-linecap: round; animation: fill8 8s linear infinite; }
+    .ring b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 1.15rem; font-weight: 800; }
+    @keyframes fill8 { 0% { stroke-dashoffset: 189; } 92% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+    .perk-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .how-cta { height: 58px; margin-top: 24px; padding: 0 24px; background: var(--yolk); color: var(--ink); border-color: var(--yolk); font-size: 1.08rem; box-shadow: 4px 4px 0 var(--pink); }
+    .how-cta:hover { background: var(--pink); border-color: var(--pink); box-shadow: 4px 4px 0 var(--yolk); }
+    .how-in { display: grid; gap: 0; }
+    .how-in > *, .faq-in > *, .foot-cta > * { min-width: 0; }
+    .how-cta, .foot-cta .btn { max-width: 100%; white-space: normal; text-align: center; line-height: 1.15; }
+    .how .steps { order: 2; }
+    .perk-row li { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border: 2px solid rgba(255, 255, 255, .35); border-radius: 99px; font-size: .9rem; font-weight: 700; }
+    .perk-row .ico { color: var(--yolk); width: 16px; height: 16px; }
+
+    /* Gifts */
+    .gift { background: var(--yolk); background-image: radial-gradient(rgba(22, 18, 31, .13) 1.6px, transparent 1.8px); background-size: 22px 22px; }
+    .gifts { display: grid; gap: 18px; margin-top: 32px; }
+    .g {
+      position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 20px 20px 20px;
+      background: var(--paper); border: var(--b) solid var(--ink); border-radius: 26px; box-shadow: 6px 6px 0 var(--ink);
+    }
+    .g:nth-child(1) { background: var(--pink); }
+    .g:nth-child(3) { background: var(--ink); color: #fff; }
+    .g-img { position: absolute; top: 16px; right: 16px; width: 86px; height: 86px; border-radius: 50%; border: var(--b) solid var(--ink); object-fit: cover; transform: rotate(8deg); background: var(--linen); }
+    .g:nth-child(3) .g-img { border-color: var(--yolk); }
+    .g-k { padding: 3px 10px; background: var(--yolk); border: 2px solid var(--ink); border-radius: 99px; font-size: .76rem; font-weight: 800; color: var(--ink); }
+    .g-big { margin-top: 10px; font-size: clamp(4rem, 19vw, 6.6rem); }
+    .g:nth-child(3) .g-big { color: var(--yolk); }
+    .g h3 { margin-top: 6px; font-size: 1.5rem; font-weight: 800; font-stretch: 80%; line-height: 1; letter-spacing: -.01em; }
+    .g p.t { font-size: .95rem; line-height: 1.35; max-width: 24em; }
+    .g:nth-child(3) p.t { color: rgba(255, 255, 255, .78); }
+    .g .btn { align-self: stretch; height: 52px; margin-top: auto; background: var(--ink); color: var(--yolk); border-width: 0; font-size: 1rem; }
+    .g:not(:last-child) .btn { margin-top: 12px; }
+    .g .btn:hover { background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 var(--b) var(--ink); }
+    .g:nth-child(3) .btn { background: var(--yolk); color: var(--ink); margin-top: 12px; }
+    .g:nth-child(3) .btn:hover { background: var(--pink); box-shadow: none; }
+
+    /* FAQ */
+    .faq { background: var(--paper); }
+    .qa { display: grid; gap: 10px; margin-top: 30px; }
+    .qa details { border: var(--b) solid var(--ink); border-radius: 20px; background: var(--paper); transition: box-shadow .2s, background-color .2s; }
+    .qa details[open] { background: var(--blush); box-shadow: 4px 4px 0 var(--ink); }
+    .qa summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 16px 18px; font-size: 1.12rem; font-weight: 800; cursor: pointer; list-style: none; }
+    .qa summary::-webkit-details-marker { display: none; }
+    .qa summary::after {
+      content: "+"; display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 50%;
+      background: var(--yolk); border: 2px solid var(--ink); font-size: 1.3rem; line-height: 1; transition: transform .25s;
+    }
+    .qa details[open] summary::after { transform: rotate(45deg); }
+    .qa details p { padding: 0 18px 18px; font-size: 1rem; line-height: 1.45; max-width: 40em; }
+
+    .promise { display: grid; gap: 6px; max-width: 26rem; margin-top: 28px; padding: 18px 20px; background: var(--yolk); border: var(--b) solid var(--ink); border-radius: 22px; box-shadow: 5px 5px 0 var(--ink); transform: rotate(-1.5deg); }
+    .promise-k { font-size: 1.6rem; font-weight: 800; font-stretch: 78%; line-height: 1; }
+    .promise-t { font-size: 1rem; line-height: 1.4; font-weight: 600; }
+
+    /* Footer */
+    .foot { background: var(--ink); color: #fff; padding-top: 56px; padding-bottom: calc(110px + env(safe-area-inset-bottom)); overflow: hidden; }
+    .foot-cta { display: grid; gap: 18px; justify-items: start; }
+    .foot-cta .h2 { color: #fff; }
+    .foot-cta .h2 mark { color: var(--yolk); -webkit-text-stroke: 0; }
+    .foot-cta .btn { height: 58px; padding: 0 26px; background: var(--yolk); color: var(--ink); font-size: 1.1rem; box-shadow: 4px 4px 0 var(--pink); border-color: var(--yolk); }
+    .foot-cta .btn:hover { background: var(--pink); border-color: var(--pink); box-shadow: 4px 4px 0 var(--yolk); }
+    .word { display: inline-block; margin-top: 56px; font-size: calc((min(100vw, 1400px) - 2 * var(--g)) / 4.9); font-weight: 800; font-stretch: 75%; letter-spacing: -.012em; line-height: .86; padding-bottom: .12em; color: var(--yolk); white-space: nowrap; font-variation-settings: "opsz" 96; }
+    .word span { color: var(--pink); }
+    .fine { display: grid; gap: 6px; margin-top: 28px; font-size: .85rem; color: rgba(255, 255, 255, .7); }
+    .fine b { color: #fff; font-weight: 700; }
+    .pays { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .pays li { padding: 3px 10px; border: 1.5px solid rgba(255, 255, 255, .4); border-radius: 8px; font-size: .78rem; font-weight: 700; color: #fff; }
+
+    /* Sticky add bar (phones) */
+    .bar {
+      position: fixed; z-index: 25; left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom));
+      display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 7px 7px 7px 8px;
+      background: var(--ink); color: #fff; border-radius: 22px; box-shadow: 0 0 0 2px var(--yolk), 0 10px 30px rgba(22, 18, 31, .35);
+      transform: translateY(calc(100% + 30px)); transition: transform .32s cubic-bezier(.3, .7, .3, 1);
+    }
+    .bar.on { transform: none; }
+    .bar img { width: 46px; height: 46px; border-radius: 14px; object-fit: cover; background: var(--linen); }
+    .bar-t { min-width: 0; line-height: 1.15; }
+    .bar-t b { display: block; font-size: 1rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-t span { font-size: .78rem; color: rgba(255, 255, 255, .72); }
+    .bar .btn { height: 48px; padding: 0 18px; background: var(--yolk); color: var(--ink); border-width: 0; font-size: .98rem; }
+
+    /* Cart */
+    .cart {
+      position: fixed; inset: auto 0 0 0; margin: 0; padding: 0; width: 100%; max-width: none; height: auto;
+      max-height: min(90vh, 700px); max-height: min(90svh, 700px);
+      border: var(--b) solid var(--ink); border-bottom: 0; border-radius: 26px 26px 0 0; background: var(--paper); color: var(--ink);
+    }
+    .cart::backdrop { background: rgba(22, 18, 31, .55); }
+    .sheet { display: flex; flex-direction: column; height: 100%; max-height: inherit; }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px 10px; }
+    #cart-title { font-size: 2.1rem; }
+    #cart-title:focus, .empty:focus { outline: none; }
+    .close { height: 42px; padding: 0 14px; background: var(--paper); font-size: .9rem; border-width: 2.5px; }
+    .close:hover { background: var(--yolk); }
+    .ship { margin: 0 18px; padding: 10px 12px; background: var(--yolk); border: 2.5px solid var(--ink); border-radius: 16px; }
+    .ship p { font-size: .9rem; font-weight: 700; line-height: 1.25; }
+    .ship .meter { width: 100%; height: 10px; margin-top: 8px; background: var(--paper); border: 2px solid var(--ink); }
+    .ship .meter span { background: var(--pink); }
+    .ship[data-done] { background: var(--pink); }
+    .ship[data-done] .meter span { background: var(--ink); }
+    .scroll { flex: 1; min-height: 90px; overflow-y: auto; overscroll-behavior: contain; padding: 4px 18px 8px; }
+    .row { display: grid; grid-template-columns: 58px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 2px dashed rgba(22, 18, 31, .18); }
+    .row-pic { width: 58px; height: 58px; border-radius: 14px; border: 2px solid var(--ink); object-fit: cover; background: var(--linen); }
+    .row-name { display: block; font-size: 1.15rem; font-weight: 800; line-height: 1.15; }
+    .row-cost { display: block; font-size: .92rem; font-weight: 600; color: var(--soft); }
+    .qty { display: flex; align-items: center; gap: 4px; }
+    .qty button { width: 40px; height: 40px; padding: 0; background: var(--paper); border: 2.5px solid var(--ink); border-radius: 50%; font-size: 1.15rem; font-weight: 800; line-height: 1; }
+    .qty button:hover { background: var(--yolk); }
+    .qty output { min-width: 2ch; text-align: center; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .empty { padding: 18px 0 8px; font-size: 1.05rem; font-weight: 700; }
+    .up {
+      display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px 12px; align-items: center; margin-top: 14px; padding: 12px;
+      background: var(--blush); border: 2.5px solid var(--ink); border-radius: 18px;
+    }
+    .up img { width: 52px; height: 52px; border-radius: 12px; border: 2px solid var(--ink); object-fit: cover; }
+    .up-k { font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .up-t { font-size: .92rem; font-weight: 600; line-height: 1.3; }
+    .up .btn { grid-column: 1 / -1; height: 44px; background: var(--ink); color: var(--yolk); border-width: 0; font-size: .92rem; }
+    .up .btn:hover { background: var(--pink); color: var(--ink); }
+    .more { margin-top: 14px; }
+    .more ul { display: grid; gap: 8px; margin-top: 6px; }
+    .more li { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 6px 6px 6px 6px; border: 2px solid var(--ink); border-radius: 14px; font-size: .92rem; }
+    .more img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; }
+    .more b { font-weight: 800; }
+    .more .btn { width: 40px; height: 40px; padding: 0; background: var(--yolk); border-width: 2px; }
+    .more .btn:hover { background: var(--pink); }
+    .sheet-foot { padding: 12px 18px calc(16px + env(safe-area-inset-bottom)); border-top: var(--b) solid var(--ink); }
+    .pre-cart { display: flex; gap: 8px; align-items: flex-start; font-size: .82rem; font-weight: 700; line-height: 1.3; }
+    .pre-cart::before { content: ""; width: 10px; height: 10px; margin-top: 3px; flex: none; border-radius: 50%; background: var(--pink); border: 2px solid var(--ink); }
+    .sum { display: flex; justify-content: space-between; align-items: baseline; margin-top: 10px; font-weight: 700; }
+    #sum { font-size: 1.9rem; font-weight: 800; font-stretch: 80%; line-height: 1; }
+    .note { font-size: .84rem; color: var(--soft); }
+    .pay {
+      width: 100%; height: 58px; margin-top: 12px; background: var(--ink); color: var(--yolk); font-size: 1.15rem;
+      box-shadow: 4px 4px 0 0 var(--pink), 4px 4px 0 var(--b) var(--ink);
+    }
+    .pay:hover { background: #2b2438; }
+    .pay[aria-disabled="true"] { cursor: default; background: #e7e4ea; color: rgba(22, 18, 31, .45); border-color: rgba(22, 18, 31, .25); box-shadow: none; transform: none; }
+    .ways { margin-top: 10px; font-size: .76rem; font-weight: 600; text-align: center; color: var(--soft); }
+    .sheet[data-empty] .sum, .sheet[data-empty] .note, .sheet[data-empty] .ship { display: none; }
+
+    @media (forced-colors: active) { .btn, .pack { border: 1px solid ButtonText; } }
+
+    /* Short phones: keep film, name, price and the buy button in the first screen */
+    @media (max-width: 699px) and (max-height: 760px) {
+      .hero-in { gap: 10px; padding-top: 10px; }
+      .media { width: min(100%, max(190px, calc(100svh - 404px))); }
+      .line { display: none; }
+      .buy { gap: 10px; margin-top: 4px; }
+      .seal { width: 70px; height: 70px; top: -10px; left: -14px; }
+    }
+
+    /* Portrait tablets: the stack shares the film's width */
+    @media (min-width: 700px) and (max-width: 999px) {
+      .hero-in { max-width: calc(max(380px, min(540px, 100svh - 530px)) + 2 * var(--g)); }
+      .media { width: 100%; }
+      .shout { font-size: min(11.2vw, 5.4rem); }
+    }
+
+    /* Tablets and up */
+    @media (min-width: 700px) {
+      :root { --g: 28px; --head: 68px; }
+      .logo { font-size: 1.7rem; }
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 22px; }
+      .info { padding: 14px 16px 16px; gap: 6px; }
+      .nm { font-size: 1.8rem; }
+      .pr { font-size: 1.3rem; }
+      .ln { font-size: .92rem; }
+      .add { height: 52px; font-size: 1rem; }
+      .badge { top: 14px; left: 14px; font-size: .82rem; padding: 3px 11px; }
+      .step { padding: 22px 26px; gap: 22px; }
+      .gifts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .g .btn { margin-top: auto !important; }
+      .g p.t { margin-bottom: 14px; }
+      .qa { grid-template-columns: 1fr; }
+      .cart { inset: 12px 12px 12px auto; width: min(calc(100% - 24px), 440px); max-height: none; border-radius: 28px; border-bottom: var(--b) solid var(--ink); box-shadow: 8px 8px 0 var(--ink); }
+      .sheet { max-height: none; }
+      .sheet-head { padding: 22px 24px 12px; }
+      .ship { margin: 0 24px; }
+      .scroll { padding: 4px 24px 8px; }
+      .sheet-foot { padding: 16px 24px 22px; }
+      .bar { display: none; }
+      .foot { padding-bottom: 48px; }
+    }
+
+    /* Desktop: film right, the pitch left */
+    @media (min-width: 1000px) {
+      :root { --g: 40px; --head: 72px; --fw: min(560px, 41vw, calc((100vh - 200px) * .8)); --fw: min(560px, 41vw, calc((100svh - 200px) * .8)); }
+      .strip { font-size: .84rem; }
+      .strip-in { min-height: 34px; }
+      .meter { width: 120px; }
+      .nav { display: flex; gap: 6px; margin-left: auto; margin-right: 10px; }
+      .nav a { padding: 10px 14px; border-radius: 99px; font-weight: 700; text-decoration: none; }
+      .nav a:hover { background: var(--ink); color: var(--yolk); }
+      .bag { height: 48px; padding: 0 7px 0 18px; font-size: 1rem; }
+
+      .hero-in {
+        grid-template-columns: minmax(0, 1fr) var(--fw); grid-template-rows: auto 1fr;
+        grid-template-areas: "shout media" "buy media"; column-gap: clamp(40px, 5vw, 80px); row-gap: 0; padding-block: 26px 44px;
+      }
+      .shout-wrap { container-type: inline-size; }
+      .shout { font-size: min(17.6cqi, 14vh); padding-top: 4px; }
+      .sub { display: block; margin-top: 16px; font-size: 1.1rem; line-height: 1.4; font-weight: 600; max-width: 34em; }
+      .star { display: block; position: absolute; z-index: 3; color: var(--ink); pointer-events: none; }
+      .star.s1 { width: 54px; height: 54px; right: -26px; bottom: 64px; color: var(--paper); filter: drop-shadow(3px 3px 0 var(--ink)); }
+      .star.s2 { width: 26px; height: 26px; right: -44px; bottom: 30px; color: var(--pink); }
+      .media { width: var(--fw); align-self: center; }
+      .media::before { transform: translate(12px, 12px); border-radius: 34px; }
+      .frame { aspect-ratio: 4 / 5; border-radius: 34px; }
+      .frame[data-shape="square"] { aspect-ratio: 1 / 1; }
+      #film { object-position: 50% 60%; }
+      .frame[data-pick="tre"] #still, .frame[data-pick="klass"] #still { object-position: 50% 60%; }
+      .klam { left: 18px; bottom: 18px; height: 44px; font-size: .95rem; padding: 0 16px 0 12px; }
+      .seal { top: -34px; left: -34px; width: 120px; height: 120px; }
+
+      .buy {
+        align-self: end; max-width: 640px; margin-top: 24px; padding: 22px 26px 22px; gap: 12px;
+        background: var(--paper); border: var(--b) solid var(--ink); border-radius: 28px; box-shadow: 8px 8px 0 var(--ink);
+      }
+      #name { font-size: clamp(3rem, 4.4vw, 4.3rem); }
+      #price { font-size: 2.2rem; }
+      .tag-sub { font-size: .76rem; }
+      .line { font-size: 1.04rem; }
+      .take { height: 64px; font-size: 1.3rem; }
+
+      .sec { padding-block: 104px 112px; }
+      .shop { padding-top: 116px; }
+      .shop-head { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 40px; margin-bottom: 44px; }
+      .grid { gap: 40px 32px; }
+      .card { border-radius: 28px; box-shadow: 6px 6px 0 var(--ink); }
+      .card:has(.pic[aria-pressed="true"]) { box-shadow: 6px 6px 0 0 var(--pink), 6px 6px 0 var(--b) var(--ink); }
+      .card:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0 var(--ink); }
+      .card:has(.pic[aria-pressed="true"]):hover { box-shadow: 10px 10px 0 0 var(--pink), 10px 10px 0 var(--b) var(--ink); }
+      .card:hover .pic img { transform: scale(1.05); }
+      .pic { border-radius: 25px 25px 0 0; }
+      .info { padding: 18px 20px 20px; }
+      .nm { font-size: 2.1rem; }
+      .pr { font-size: 1.45rem; }
+      .ln { font-size: 1rem; }
+      .add { height: 56px; font-size: 1.05rem; }
+
+      .klass { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); margin-top: 28px; box-shadow: 10px 10px 0 var(--ink); }
+      .klass:hover { transform: none; box-shadow: 10px 10px 0 var(--ink); }
+      .klass:has(.pic[aria-pressed="true"]), .klass:has(.pic[aria-pressed="true"]):hover { box-shadow: 10px 10px 0 0 var(--yolk), 10px 10px 0 var(--b) var(--ink); }
+      .klass .pic { aspect-ratio: auto; height: 100%; min-height: 560px; border-bottom: 0; border-right: var(--b) solid var(--ink); border-radius: 25px 0 0 25px; }
+      .klass .pic img { position: absolute; inset: 0; object-position: 50% 62%; }
+      .klass-copy { align-content: center; gap: 20px; padding: 48px 52px; }
+      .klass-h { font-size: clamp(4.5rem, 7.6vw, 8.4rem); }
+      .klass-p { font-size: 1.15rem; }
+      .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+      .facts b { font-size: 1.55rem; }
+      .klass .add { height: 64px; font-size: 1.25rem; max-width: 440px; }
+
+      .how-in { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 72px; align-items: center; }
+      .how-copy { align-self: center; }
+      .steps { margin-top: 0; gap: 18px; }
+      .step { padding: 24px 30px; gap: 28px; border-radius: 30px; }
+      .step:nth-child(2) { margin-left: 40px; margin-right: -20px; transform: rotate(1.2deg); }
+      .num, .ring { width: 96px; height: 96px; }
+      .num { font-size: 3.4rem; }
+      .ring b { font-size: 1.4rem; }
+      .step h3 { font-size: 2.9rem; }
+      .step p { font-size: 1.08rem; margin-top: 6px; }
+      .gifts { gap: 28px; }
+      .g { padding: 26px; border-radius: 30px; box-shadow: 8px 8px 0 var(--ink); transition: transform .2s cubic-bezier(.3, .7, .4, 1.2), box-shadow .2s; }
+      .g:hover { transform: translate(-4px, -4px) rotate(-.6deg); box-shadow: 12px 12px 0 var(--ink); }
+      .g-img { width: 112px; height: 112px; top: 22px; right: 22px; }
+      .g-big { font-size: clamp(5rem, 8vw, 8rem); }
+      .g h3 { font-size: 2.1rem; }
+      .g p.t { font-size: 1.02rem; }
+      .g .btn { height: 56px; font-size: 1.05rem; }
+      .faq-in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: start; }
+      .faq-in .qa { margin-top: 0; }
+      .faq-side { position: sticky; top: calc(var(--head) + 40px); }
+      .promise { margin-top: 40px; padding: 24px 26px; }
+      .promise-k { font-size: 2.2rem; }
+      .promise-t { font-size: 1.08rem; }
+      .foot { padding-top: 96px; }
+      .foot-cta { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+      .word { margin-top: 80px; }
+      .fine { grid-template-columns: repeat(3, auto); justify-content: space-between; align-items: start; }
+    }
+
+    @media (min-width: 1000px) and (min-height: 860px) {
+      .shout { font-size: min(21cqi, 9.4rem); white-space: normal; }
+      .shout .l2 { display: flex; align-items: center; gap: .3em; }
+      .from {
+        display: inline-block; padding: 8px 18px 10px; background: var(--paper); border: var(--b) solid var(--ink); border-radius: 18px;
+        font-size: 2rem; font-stretch: 80%; letter-spacing: -.01em; line-height: 1; transform: rotate(-6deg) translateY(-.1em); box-shadow: 4px 4px 0 var(--ink);
+      }
+      .sub-from { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; animation: none !important; }
+      .mq-track { padding-left: 56px; }
+      .ring .fg { stroke-dashoffset: 0; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-check" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M6 10.4l2.6 2.6L14.2 7.4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 0c.9 6.4 5.6 11.1 12 12-6.4.9-11.1 5.6-12 12-.9-6.4-5.6-11.1-12-12C6.4 11.1 11.1 6.4 12 0z" fill="currentColor"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1.2 12.2a1 1 0 01-1 .8H7.2a1 1 0 01-1-.8L5 8z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M9 10V6.5a3 3 0 016 0V10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+      <symbol id="i-replay" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 102.2-5.3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M4 3.5v4.6h4.6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="strip" id="strip" data-state="none">
+    <div class="wrap strip-in">
+      <p id="ship-msg"><b>Fri frakt</b> från 199 kr · 14 dagars ångerrätt</p>
+      <span class="meter" aria-hidden="true"><span id="strip-fill"></span></span>
+    </div>
+  </div>
+
+  <header class="top">
+    <div class="wrap top-in">
+      <a class="logo" href="/" aria-label="slinkynsquishy, till startsidan"><span aria-hidden="true">slinky</span><span class="logo-n" aria-hidden="true">n</span><span aria-hidden="true">squishy</span></a>
+      <nav class="nav" aria-label="Meny">
+        <a href="#squishies">Squishies</a>
+        <a href="#klassen">Klassen</a>
+        <a href="#fragor">Frågor</a>
+      </nav>
+      <button class="btn bag" id="open" type="button" aria-haspopup="dialog" aria-controls="cart"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>Korg <span id="count">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="name">
+      <div class="wrap hero-in">
+        <div class="shout-wrap">
+          <p class="shout disp">Kläm. <span class="o">Släpp.</span> <span class="l2">Igen.<span class="from">Från 49 kr</span></span></p>
+          <p class="sub">Squishies i solid skum som du trycker in – och som reser sig igen.<span class="sub-from"> Från&nbsp;49&nbsp;kr.</span></p>
+        </div>
+
+        <div class="media">
+          <div class="frame" id="frame" data-pick="smor" data-shape="tall">
+            <video id="film" src="img/klam.mp4" poster="img/klam.jpg" muted autoplay loop playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
+            <img id="still" src="" alt="" hidden>
+            <button class="btn klam" id="klam" type="button"><svg class="ico" aria-hidden="true"><use href="#i-replay"/></svg><span id="klam-t">Kläm igen</span></button>
+          </div>
+          <svg class="star s1" aria-hidden="true"><use href="#i-star"/></svg>
+          <svg class="star s2" aria-hidden="true"><use href="#i-star"/></svg>
+          <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+            <defs><path id="circ" d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0"/></defs>
+            <circle cx="60" cy="60" r="57" fill="#ff4f9e" stroke="#16121f" stroke-width="3.5"/>
+            <g class="seal-spin">
+              <text fill="#16121f" font-size="12.6" font-weight="800" font-family="Bricolage Grotesque, sans-serif" style="font-stretch: 80%"><textPath href="#circ" textLength="268" lengthAdjust="spacing">FÖRBOKA NU · FRI FRAKT FRÅN 199 KR ·</textPath></text>
+            </g>
+            <circle cx="60" cy="60" r="25" fill="#ffe234" stroke="#16121f" stroke-width="3"/>
+            <path transform="translate(47 47) scale(1.08)" d="M12 0c.9 6.4 5.6 11.1 12 12-6.4.9-11.1 5.6-12 12-.9-6.4-5.6-11.1-12-12C6.4 11.1 11.1 6.4 12 0z" fill="#16121f"/>
+          </svg>
+        </div>
+
+        <div class="buy">
+          <div class="bb-head">
+            <div>
+              <p class="kind" id="kind">Squishy · 14 cm</p>
+              <h1 class="disp" id="name" tabindex="-1">Smöret</h1>
+            </div>
+            <div class="tags">
+              <span class="tag-sub" id="tag">Reser sig på 8 sek</span>
+              <p id="price">79 kr</p>
+            </div>
+          </div>
+          <p class="line" id="line">Håll inne. Den ger sig och reser sig på åtta sekunder.</p>
+          <div class="swap">
+            <div class="packs" id="packs" role="group" aria-label="Hur många smör?">
+              <button class="pack" type="button" data-pack="smor" aria-pressed="true"><b>1 st</b><span>79 kr</span></button>
+              <button class="pack" type="button" data-pack="tre" aria-pressed="false"><i>Spara 38 kr</i><b>3 st</b><span>199 kr</span></button>
+              <button class="pack" type="button" data-pack="klass" aria-pressed="false"><i>Bäst värde</i><b>12 st</b><span>249 kr</span></button>
+            </div>
+            <ul class="perks" id="perks" hidden>
+              <li>Under 100 kr</li>
+              <li>Solid skum</li>
+              <li>Ingen vätska</li>
+            </ul>
+          </div>
+          <button class="btn take" id="take" type="button"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>Lägg i korgen</button>
+          <p class="pre">Förboka nu – vi skickar så fort partiet är inne.</p>
+          <ul class="trust">
+            <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Fri frakt över 199 kr</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>14 dagars ångerrätt</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Kort, Klarna, PayPal</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="mq">
+      <div class="mq-band">
+        <div class="mq-track">
+          <div class="mq-group">
+            <span>Fri frakt över 199 kr</span><svg aria-hidden="true"><use href="#i-star"/></svg>
+            <span>Smöret reser sig på 8 sekunder</span><svg aria-hidden="true"><use href="#i-star"/></svg>
+            <span>14 dagars ångerrätt</span><svg aria-hidden="true"><use href="#i-star"/></svg>
+            <span>Kort, Klarna, PayPal</span><svg aria-hidden="true"><use href="#i-star"/></svg>
+            <span>Solid skum – ingen vätska</span><svg aria-hidden="true"><use href="#i-star"/></svg>
+            <span>Hela klassen 249 kr</span><svg aria-hidden="true"><use href="#i-star"/></svg>
+          </div>
+          <div class="mq-group" aria-hidden="true">
+            <span>Fri frakt över 199 kr</span><svg><use href="#i-star"/></svg>
+            <span>Smöret reser sig på 8 sekunder</span><svg><use href="#i-star"/></svg>
+            <span>14 dagars ångerrätt</span><svg><use href="#i-star"/></svg>
+            <span>Kort, Klarna, PayPal</span><svg><use href="#i-star"/></svg>
+            <span>Solid skum – ingen vätska</span><svg><use href="#i-star"/></svg>
+            <span>Hela klassen 249 kr</span><svg><use href="#i-star"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="sec shop" id="squishies" aria-labelledby="shop-h">
+      <div class="wrap">
+        <div class="shop-head">
+          <h2 class="h2 disp" id="shop-h">Välj din <mark>squishy.</mark></h2>
+          <p class="lede"><b>Från 49 kr.</b> Tryck på bilden för att se den stort, eller lägg den direkt i korgen. Allt förbokas nu och skickas så fort partiet är inne.</p>
+        </div>
+
+        <div class="grid" id="grid">
+          <article class="card" data-id="smor" data-name="Smöret" data-variant="58793534456139" data-price="79" data-img="img/klam.jpg" data-kind="Squishy · 14 cm" data-tag="Reser sig på 8 sek" data-line="Håll inne. Den ger sig och reser sig på åtta sekunder.">
+            <button class="pic" type="button" aria-pressed="true" aria-label="Visa Smöret"><img src="img/klam.jpg" alt="" loading="lazy" decoding="async"><span class="badge">8 sek</span><span class="seen" aria-hidden="true">Visas ovan</span></button>
+            <div class="info">
+              <div class="info-top"><h3 class="nm">Smöret</h3><p class="pr">79 kr</p></div>
+              <p class="ln">Reser sig på åtta sekunder.</p>
+              <button class="btn add" type="button" data-add aria-label="Lägg Smöret i korgen"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Lägg i korgen</span></button>
+            </div>
+          </article>
+          <article class="card" data-id="tre" data-name="Tre smör" data-variant="58793535603019" data-price="199" data-img="img/tre.jpg" data-kind="3-pack · fri frakt" data-tag="Spara 38 kr" data-line="Tre smör för 199 kr. Ett till dig, två att ge bort – och fri frakt.">
+            <button class="pic" type="button" aria-pressed="false" aria-label="Visa Tre smör"><img src="img/tre.jpg" alt="" loading="lazy" decoding="async"><span class="badge pink">Spara 38 kr</span><span class="seen" aria-hidden="true">Visas ovan</span></button>
+            <div class="info">
+              <div class="info-top"><h3 class="nm">Tre smör</h3><p class="pr">199 kr</p></div>
+              <p class="ln">Tre Smöret. Fri frakt.</p>
+              <button class="btn add" type="button" data-add aria-label="Lägg Tre smör i korgen"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Lägg i korgen</span></button>
+            </div>
+          </article>
+          <article class="card" data-id="toast" data-name="Toasten" data-variant="58793534521675" data-price="79" data-img="img/toast.jpg" data-kind="Squishy" data-tag="Med ett litet leende" data-line="Tryck. Den kommer tillbaka. En skiva toast med ett litet leende.">
+            <button class="pic" type="button" aria-pressed="false" aria-label="Visa Toasten"><img src="img/toast.jpg" alt="" loading="lazy" decoding="async"><span class="seen" aria-hidden="true">Visas ovan</span></button>
+            <div class="info">
+              <div class="info-top"><h3 class="nm">Toasten</h3><p class="pr">79 kr</p></div>
+              <p class="ln">Tryck. Den kommer tillbaka.</p>
+              <button class="btn add" type="button" data-add aria-label="Lägg Toasten i korgen"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Lägg i korgen</span></button>
+            </div>
+          </article>
+          <article class="card" data-id="mochi" data-name="Mochi" data-variant="58793534882123" data-price="99" data-img="img/mochi.jpg" data-kind="Squishy · 3 st" data-tag="Tre små" data-line="Tre små mochi i solid skum: rosa björn, vit kanin och mint.">
+            <button class="pic" type="button" aria-pressed="false" aria-label="Visa Mochi"><img src="img/mochi.jpg" alt="" loading="lazy" decoding="async"><span class="badge">3 st</span><span class="seen" aria-hidden="true">Visas ovan</span></button>
+            <div class="info">
+              <div class="info-top"><h3 class="nm">Mochi</h3><p class="pr">99 kr</p></div>
+              <p class="ln">Björn, kanin och mint.</p>
+              <button class="btn add" type="button" data-add aria-label="Lägg Mochi i korgen"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Lägg i korgen</span></button>
+            </div>
+          </article>
+          <article class="card" data-id="ost" data-name="Osten" data-variant="58793534587211" data-price="69" data-img="img/ost.jpg" data-kind="Squishy" data-tag="Hål för tummen" data-line="En bit ost full av hål att trycka tummen i.">
+            <button class="pic" type="button" aria-pressed="false" aria-label="Visa Osten"><img src="img/ost.jpg" alt="" loading="lazy" decoding="async"><span class="seen" aria-hidden="true">Visas ovan</span></button>
+            <div class="info">
+              <div class="info-top"><h3 class="nm">Osten</h3><p class="pr">69 kr</p></div>
+              <p class="ln">Hål att trycka tummen i.</p>
+              <button class="btn add" type="button" data-add aria-label="Lägg Osten i korgen"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Lägg i korgen</span></button>
+            </div>
+          </article>
+          <article class="card" data-id="persika" data-name="Persikan" data-variant="58793534816587" data-price="49" data-img="img/persika.jpg" data-kind="Squishy" data-tag="Under 50 kr" data-line="En persika i solid skum. Liten nog för fickan.">
+            <button class="pic" type="button" aria-pressed="false" aria-label="Visa Persikan"><img src="img/persika.jpg" alt="" loading="lazy" decoding="async"><span class="badge pink">Under 50 kr</span><span class="seen" aria-hidden="true">Visas ovan</span></button>
+            <div class="info">
+              <div class="info-top"><h3 class="nm">Persikan</h3><p class="pr">49 kr</p></div>
+              <p class="ln">Liten nog för fickan.</p>
+              <button class="btn add" type="button" data-add aria-label="Lägg Persikan i korgen"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Lägg i korgen</span></button>
+            </div>
+          </article>
+
+          <article class="card klass" id="klassen" data-id="klass" data-name="Klassen" data-variant="58793535668555" data-price="249" data-img="img/hand.jpg" data-kind="12-pack · fri frakt" data-tag="Spara 699 kr" data-line="Tolv smör till bänken. Under 21 kr/st – och fri frakt.">
+            <button class="pic" type="button" aria-pressed="false" aria-label="Visa Klassen"><img src="img/hand.jpg" alt="" loading="lazy" decoding="async"><span class="badge">12 st</span><span class="seen" aria-hidden="true">Visas ovan</span></button>
+            <div class="klass-copy">
+              <p class="klass-kick"><span>Bäst värde</span><span>Till kalaspåsarna</span></p>
+              <h3 class="klass-h disp"><span class="nm sr">Klassen</span>Hela klassen. <span class="big">249 kr.</span></h3>
+              <p class="klass-p">Tolv smör till bänken – till kalaspåsarna, klassfesten eller hela laget. Köper du tolv Smöret ett och ett kostar de 948 kr.</p>
+              <ul class="facts">
+                <li><b>12 st</b><span>Smöret</span></li>
+                <li><b>20,75 kr</b><span>per styck</span></li>
+                <li><b>699 kr</b><span>sparar du</span></li>
+                <li><b>0 kr</b><span>i frakt</span></li>
+              </ul>
+              <button class="btn add" type="button" data-add aria-label="Lägg Klassen i korgen, 249 kronor"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Lägg Klassen i korgen</span></button>
+              <p class="pre">Förboka nu – vi skickar så fort partiet är inne.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec how" aria-labelledby="how-h">
+      <div class="wrap how-in">
+        <div class="how-copy">
+          <h2 class="h2 disp" id="how-h">Så funkar <mark>den.</mark></h2>
+          <p class="lede">Ingen app, inga batterier. Bara skum och din tumme.</p>
+          <ul class="perk-row">
+            <li><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg>Solid skum</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg>Ingen vätska</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg>Från tre år</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg>Smöret är 14 cm</li>
+          </ul>
+          <button class="btn how-cta" type="button" data-quick="smor"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>Lägg Smöret i korgen – 79 kr</button>
+        </div>
+        <ol class="steps">
+          <li class="step">
+            <span class="num" aria-hidden="true">1</span>
+            <div><h3>Håll inne.</h3><p>Tryck tummen djupt ner i Smöret. Den ger sig.</p></div>
+          </li>
+          <li class="step">
+            <span class="num" aria-hidden="true">2</span>
+            <div><h3>Släpp.</h3><p>Släpp taget och titta på gropen.</p></div>
+          </li>
+          <li class="step">
+            <span class="ring" aria-hidden="true"><svg viewBox="0 0 72 72"><circle class="bg" cx="36" cy="36" r="30"/><circle class="fg" cx="36" cy="36" r="30"/></svg><b>8 s</b></span>
+            <div><h3>Åtta sekunder.</h3><p>Så lång tid tar det för Smöret att resa sig. Sen kör du igen.</p></div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec gift" aria-labelledby="gift-h">
+      <div class="wrap">
+        <h2 class="h2 disp" id="gift-h">Present? <mark>Fixat.</mark></h2>
+        <p class="lede">Till kalaspåsen, till bästisen eller till hela klassen.</p>
+        <div class="gifts">
+          <article class="g">
+            <img class="g-img" src="img/persika.jpg" alt="" loading="lazy" decoding="async">
+            <p class="g-k">Till kalaspåsen</p>
+            <p class="g-big disp">49 kr</p>
+            <h3>Persikan</h3>
+            <p class="t">Liten nog för fickan – och för kalaspåsen.</p>
+            <button class="btn" type="button" data-quick="persika" aria-label="Lägg Persikan i korgen"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>Lägg i korgen</button>
+          </article>
+          <article class="g">
+            <img class="g-img" src="img/mochi.jpg" alt="" loading="lazy" decoding="async">
+            <p class="g-k">Present under 100 kr</p>
+            <p class="g-big disp">99 kr</p>
+            <h3>Mochi</h3>
+            <p class="t">Tre små mochi: rosa björn, vit kanin och mint.</p>
+            <button class="btn" type="button" data-quick="mochi" aria-label="Lägg Mochi i korgen"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>Lägg i korgen</button>
+          </article>
+          <article class="g">
+            <img class="g-img" src="img/tre.jpg" alt="" loading="lazy" decoding="async" style="object-position: 50% 58%">
+            <p class="g-k">Ett till dig, två att ge bort</p>
+            <p class="g-big disp">199 kr</p>
+            <h3>Tre smör</h3>
+            <p class="t">Tre Smöret med fri frakt. Spara 38 kr mot att köpa dem en och en.</p>
+            <button class="btn" type="button" data-quick="tre" aria-label="Lägg Tre smör i korgen"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>Lägg i korgen</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec faq" id="fragor" aria-labelledby="faq-h">
+      <div class="wrap faq-in">
+        <div class="faq-side">
+          <h2 class="h2 disp" id="faq-h">Frågor? <mark>Svar.</mark></h2>
+          <div class="promise">
+            <p class="promise-k">Förboka nu</p>
+            <p class="promise-t">Vi skickar så fort partiet är inne. Och du har 14 dagars ångerrätt.</p>
+          </div>
+        </div>
+        <div class="qa">
+          <details open>
+            <summary>När skickas min order?</summary>
+            <p>Allt är förbeställning just nu: du förbokar i dag och vi skickar så fort partiet är inne.</p>
+          </details>
+          <details>
+            <summary>Vad kostar frakten?</summary>
+            <p>39 kr. Handlar du för 199 kr eller mer är frakten gratis – Tre smör och Klassen har alltid fri frakt.</p>
+          </details>
+          <details>
+            <summary>Hur betalar jag?</summary>
+            <p>I Shopifys kassa, med kort (Visa, Mastercard, Amex), Klarna eller PayPal.</p>
+          </details>
+          <details>
+            <summary>Kan jag ångra köpet?</summary>
+            <p>Ja. Du har 14 dagars ångerrätt, precis som när du handlar på nätet i övrigt.</p>
+          </details>
+          <details>
+            <summary>Från vilken ålder?</summary>
+            <p>Från tre år. Den ska klämmas, inte tuggas – inte i munnen.</p>
+          </details>
+          <details>
+            <summary>Vad är de gjorda av?</summary>
+            <p>Solid skum rakt igenom. Ingen vätska inuti. Smöret är 14 cm och reser sig på åtta sekunder.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-cta">
+        <h2 class="h2 disp">Din tumme <mark>väntar.</mark></h2>
+        <a class="btn" href="#name" id="again"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg>Kläm på Smöret – 79 kr</a>
+      </div>
+      <p class="word" aria-hidden="true">slinky<span>n</span>squishy</p>
+      <div class="fine">
+        <p><b>Förbeställning:</b> vi skickar när partiet är inne.</p>
+        <div>
+          <p>Fri frakt från 199 kr, annars 39 kr. 14 dagars ångerrätt.</p>
+          <ul class="pays" aria-label="Betalsätt"><li>Visa</li><li>Mastercard</li><li>Amex</li><li>Klarna</li><li>PayPal</li></ul>
+        </div>
+        <p>Säljs av Nytto Labs. Betalning hos Shopify.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="bar" id="bar" inert>
+    <img id="bar-img" src="img/klam.jpg" alt="" style="object-position: 50% 72%">
+    <p class="bar-t"><b id="bar-name">Smöret</b><span id="bar-sub">79 kr · förboka nu</span></p>
+    <button class="btn" type="button" id="bar-add">Lägg i korgen</button>
+  </div>
+
+  <dialog class="cart" id="cart" aria-labelledby="cart-title">
+    <div class="sheet" id="sheet">
+      <div class="sheet-head">
+        <h2 class="disp" id="cart-title" tabindex="-1">Din korg</h2>
+        <button class="btn close" id="close" type="button">Stäng</button>
+      </div>
+      <div class="ship" id="ship">
+        <p id="ship-txt">Fri frakt från 199 kr</p>
+        <span class="meter" aria-hidden="true"><span id="ship-fill"></span></span>
+      </div>
+      <div class="scroll">
+        <div class="lines" id="lines"></div>
+        <div id="upsell"></div>
+      </div>
+      <div class="sheet-foot">
+        <p class="pre-cart">Förbeställning: vi skickar när partiet är inne.</p>
+        <div class="sum"><span>Summa</span><span id="sum">0 kr</span></div>
+        <p class="note" id="note"></p>
+        <button class="btn pay" id="pay" type="button">Till kassan<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <p class="ways">Kort · Klarna · PayPal · 14 dagars ångerrätt</p>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    (() => {
+      const SHOP = "https://pqwbeh-yy.myshopify.com/cart/";
+      const FREE = 199;
+      const SHIPPING = 39;
+      const KEY = "slinkynsquishy-korg";
+      const $ = (id) => document.getElementById(id);
+
+      const film = $("film");
+      const still = $("still");
+      const frame = $("frame");
+      const cartDialog = $("cart");
+      const cards = [...document.querySelectorAll(".card")];
+      const packBtns = [...document.querySelectorAll("[data-pack]")];
+
+      const items = {};
+      for (const card of cards) {
+        const d = card.dataset;
+        items[d.id] = {
+          name: d.name,
+          price: Number(d.price),
+          line: d.line,
+          img: d.img,
+          kind: d.kind || "",
+          tag: d.tag || "",
+          variant: d.variant
+        };
+      }
+
+      const kr = (n) => n.toLocaleString("sv-SE") + " kr";
+      // Square photos get a square frame so nothing is cut.
+      const SQUARE = ["toast", "ost", "persika", "mochi"];
+      const BUTTER = ["smor", "tre", "klass"];
+      const SINGLES = ["persika", "ost", "toast", "smor", "mochi"];
+      const POS = { smor: "50% 72%", tre: "50% 60%", klass: "50% 62%" };
+      let pick = "smor";
+
+      function play() {
+        film.currentTime = 0;
+        const p = film.play();
+        if (p) p.catch(() => {});
+      }
+
+      function show(id) {
+        const item = items[id];
+        if (!item) return;
+        const was = pick;
+        pick = id;
+        $("name").textContent = item.name;
+        $("line").textContent = item.line;
+        $("price").textContent = kr(item.price);
+        $("kind").textContent = item.kind;
+        $("tag").textContent = item.tag;
+        $("tag").hidden = !item.tag;
+        for (const card of cards) card.querySelector(".pic").setAttribute("aria-pressed", String(card.dataset.id === id));
+        const family = BUTTER.includes(id);
+        $("packs").hidden = !family;
+        $("perks").hidden = family;
+        for (const b of packBtns) b.setAttribute("aria-pressed", String(b.dataset.pack === id));
+        frame.dataset.pick = id;
+        frame.dataset.shape = SQUARE.includes(id) ? "square" : "tall";
+        $("klam-t").textContent = id === "smor" ? "Kläm igen" : "Se klämfilmen";
+        $("bar-name").textContent = item.name;
+        $("bar-sub").textContent = kr(item.price) + " · förboka nu";
+        $("bar-img").src = item.img;
+        $("bar-img").style.objectPosition = POS[id] || "50% 50%";
+        if (id === "smor") {
+          still.hidden = true;
+          still.removeAttribute("src");
+          film.hidden = false;
+          if (was !== "smor" && film.autoplay) play();
+        } else {
+          film.pause();
+          film.hidden = true;
+          // Keep the frame empty rather than show the old photo under the new name.
+          const thumb = document.querySelector(`.card[data-id="${id}"] img`);
+          still.onload = () => { if (pick === id) still.hidden = false; };
+          still.src = item.img;
+          still.hidden = !(thumb && thumb.complete && thumb.naturalWidth);
+        }
+      }
+
+      // Cart
+      function load() {
+        try {
+          let raw = localStorage.getItem(KEY);
+          if (raw === null) {
+            // Betala hands the cart to Shopify; only a Back from there brings it back.
+            const nav = performance.getEntriesByType("navigation")[0];
+            if (nav && nav.type === "back_forward") raw = sessionStorage.getItem(KEY);
+          }
+          const saved = JSON.parse(raw || "[]");
+          if (Array.isArray(saved)) {
+            return saved
+              .filter((l) => l && items[l.id] && Number.isInteger(l.qty) && l.qty > 0)
+              .map((l) => ({ id: l.id, qty: Math.min(l.qty, 99) }));
+          }
+        } catch (e) {}
+        return [];
+      }
+      function save() {
+        try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch (e) {}
+      }
+
+      let cart = load();
+      if (cart.length) save();
+
+      // One honest nudge toward free shipping; once it is reached, a small "something more?".
+      const WORD = ["", "Ett", "Två"];
+      function suggestion(total) {
+        if (!cart.length) {
+          return { id: "smor", kick: "Börja här", text: "Smöret, 79 kr. Håll inne – den reser sig på åtta sekunder.", label: "Lägg i korgen" };
+        }
+        const has = new Set(cart.map((l) => l.id));
+        const singles = SINGLES.map((id) => ({ id, ...items[id] })).sort((a, b) => a.price - b.price);
+        if (total >= FREE) {
+          const more = singles.filter((s) => !has.has(s.id)).slice(0, 2);
+          return more.length ? { more } : null;
+        }
+        const need = FREE - total;
+        const smor = cart.find((l) => l.id === "smor");
+        if (smor && smor.qty <= 2 && !has.has("tre") && cart.length === 1) {
+          const now = smor.qty * items.smor.price;
+          return { id: "tre", swap: true, kick: "Smartare med tre", text: `${WORD[smor.qty]} Smöret: ${kr(now)} + ${kr(SHIPPING)} frakt = ${kr(now + SHIPPING)}. Tre smör: 199 kr med fri frakt.`, label: "Byt till Tre smör" };
+        }
+        const fit = singles.find((s) => s.price >= need && !has.has(s.id)) || singles.find((s) => s.price >= need);
+        if (fit) {
+          return { id: fit.id, kick: "Fri frakt på ett tryck", text: `Lägg till ${fit.name} för ${kr(fit.price)} – då slipper du frakten på ${kr(SHIPPING)}.`, label: `Lägg till ${fit.name}` };
+        }
+        return { id: "tre", kick: "Fri frakt på ett tryck", text: "Tre smör kostar 199 kr och har alltid fri frakt.", label: "Lägg till Tre smör" };
+      }
+
+      function drawShip(total) {
+        const need = Math.max(0, FREE - total);
+        const p = Math.min(100, Math.round((total / FREE) * 100)) + "%";
+        const strip = $("strip");
+        if (!total) {
+          strip.dataset.state = "none";
+          $("ship-msg").innerHTML = "<b>Fri frakt</b> från 199 kr · 14 dagars ångerrätt";
+        } else if (need > 0) {
+          strip.dataset.state = "on";
+          $("ship-msg").innerHTML = `Du är <b>${kr(need)}</b> från fri frakt`;
+        } else {
+          strip.dataset.state = "done";
+          $("ship-msg").innerHTML = "<b>Fri frakt!</b> Den är din.";
+        }
+        $("strip-fill").style.setProperty("--p", p);
+        $("ship-fill").style.setProperty("--p", p);
+        $("ship-txt").innerHTML = need > 0 ? `Du är <b>${kr(need)}</b> från fri frakt.` : "Fri frakt – klart!";
+        $("ship").toggleAttribute("data-done", need === 0);
+      }
+
+      function drawCart() {
+        const count = cart.reduce((s, l) => s + l.qty, 0);
+        const total = cart.reduce((s, l) => s + items[l.id].price * l.qty, 0);
+        $("count").textContent = count;
+        $("open").toggleAttribute("data-full", count > 0);
+        $("open").setAttribute("aria-label", `Korg, ${count} ${count === 1 ? "sak" : "saker"}`);
+        $("lines").innerHTML = cart.length
+          ? "<ul>" + cart.map((l) => {
+              const item = items[l.id];
+              return `<li class="row">
+                <img class="row-pic" src="${item.img}" alt="" style="object-position:${POS[l.id] || "50% 50%"}">
+                <div><span class="row-name">${item.name}</span><span class="row-cost">${kr(item.price * l.qty)}</span></div>
+                <div class="qty">
+                  <button type="button" data-id="${l.id}" data-step="-1" aria-label="Minska ${item.name}" aria-describedby="q-${l.id}">−</button>
+                  <output id="q-${l.id}">${l.qty}</output>
+                  <button type="button" data-id="${l.id}" data-step="1" aria-label="Öka ${item.name}" aria-describedby="q-${l.id}">+</button>
+                </div>
+              </li>`;
+            }).join("") + "</ul>"
+          : `<p class="empty" tabindex="-1">Korgen är tom – än så länge.</p>`;
+        const s = suggestion(total);
+        $("upsell").innerHTML = !s ? "" : s.more
+          ? `<div class="more"><p class="up-k">Något litet till?</p><ul>${s.more.map((m) => `<li><img src="${m.img}" alt="" style="object-position:${POS[m.id] || "50% 50%"}"><span><b>${m.name}</b> ${kr(m.price)}</span>
+              <button class="btn" type="button" data-up="${m.id}" aria-label="Lägg till ${m.name}"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button></li>`).join("")}</ul></div>`
+          : `<div class="up"><img src="${items[s.id].img}" alt="" style="object-position:${POS[s.id] || "50% 50%"}"><div><p class="up-k">${s.kick}</p><p class="up-t">${s.text}</p></div>
+              <button class="btn" type="button" data-up="${s.id}"${s.swap ? " data-swap" : ""}><svg class="ico" aria-hidden="true"><use href="${s.swap ? "#i-arrow" : "#i-plus"}"/></svg>${s.label}</button></div>`;
+        $("sum").textContent = kr(total);
+        $("note").textContent = total >= FREE ? "Fri frakt ingår." : `Plus frakt ${kr(SHIPPING)}.`;
+        drawShip(total);
+        $("sheet").toggleAttribute("data-empty", !cart.length);
+        $("pay").setAttribute("aria-disabled", String(!cart.length));
+      }
+
+      function bump() {
+        const b = $("open");
+        b.classList.remove("bump");
+        void b.offsetWidth;
+        b.classList.add("bump");
+      }
+
+      function add(id) {
+        const hit = cart.find((l) => l.id === id);
+        if (hit) hit.qty = Math.min(hit.qty + 1, 99);
+        else cart.push({ id, qty: 1 });
+        save();
+        drawCart();
+        bump();
+        openCart();
+      }
+
+      function openCart() {
+        if (cartDialog.open) return;
+        // The page loses its scrollbar while the cart is open; hold its place.
+        const bar = innerWidth - document.documentElement.clientWidth;
+        if (bar > 0) document.documentElement.style.paddingRight = bar + "px";
+        cartDialog.showModal();
+      }
+
+      // Events
+      $("grid").addEventListener("click", (e) => {
+        const card = e.target.closest(".card");
+        if (!card) return;
+        if (e.target.closest("[data-add]")) {
+          add(card.dataset.id);
+          return;
+        }
+        if (!e.target.closest(".pic")) return;
+        show(card.dataset.id);
+        window.scrollTo({ top: 0, behavior: "instant" });
+        $("name").focus({ preventScroll: true });
+      });
+
+      for (const b of packBtns) b.addEventListener("click", () => show(b.dataset.pack));
+
+      document.addEventListener("click", (e) => {
+        const q = e.target.closest("[data-quick]");
+        if (q) add(q.dataset.quick);
+      });
+
+      $("klam").addEventListener("click", () => {
+        const back = pick !== "smor";
+        if (back) show("smor");
+        play();
+        if (back) $("name").focus({ preventScroll: true });
+      });
+
+      $("again").addEventListener("click", (e) => {
+        e.preventDefault();
+        if (pick !== "smor") show("smor");
+        window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+        $("name").focus({ preventScroll: true });
+      });
+
+      $("take").addEventListener("click", () => add(pick));
+      $("bar-add").addEventListener("click", () => add(pick));
+      $("open").addEventListener("click", openCart);
+      $("close").addEventListener("click", () => cartDialog.close());
+      // Close on a single click that starts and ends on the backdrop, so a double click on the buy button does not.
+      let downOnBackdrop = false;
+      cartDialog.addEventListener("pointerdown", (e) => { downOnBackdrop = e.target === cartDialog; });
+      cartDialog.addEventListener("click", (e) => {
+        if (e.target === cartDialog && downOnBackdrop && e.detail < 2) cartDialog.close();
+      });
+      cartDialog.addEventListener("close", () => { document.documentElement.style.paddingRight = ""; });
+
+      $("lines").addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-step]");
+        if (!btn) return;
+        const line = cart.find((l) => l.id === btn.dataset.id);
+        if (!line) return;
+        line.qty = Math.min(line.qty + Number(btn.dataset.step), 99);
+        const gone = line.qty < 1;
+        if (gone) cart = cart.filter((l) => l !== line);
+        save();
+        drawCart();
+        const again = $("lines").querySelector(`[data-id="${btn.dataset.id}"][data-step="${btn.dataset.step}"]`);
+        (again || $("lines").querySelector(".empty") || $("cart-title")).focus();
+      });
+
+      $("upsell").addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-up]");
+        if (!btn) return;
+        const id = btn.dataset.up;
+        if (btn.hasAttribute("data-swap")) cart = cart.filter((l) => l.id !== "smor");
+        const hit = cart.find((l) => l.id === id);
+        if (hit) hit.qty = Math.min(hit.qty + 1, 99);
+        else cart.push({ id, qty: 1 });
+        save();
+        drawCart();
+        bump();
+        const row = $("lines").querySelector(`[data-id="${id}"][data-step="1"]`);
+        (row || $("cart-title")).focus();
+      });
+
+      $("pay").addEventListener("click", () => {
+        if (!cart.length) return;
+        const url = SHOP + cart.map((l) => `${items[l.id].variant}:${l.qty}`).join(",");
+        try {
+          sessionStorage.setItem(KEY, JSON.stringify(cart));
+          localStorage.removeItem(KEY);
+        } catch (e) {}
+        location.href = url;
+      });
+
+      // Sticky buy bar on phones once the hero button has scrolled away.
+      const bar = $("bar");
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(([entry]) => {
+          const on = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+          bar.classList.toggle("on", on);
+          bar.inert = !on;
+        }).observe($("take"));
+      }
+
+      // Film
+      // Reduced motion: no autoplay, no loop. Kläm igen still plays it once.
+      const calm = matchMedia("(prefers-reduced-motion: reduce)");
+      function motion() {
+        film.autoplay = !calm.matches;
+        film.loop = !calm.matches;
+        if (calm.matches) film.pause();
+        else if (pick === "smor") film.play().catch(() => {});
+      }
+      motion();
+      calm.addEventListener("change", motion);
+
+      window.addEventListener("pageshow", (e) => {
+        if (!e.persisted) return;
+        if (cart.length) save();
+        if (pick === "smor" && film.autoplay) film.play().catch(() => {});
+      });
+      window.addEventListener("storage", (e) => {
+        if (e.key === KEY) { cart = load(); drawCart(); }
+      });
+
+      drawCart();
+    })();
+  </script>
+</body>
+</html>
