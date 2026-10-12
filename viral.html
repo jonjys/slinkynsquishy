@@ -1,0 +1,1248 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>slinkynsquishy – squishies att klämma på</title>
+  <meta name="description" content="Squishies i solid skum som du kan klämma på om och om igen. Smöret reser sig på åtta sekunder. Fri frakt från 199 kr, 14 dagars ångerrätt.">
+  <meta name="theme-color" content="#ffd84a">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="sv_SE">
+  <meta property="og:url" content="https://slinkynsquishy.se/">
+  <meta property="og:title" content="slinkynsquishy – Kläm. Släpp. Kläm igen.">
+  <meta property="og:description" content="Smöret reser sig på åtta sekunder. Fri frakt från 199 kr.">
+  <meta property="og:image" content="https://slinkynsquishy.se/img/klam.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='16' width='52' height='36' rx='12' fill='%23ffd84a' stroke='%231b1530' stroke-width='5'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Plus+Jakarta+Sans:wght@400..800&display=swap">
+  <link rel="preload" href="img/klam.jpg" as="image" fetchpriority="high">
+  <style>
+    :root {
+      --sun: #ffd84a;
+      --sun-hi: #ffe680;
+      --sun-50: #fff4c2;
+      --ink: #1b1530;
+      --ink-2: #4b4562;
+      --ink-3: #6f6a84;
+      --pink: #d42a66;
+      --pink-t: #c41d5a;
+      --pink-50: #ffe1ec;
+      --mint: #0a7049;
+      --mint-50: #d5f5e6;
+      --peach-50: #ffe3cf;
+      --sky-50: #dfeaff;
+      --lilac-50: #ece4ff;
+      --paper: #ffffff;
+      --mist: #f6f4fb;
+      --line: rgba(27, 21, 48, .12);
+      --display: "Bricolage Grotesque", "Plus Jakarta Sans", system-ui, sans-serif;
+      --sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --g: 16px;
+      --head: 60px;
+      --strip: 34px;
+      --max: 1320px;
+      --pop: 0 2px 0 rgba(27, 21, 48, .9);
+      color-scheme: light;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: calc(var(--head) + 12px); }
+    html:has(dialog[open]) { overflow: hidden; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 500 1rem/1.5 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+    h1, h2, h3, p, ul, ol, figure { margin: 0; }
+    ul, ol { padding: 0; list-style: none; }
+    img, video, svg { display: block; }
+    a { color: inherit; -webkit-tap-highlight-color: transparent; }
+    button { margin: 0; font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+    .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: max(var(--g), env(safe-area-inset-left)) max(var(--g), env(safe-area-inset-right)); }
+    .ico { width: 1.15em; height: 1.15em; flex: none; }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    /* ---------- Free-shipping strip ---------- */
+    .strip { position: relative; background: var(--ink); color: #fff; font-size: .8rem; font-weight: 600; letter-spacing: .01em; }
+    .strip-in { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: var(--strip); padding-block: 6px; text-align: center; }
+    .strip b { color: var(--sun); font-weight: 800; }
+    .strip .meter { width: 72px; height: 6px; border-radius: 6px; background: rgba(255, 255, 255, .18); overflow: hidden; flex: none; }
+    .strip .meter i { display: block; height: 100%; width: 0; background: var(--sun); border-radius: inherit; transition: width .5s cubic-bezier(.2, .8, .2, 1); }
+    .strip[data-state="empty"] .meter { display: none; }
+    .strip[data-state="free"] .meter i { background: #6ee7b0; }
+    .strip .more { display: none; color: rgba(255, 255, 255, .7); font-weight: 500; }
+
+    /* ---------- Header ---------- */
+    .top { position: sticky; top: 0; z-index: 20; background: var(--sun); transition: background-color .25s, box-shadow .25s; }
+    .top[data-solid] { background: rgba(255, 255, 255, .96); box-shadow: 0 1px 0 var(--line), 0 6px 20px rgba(27, 21, 48, .06); }
+    @supports (backdrop-filter: blur(8px)) { .top[data-solid] { background: rgba(255, 255, 255, .94); backdrop-filter: saturate(1.4) blur(14px); } }
+    .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--head); }
+    .logo { display: inline-flex; align-items: baseline; font: 800 1.4rem/1 var(--display); letter-spacing: -.035em; text-decoration: none; padding-block: 10px; }
+    .logo .n { color: var(--pink); }
+    .nav { display: none; gap: 4px; }
+    .nav a { padding: 10px 14px; border-radius: 999px; font-weight: 700; font-size: .92rem; text-decoration: none; }
+    .nav a:hover { background: rgba(27, 21, 48, .08); }
+    .bag {
+      position: relative; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 8px 0 16px;
+      border: 0; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 700; font-size: .92rem;
+    }
+    .bag .ico { width: 20px; height: 20px; }
+    .bag #count {
+      display: inline-grid; place-items: center; min-width: 28px; height: 28px; padding: 0 8px; border-radius: 999px;
+      background: rgba(255, 255, 255, .16); font-variant-numeric: tabular-nums; font-weight: 800;
+    }
+    .bag[data-full] #count { background: var(--sun); color: var(--ink); }
+    .bag.bump #count { animation: bump .45s cubic-bezier(.3, 1.6, .5, 1); }
+    @keyframes bump { 40% { transform: scale(1.35); } }
+
+    /* ---------- Hero ---------- */
+    .hero { background: var(--sun); padding-block: 4px 22px; position: relative; overflow: hidden; }
+    .hero-in { position: relative; display: grid; grid-template-areas: "hook" "media" "info"; gap: 12px; }
+    .hook-box { grid-area: hook; }
+    .badge-pre {
+      display: none; align-items: center; gap: 8px; width: max-content; margin-bottom: 18px; padding: 7px 14px 7px 10px; border-radius: 999px;
+      background: #fff; font-size: .82rem; font-weight: 700; box-shadow: 0 1px 0 rgba(27, 21, 48, .08);
+    }
+    .badge-pre .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px rgba(10, 112, 73, .18); }
+    .hook { font: 800 clamp(1.45rem, 8.2vw, 2.3rem)/.98 var(--display); letter-spacing: -.035em; text-wrap: balance; }
+    .hook .sq { position: relative; white-space: nowrap; }
+    .hook .sq::after {
+      content: ""; position: absolute; left: -2%; right: -2%; bottom: -.12em; height: .26em;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 C 12 2, 22 2, 32 7 S 52 12, 62 7 S 82 2, 92 7 S 112 11, 118 5' fill='none' stroke='%23d42a66' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+    }
+
+    .media { grid-area: media; position: relative; }
+    .frame {
+      position: relative; overflow: hidden; isolation: isolate; aspect-ratio: 6 / 5; border-radius: 24px; background: #efe9df;
+      box-shadow: 0 1px 0 rgba(27, 21, 48, .06), 0 24px 50px -24px rgba(110, 70, 0, .45);
+    }
+    .frame[data-still] { aspect-ratio: 1 / 1; }
+    .frame video, .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #film { object-position: 50% 70%; }
+    #still { object-position: 50% 50%; }
+    .frame[data-pick="tre"] #still { object-position: 50% 66%; }
+    .frame[data-pick="klass"] #still { object-position: 50% 60%; }
+    .frame [hidden] { display: none; }
+    .frame video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
+    .frame video::-webkit-media-controls { display: none !important; }
+    .klam {
+      position: absolute; left: 12px; bottom: 12px; z-index: 2; display: inline-flex; align-items: center; gap: 8px;
+      height: 40px; padding: 0 16px 0 6px; border: 0; border-radius: 999px; background: #fff; color: var(--ink);
+      font-weight: 800; font-size: .86rem; box-shadow: 0 6px 18px rgba(27, 21, 48, .18);
+    }
+    .klam .pl { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: var(--sun); }
+    .klam .pl svg { width: 12px; height: 12px; margin-left: 2px; }
+    .klam:hover { transform: translateY(-1px); }
+    .stickers { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+    .media:not([data-film]) .stickers { display: none; }
+    .stk-8 {
+      position: absolute; right: 10px; top: 10px; display: grid; place-items: center; align-content: center; width: 84px; height: 84px; border-radius: 50%;
+      background: var(--pink); color: #fff; text-align: center; transform: rotate(10deg);
+      font: 800 .7rem/1.05 var(--sans); box-shadow: 0 8px 20px rgba(224, 48, 111, .35);
+    }
+    .stk-8 b { display: block; font: 800 1.75rem/.9 var(--display); letter-spacing: -.03em; }
+    .stk-wet {
+      position: absolute; right: 12px; bottom: 14px; padding: 7px 12px; border-radius: 999px; background: var(--sun);
+      font-size: .74rem; font-weight: 800; transform: rotate(-4deg); box-shadow: 0 6px 16px rgba(27, 21, 48, .18);
+    }
+
+    .info { grid-area: info; display: flex; flex-direction: column; }
+    .name-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-top: 2px; }
+    #name { font: 800 1.7rem/1.05 var(--display); letter-spacing: -.03em; }
+    #name:focus, #cart-title:focus, .empty:focus { outline: none; }
+    .price { font: 800 1.7rem/1 var(--display); letter-spacing: -.03em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    #line { margin-top: 4px; color: var(--ink-2); font-size: .95rem; line-height: 1.4; }
+    .checks { display: none; order: 9; margin-top: 16px; gap: 8px; }
+    .checks li { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: .95rem; }
+    .checks .tick { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); color: var(--sun); flex: none; }
+    .checks .tick svg { width: 13px; height: 13px; }
+
+    .packs { margin: 14px 0 0; padding: 0; border: 0; min-width: 0; }
+    .packs[hidden] { display: none; }
+    .packs legend { padding: 0; margin-bottom: 8px; font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+    .pack-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .pack {
+      position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-height: 76px; padding: 14px 10px 10px;
+      border: 2px solid transparent; border-radius: 16px; background: #fff; text-align: left; box-shadow: 0 1px 0 rgba(27, 21, 48, .08); transition: transform .15s, background-color .15s;
+    }
+    .pack:hover { border-color: rgba(27, 21, 48, .25); }
+    .pack[aria-pressed="true"] { background: #fff; border-color: var(--ink); box-shadow: 0 3px 0 var(--ink); }
+    .pack .q { font: 800 1.15rem/1 var(--display); letter-spacing: -.02em; }
+    .pack .q small { font: 700 .74rem var(--sans); letter-spacing: 0; color: var(--ink-2); margin-left: 2px; }
+    .pack .pp { margin-top: 4px; font-weight: 800; font-size: .95rem; }
+    .pack .sub { font-size: .72rem; font-weight: 700; color: var(--ink-3); line-height: 1.2; }
+    .pack .ptag {
+      position: absolute; top: -9px; right: 8px; padding: 3px 7px; border-radius: 999px; font-size: .64rem; font-weight: 800; line-height: 1.2;
+      background: var(--pink); color: #fff; white-space: nowrap;
+    }
+    .pack .ptag.best { background: var(--ink); color: var(--sun); }
+    .pack .on { position: absolute; left: 10px; top: -9px; display: none; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: var(--sun); }
+    .pack .on svg { width: 11px; height: 11px; }
+    .pack[aria-pressed="true"] .on { display: grid; }
+
+    .take {
+      position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; height: 60px; margin-top: 14px;
+      border: 0; border-radius: 999px; background: var(--ink); color: #fff; font: 800 1.08rem/1 var(--sans); letter-spacing: -.005em;
+      box-shadow: 0 10px 24px -8px rgba(27, 21, 48, .55); transition: transform .15s, box-shadow .15s;
+    }
+    .take .ico { width: 22px; height: 22px; }
+    .take .tp { padding-left: 12px; border-left: 1.5px solid rgba(255, 255, 255, .25); color: var(--sun); font-variant-numeric: tabular-nums; }
+    .take:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -10px rgba(27, 21, 48, .6); }
+    .take:active { transform: translateY(1px); }
+    .preorder { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; font-size: .84rem; font-weight: 700; text-align: center; }
+    .preorder .ico { color: var(--ink); }
+    .trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; margin-top: 10px; font-size: .76rem; font-weight: 700; color: var(--ink-2); }
+    .trust li { display: inline-flex; align-items: center; gap: 5px; }
+    .trust .ico { width: 15px; height: 15px; color: var(--ink); }
+
+    /* ---------- Marquee ---------- */
+    .marquee { background: var(--ink); color: #fff; overflow: hidden; border-block: 0; }
+    .mq-track { display: flex; width: max-content; animation: mq 38s linear infinite; }
+    .mq-track ul { display: flex; flex: none; }
+    .mq-track li { display: flex; align-items: center; gap: 18px; padding: 14px 18px 14px 0; font: 800 1rem/1 var(--display); letter-spacing: -.01em; white-space: nowrap; }
+    .mq-track li::after { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--sun); transform: rotate(45deg); }
+    .mq-track li:nth-child(3n+2)::after { background: #ff8fb8; border-radius: 50%; }
+    .mq-track li:nth-child(3n)::after { background: #7fe3b7; }
+    @keyframes mq { to { transform: translateX(-50%); } }
+
+    /* ---------- Sections ---------- */
+    .sec { padding-block: 56px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--pink-t); }
+    .h2 { margin-top: 8px; font: 800 clamp(2rem, 7.6vw, 3.6rem)/1 var(--display); letter-spacing: -.035em; text-wrap: balance; }
+    .lede { margin-top: 12px; max-width: 34rem; color: var(--ink-2); font-size: 1.02rem; text-wrap: pretty; }
+
+    /* How it works */
+    .how { background: var(--paper); }
+    .steps { display: grid; gap: 14px; margin-top: 28px; }
+    .step { position: relative; display: grid; grid-template-columns: 112px minmax(0, 1fr); align-items: center; gap: 16px; padding: 12px; border-radius: 22px; background: var(--mist); }
+    .step-pic { position: relative; width: 112px; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: #efe9df; }
+    .step-pic img { width: 100%; height: 100%; object-fit: cover; }
+    .step-num {
+      position: absolute; left: 8px; top: 8px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+      background: var(--sun); font: 800 .95rem/1 var(--display); box-shadow: 0 2px 0 var(--ink);
+    }
+    .step h3 { font: 800 1.3rem/1.1 var(--display); letter-spacing: -.02em; }
+    .step p { margin-top: 4px; color: var(--ink-2); font-size: .92rem; line-height: 1.4; }
+    .step-8 { background: var(--sun); }
+    .step-8 .eight { display: grid; place-items: center; align-content: center; background: var(--ink); color: var(--sun); }
+    .eight b { font: 800 3.4rem/.85 var(--display); letter-spacing: -.05em; }
+    .eight span { font-weight: 800; font-size: .8rem; color: #fff; }
+    .ring { position: absolute; inset: 7px; width: calc(100% - 14px); height: calc(100% - 14px); transform: rotate(-90deg); }
+    .ring circle { fill: none; stroke-width: 4; }
+    .ring .bg { stroke: rgba(255, 255, 255, .14); }
+    .ring .fg { stroke: var(--sun); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; animation: fill8 8s linear infinite; }
+    @keyframes fill8 { 0% { stroke-dashoffset: 100; } 92% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+    .step-8 p { color: var(--ink); }
+    .eight .step-num { color: var(--ink); }
+    .step-pic.zoom img { transform: scale(1.45); transform-origin: var(--o, 50% 50%); }
+
+    /* Products */
+    .more-sec { background: var(--mist); }
+    .sec-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
+    .pill-note { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; background: #fff; font-size: .86rem; font-weight: 700; }
+    .pill-note .ico { color: var(--pink-t); }
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 24px; }
+    .card { --tint: var(--sun-50); display: flex; flex-direction: column; padding: 8px; border-radius: 22px; background: var(--tint); transition: transform .2s cubic-bezier(.2, .8, .2, 1), box-shadow .2s; }
+    .card[data-id="toast"] { --tint: var(--peach-50); }
+    .card[data-id="ost"] { --tint: var(--sky-50); }
+    .card[data-id="persika"] { --tint: var(--pink-50); }
+    .card[data-id="mochi"] { --tint: var(--mint-50); }
+    .pic { position: relative; display: block; width: 100%; aspect-ratio: 1; padding: 0; border: 0; border-radius: 16px; overflow: hidden; background: #efe9df; }
+    .pic img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .pic .look {
+      position: absolute; right: 8px; bottom: 8px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px;
+      background: rgba(255, 255, 255, .92); font-size: .72rem; font-weight: 800; opacity: 0; transform: translateY(4px); transition: opacity .2s, transform .2s;
+    }
+    .pic[aria-pressed="true"] { box-shadow: inset 0 0 0 3px var(--ink); }
+    .pic[aria-pressed="true"] .look { opacity: 1; transform: none; }
+    .tag {
+      position: absolute; left: 8px; top: 8px; padding: 5px 9px; border-radius: 999px; background: #fff; color: var(--ink);
+      font-size: .7rem; font-weight: 800; line-height: 1.2; box-shadow: 0 2px 8px rgba(27, 21, 48, .1);
+    }
+    .tag.hot { background: var(--pink); color: #fff; }
+    .card-body { display: flex; flex-direction: column; flex: 1; padding: 12px 6px 4px; }
+    .nm { font: 800 1.25rem/1.05 var(--display); letter-spacing: -.025em; }
+    .ln { margin-top: 4px; color: var(--ink-2); font-size: .84rem; line-height: 1.35; flex: 1; text-wrap: pretty; }
+    .card-buy { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; }
+    .pr { font: 800 1.15rem/1 var(--display); letter-spacing: -.02em; white-space: nowrap; }
+    .add {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 44px; padding: 0 14px 0 12px; border: 0; border-radius: 999px;
+      background: var(--ink); color: #fff; font-weight: 800; font-size: .84rem; white-space: nowrap; transition: transform .15s;
+    }
+    .add .ico { width: 16px; height: 16px; }
+    .add:hover { transform: translateY(-1px); }
+    .add[data-done] { background: var(--mint); }
+
+    /* Gift / bundles */
+    .gift { background: var(--pink-50); position: relative; overflow: hidden; }
+    .bundles { display: grid; gap: 14px; margin-top: 28px; }
+    .bcard { --tint: #fff; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; align-items: center; padding: 10px; border-radius: 24px; background: #fff; }
+    .bcard .pic { border-radius: 16px; }
+    .bcard .card-body { padding: 4px 4px 4px 0; }
+    .bcard .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .chip { display: inline-flex; align-items: center; padding: 4px 9px; border-radius: 999px; background: var(--mist); font-size: .72rem; font-weight: 800; white-space: nowrap; }
+    .chip.save { background: var(--pink); color: #fff; }
+    .chip.free { background: var(--mint-50); color: var(--mint); }
+    .bcard.star { grid-template-columns: minmax(0, 1fr); padding: 10px; background: var(--ink); color: #fff; }
+    .bcard.star .pic { aspect-ratio: 4 / 3; }
+    .bcard.star .pic img { object-position: 50% 58%; }
+    .bcard.star .ln { color: rgba(255, 255, 255, .78); }
+    .bcard.star .chip { background: rgba(255, 255, 255, .12); color: #fff; }
+    .bcard.star .chip.save { background: var(--pink); }
+    .bcard.star .chip.free { background: rgba(110, 231, 176, .18); color: #8ff0c4; }
+    .bcard.star .add { background: var(--sun); color: var(--ink); height: 52px; padding: 0 22px; font-size: .95rem; }
+    .bcard.star .nm { font-size: 2rem; }
+    .bcard.star .pr { font-size: 2rem; color: var(--sun); }
+    .bcard.star .card-body { padding: 14px 8px 6px; }
+    .bq { margin-bottom: 4px; font-size: .74rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--pink-t); }
+    .bcard.star .bq { color: var(--sun); }
+    .bcard .per { display: block; margin-top: 3px; font: 700 .76rem/1.3 var(--sans); color: var(--ink-3); letter-spacing: 0; white-space: normal; }
+    .bcard.star .per { color: rgba(255, 255, 255, .7); }
+    .gift-facts { display: grid; gap: 8px; margin-top: 22px; }
+    .gift-facts li { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: .94rem; }
+    .gift-facts .ico { width: 22px; height: 22px; padding: 4px; border-radius: 50%; background: #fff; color: var(--pink-t); box-sizing: content-box; }
+
+    /* FAQ */
+    .faq-grid { display: grid; gap: 24px; }
+    .faq { border-top: 2px solid var(--ink); }
+    .faq details { border-bottom: 1.5px solid var(--line); }
+    .faq summary {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 14px 0; cursor: pointer;
+      font: 800 1.12rem/1.25 var(--display); letter-spacing: -.015em; list-style: none;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq .pm { position: relative; width: 34px; height: 34px; flex: none; border-radius: 50%; background: var(--sun); transition: transform .25s, background-color .2s; }
+    .faq .pm::before, .faq .pm::after { content: ""; position: absolute; left: 50%; top: 50%; width: 13px; height: 2.5px; margin: -1.25px 0 0 -6.5px; border-radius: 2px; background: var(--ink); }
+    .faq .pm::after { transform: rotate(90deg); transition: transform .25s; }
+    .faq details[open] .pm { background: var(--ink); }
+    .faq details[open] .pm::before, .faq details[open] .pm::after { background: var(--sun); }
+    .faq details[open] .pm::after { transform: rotate(0); }
+    .faq .a { padding: 0 48px 20px 0; color: var(--ink-2); }
+    .faq .a p + p { margin-top: 8px; }
+    .ask { margin-top: 18px; padding: 18px; border-radius: 20px; background: var(--sun-50); }
+    .ask b { display: block; font: 800 1.15rem/1.2 var(--display); }
+    .ask p { margin-top: 4px; color: var(--ink-2); font-size: .92rem; }
+
+    /* Final CTA */
+    .final { background: var(--sun); text-align: center; position: relative; overflow: hidden; }
+    .final .h2 { max-width: 15ch; margin-inline: auto; }
+    .faces { display: flex; justify-content: center; margin-bottom: 22px; }
+    .faces img { width: 68px; height: 68px; margin-left: -16px; border-radius: 50%; object-fit: cover; border: 4px solid var(--sun); background: #efe9df; }
+    .faces img:first-child { margin-left: 0; }
+    .faces img:nth-child(odd) { transform: rotate(-6deg); }
+    .faces img:nth-child(even) { transform: translateY(6px) rotate(5deg); }
+    .final .lede { margin-inline: auto; }
+    .final-cta { display: flex; justify-content: center; margin-top: 24px; }
+    .final .take { width: auto; min-width: min(100%, 340px); padding: 0 28px; margin-top: 0; }
+    .final .preorder { margin-top: 12px; justify-content: center; }
+
+    .foot { background: var(--ink); color: rgba(255, 255, 255, .72); padding-block: 40px calc(96px + env(safe-area-inset-bottom)); font-size: .86rem; }
+    .foot .logo { color: #fff; font-size: 1.6rem; }
+    .foot .logo .n { color: #ff8fb8; }
+    .foot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 16px; }
+    .foot-grid > :first-child { grid-column: 1 / -1; }
+    .foot ul { display: grid; gap: 6px; }
+    .foot a { text-decoration: none; }
+    .foot a:hover { color: #fff; }
+    .foot h3 { color: #fff; font-size: .82rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
+    .foot .legal { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .14); font-size: .8rem; }
+
+    /* ---------- Sticky buy bar (phones) ---------- */
+    .bar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; display: flex; align-items: center; gap: 10px;
+      padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      background: rgba(255, 255, 255, .97); box-shadow: 0 -1px 0 var(--line), 0 -10px 30px rgba(27, 21, 48, .12);
+      transform: translateY(110%); transition: transform .3s cubic-bezier(.2, .8, .2, 1); visibility: hidden;
+    }
+    .bar[data-show] { transform: none; visibility: visible; }
+    .bar img { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; object-position: 50% 72%; flex: none; }
+    .bar-txt { min-width: 0; flex: 1; line-height: 1.15; }
+    .bar-txt b { display: block; font: 800 1.02rem/1.15 var(--display); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bar-txt span { font-size: .76rem; font-weight: 700; color: var(--ink-2); }
+    .bar button { height: 50px; padding: 0 18px; border: 0; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 800; font-size: .95rem; white-space: nowrap; }
+
+    /* ---------- Cart ---------- */
+    .cart {
+      position: fixed; inset: auto 0 0 0; margin: 0; padding: 0; width: 100%; max-width: none; height: auto;
+      max-height: min(90vh, 720px); max-height: min(90svh, 720px);
+      border: 0; border-radius: 26px 26px 0 0; background: #fff; color: var(--ink); overflow: hidden;
+    }
+    .cart::backdrop { background: rgba(27, 21, 48, .45); }
+    .cart[open] { animation: up .32s cubic-bezier(.2, .8, .2, 1); }
+    @keyframes up { from { transform: translateY(40px); opacity: 0; } }
+    .sheet { display: flex; flex-direction: column; height: 100%; max-height: inherit; }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px 12px; }
+    .sheet-head h2 { font: 800 1.45rem/1 var(--display); letter-spacing: -.03em; }
+    .close { display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--mist); font-weight: 800; font-size: .88rem; }
+    .close .ico { width: 16px; height: 16px; }
+    .close:hover { background: #ebe8f3; }
+    .ship { margin: 0 18px; padding: 12px 14px; border-radius: 16px; background: var(--sun-50); }
+    .ship p { font-size: .88rem; font-weight: 700; }
+    .ship p b { font-weight: 800; }
+    .ship .meter { height: 8px; margin-top: 8px; border-radius: 8px; background: rgba(27, 21, 48, .1); overflow: hidden; }
+    .ship .meter i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--ink); transition: width .5s cubic-bezier(.2, .8, .2, 1); }
+    .ship[data-free] { background: var(--mint-50); }
+    .ship[data-free] .meter i { background: var(--mint); }
+    .scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+    .lines { padding: 4px 18px 0; }
+    .row { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .row-pic { width: 64px; height: 64px; border-radius: 14px; object-fit: cover; background: #efe9df; }
+    .row-name { display: block; font: 800 1.08rem/1.15 var(--display); letter-spacing: -.02em; }
+    .row-cost { display: block; margin-top: 2px; font-weight: 700; color: var(--ink-2); font-size: .9rem; }
+    .row-pre { display: block; margin-top: 2px; font-size: .72rem; font-weight: 700; color: var(--pink-t); }
+    .qty { display: flex; align-items: center; gap: 2px; padding: 3px; border-radius: 999px; background: var(--mist); }
+    .qty button { width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%; background: #fff; font-size: 1.2rem; font-weight: 700; line-height: 1; box-shadow: 0 1px 2px rgba(27, 21, 48, .12); }
+    .qty button:hover { background: var(--sun-50); }
+    .qty output { min-width: 2.2ch; text-align: center; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .empty { padding: 22px 0 6px; text-align: center; }
+    .empty b { display: block; font: 800 1.3rem/1.2 var(--display); }
+    .empty span { display: block; margin-top: 4px; color: var(--ink-2); font-size: .92rem; }
+    .up { margin: 14px 18px 16px; }
+    .up[hidden] { display: none; }
+    .up-k { font-size: .74rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--pink-t); margin-bottom: 8px; }
+    .up-card { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 8px; border-radius: 18px; background: var(--mist); }
+    .up-card img { width: 56px; height: 56px; border-radius: 12px; object-fit: cover; }
+    .up-card b { display: block; font: 800 1rem/1.15 var(--display); }
+    .up-card span { display: block; font-size: .78rem; font-weight: 700; color: var(--ink-2); line-height: 1.3; }
+    .up-card button { height: 42px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 800; font-size: .84rem; white-space: nowrap; }
+    .sheet-foot { padding: 14px 18px calc(16px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: #fff; }
+    .pre-note { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 14px; background: var(--lilac-50); font-size: .82rem; font-weight: 700; line-height: 1.35; }
+    .pre-note .ico { margin-top: 1px; color: var(--ink); }
+    .sum { display: flex; justify-content: space-between; align-items: baseline; margin-top: 12px; font-weight: 800; }
+    .sum-cost { font: 800 1.6rem/1 var(--display); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+    .note { margin-top: 2px; color: var(--ink-2); font-size: .84rem; font-weight: 600; }
+    .pay {
+      display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 58px; margin-top: 12px;
+      border: 0; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 800; font-size: 1.08rem; box-shadow: 0 10px 24px -10px rgba(27, 21, 48, .6);
+    }
+    .pay .ico { width: 18px; height: 18px; }
+    .pay:hover { background: #2a2247; }
+    .pay[aria-disabled="true"] { cursor: default; background: var(--mist); color: var(--ink-3); box-shadow: none; }
+    .pay-ways { margin-top: 8px; text-align: center; font-size: .76rem; font-weight: 700; color: var(--ink-3); }
+    .sheet[data-empty] .sum, .sheet[data-empty] .note, .sheet[data-empty] .pre-note, .sheet[data-empty] .pay-ways, .sheet[data-empty] .ship { display: none; }
+
+    @media (hover: hover) {
+      .card:hover { transform: translateY(-4px); box-shadow: 0 18px 34px -18px rgba(27, 21, 48, .35); }
+      .card:hover .pic img { transform: scale(1.04); }
+      .pic:hover .look { opacity: 1; transform: none; }
+    }
+
+    /* ---------- Phone tweaks ---------- */
+    @media (max-width: 359px) {
+      .stk-wet { display: none; }
+    }
+    @media (max-width: 380px) {
+      .pack { padding-inline: 8px; }
+      .pack .ptag { right: 4px; font-size: .6rem; }
+      .add { padding: 0 12px; }
+      .add .t { display: none; }
+    }
+    @media (max-width: 999px) {
+      .packs legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+      .packs { margin-top: 18px; }
+    }
+    @media (max-width: 699px) {
+      .card-buy { flex-wrap: wrap; }
+      .cards .add, .bcard .add { flex: 1 1 100%; }
+      .bundles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .bcard { grid-template-columns: minmax(0, 1fr); align-items: stretch; padding: 8px; border-radius: 22px; }
+      .bcard .card-body { padding: 12px 6px 4px; }
+      .bcard.star { grid-column: 1 / -1; }
+      .bcard .chips { margin-bottom: 2px; }
+      .bcard .card-buy { margin-top: auto; padding-top: 12px; }
+      .bcard .ln { flex: none; }
+      .bcard:not(.star) .nm { font-size: 1.25rem; }
+      .bcard:not(.star) .pr { font-size: 1.2rem; }
+    }
+
+    /* ---------- Tablet ---------- */
+    @media (min-width: 700px) {
+      :root { --g: 28px; }
+      .hook { font-size: clamp(2.3rem, 5.6vw, 3rem); }
+      .frame { aspect-ratio: 4 / 3; }
+      #film { object-position: 50% 68%; }
+      .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .step { grid-template-columns: minmax(0, 1fr); align-items: start; padding: 12px 12px 22px; }
+      .step-pic { width: 100%; }
+      .step .txt { padding: 4px 8px 0; }
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .bundles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bcard.star { grid-column: 1 / -1; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: stretch; }
+      .bcard.star .pic { aspect-ratio: auto; height: 100%; min-height: 300px; }
+      .bcard.star .card-body { justify-content: center; padding: 18px 20px; }
+      .foot-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+      .foot-grid > :first-child { grid-column: auto; }
+      .cart {
+        inset: 12px 12px 12px auto; width: min(calc(100% - 24px), 27rem); max-height: none; height: auto; border-radius: 26px;
+      }
+      .cart[open] { animation-name: side; }
+      @keyframes side { from { transform: translateX(40px); opacity: 0; } }
+      .sheet { max-height: none; }
+      .sheet-head { padding: 22px 22px 14px; }
+      .ship { margin-inline: 22px; }
+      .lines { padding-inline: 22px; }
+      .up { margin-inline: 22px; }
+      .sheet-foot { padding: 16px 22px 22px; }
+    }
+
+    /* ---------- Desktop ---------- */
+    @media (min-width: 1000px) {
+      :root { --g: 40px; --head: 72px; --strip: 38px; }
+      .strip { font-size: .84rem; }
+      .strip .more { display: inline; }
+      .strip .meter { width: 120px; }
+      .logo { font-size: 1.7rem; }
+      .nav { display: flex; }
+      .bag { height: 48px; padding: 0 8px 0 18px; font-size: .95rem; }
+
+      .hero { padding-block: 8px 36px; }
+      .hero-in {
+        --fh: clamp(440px, calc(100vh - var(--head) - var(--strip) - 52px), 780px);
+        --fh: clamp(440px, calc(100svh - var(--head) - var(--strip) - 52px), 780px);
+        grid-template-columns: calc(var(--fh) * .8) minmax(0, 1fr);
+        grid-template-rows: 1fr auto auto 1fr;
+        grid-template-areas: "media ." "media hook" "media info" "media .";
+        column-gap: clamp(36px, 4.4vw, 72px); row-gap: 0;
+      }
+      .media { align-self: center; }
+      .frame { aspect-ratio: 4 / 5; border-radius: 32px; }
+      #film { object-position: 50% 70%; }
+      .frame[data-still] { aspect-ratio: 1 / 1; }
+      .klam { left: 18px; bottom: 18px; height: 46px; padding-right: 20px; font-size: .95rem; }
+      .klam .pl { width: 34px; height: 34px; }
+      .stk-8 { width: 118px; height: 118px; right: -26px; top: 36px; font-size: .82rem; }
+      .stk-8 b { font-size: 2.6rem; }
+      .stk-wet { right: -14px; bottom: 96px; padding: 10px 16px; font-size: .86rem; }
+      .badge-pre { display: inline-flex; }
+      .hook { font-size: clamp(3rem, 4.9vw, 4.6rem); line-height: .93; }
+      .name-row { margin-top: 26px; padding-top: 18px; border-top: 2px solid rgba(27, 21, 48, .14); }
+      #name { font-size: 2.05rem; }
+      .price { font-size: 2.05rem; }
+      #line { font-size: 1.05rem; margin-top: 6px; }
+      .checks { display: grid; order: 0; grid-template-columns: repeat(3, auto); justify-content: start; gap: 8px 18px; margin-top: 16px; }
+      .checks li { font-size: .88rem; gap: 8px; }
+      .packs { margin-top: 22px; }
+      .pack { min-height: 92px; padding: 16px 14px 12px; border-radius: 18px; }
+      .pack .q { font-size: 1.35rem; }
+      .pack .pp { font-size: 1.02rem; }
+      .pack .sub { font-size: .76rem; }
+      .pack .ptag { font-size: .7rem; padding: 4px 9px; top: -11px; }
+      .take { height: 66px; margin-top: 16px; font-size: 1.15rem; }
+      .preorder { justify-content: flex-start; font-size: .9rem; }
+      .trust { justify-content: flex-start; gap: 6px 20px; font-size: .84rem; margin-top: 14px; }
+
+      .mq-track li { padding-block: 18px; font-size: 1.2rem; }
+      .sec { padding-block: 96px; }
+      .how-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 2fr); gap: 56px; align-items: end; }
+      .steps { margin-top: 0; gap: 18px; }
+      .step h3 { font-size: 1.5rem; }
+      .cards { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin-top: 36px; }
+      .card { padding: 10px; border-radius: 26px; }
+      .pic { border-radius: 18px; }
+      .card-body { padding: 16px 8px 6px; }
+      .nm { font-size: 1.5rem; }
+      .pr { font-size: 1.35rem; }
+      .ln { font-size: .92rem; }
+      .bundles { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 44px; gap: 20px; align-items: stretch; }
+      .bcard, .bcard.star { grid-column: auto; grid-row: auto; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; align-items: stretch; padding: 12px; border-radius: 30px; }
+      .bcard[data-id="smor"] { order: 1; }
+      .bcard[data-id="tre"] { order: 2; }
+      .bcard[data-id="klass"] { order: 3; }
+      .bcard .pic, .bcard.star .pic { aspect-ratio: 4 / 3; height: auto; min-height: 0; border-radius: 20px; }
+      .bcard .card-body, .bcard.star .card-body { justify-content: flex-start; padding: 20px 10px 6px; }
+      .bcard .nm, .bcard.star .nm { font-size: 2.1rem; }
+      .bcard .pr, .bcard.star .pr { font-size: 2.1rem; }
+      .bcard .ln, .bcard.star .ln { flex: none; font-size: 1rem; }
+      .bcard .chips { margin-top: 12px; }
+      .bcard .card-buy { flex-wrap: wrap; margin-top: auto; padding-top: 20px; }
+      .bcard .add, .bcard.star .add { flex: 1 1 100%; height: 54px; font-size: .98rem; }
+      .bcard.star { box-shadow: 0 30px 60px -30px rgba(27, 21, 48, .7); }
+      .gift-head { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: end; }
+      .gift-facts { margin-top: 0; }
+      .faq-grid { grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr); gap: 72px; align-items: start; }
+      .faq summary { font-size: 1.3rem; min-height: 76px; }
+      .foot { padding-bottom: 40px; }
+      .bar { display: none; }
+    }
+    @media (min-width: 1000px) and (max-height: 760px) {
+      .badge-pre { margin-bottom: 12px; }
+      .hook { font-size: clamp(2.6rem, 4.2vw, 3.6rem); }
+      .name-row { margin-top: 16px; padding-top: 12px; }
+      .checks { display: none; }
+      .packs { margin-top: 16px; }
+      .pack { min-height: 80px; }
+      .take { height: 58px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+      .mq-track { animation: none; flex-wrap: wrap; width: auto; }
+      .mq-track ul + ul { display: none; }
+      .mq-track ul { flex: 1 1 100%; flex-wrap: wrap; justify-content: center; gap: 0 4px; padding-block: 6px; }
+      .mq-track li { padding-block: 6px; font-size: .92rem; }
+      .mq-track li:nth-child(n+5) { display: none; }
+      .ring .fg { stroke-dashoffset: 0; }
+    }
+    @media (forced-colors: active) {
+      .take, .add, .pack, .bag, .pay, .close, .klam { border: 2px solid ButtonText; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 10V7a3 3 0 0 1 6 0v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6.5h11v9H3zM14 9.5h4l3 3v3h-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="2" fill="#fff" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="17.5" r="2" fill="#fff" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M9 7L4 12l5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 12H15a5 5 0 0 1 0 10h-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="M3.5 7.5L12 3l8.5 4.5v9L12 21l-8.5-4.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M3.5 7.5L12 12l8.5-4.5M12 12v9" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 12 12"><path d="M2 1.2v9.6L10.5 6z" fill="currentColor"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.5" y="9" width="17" height="11.5" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2.5 9h19M12 9v11.5M12 9c-1.5-3.5-6-4.5-6-1.5 0 1.5 3 1.5 6 1.5zm0 0c1.5-3.5 6-4.5 6-1.5 0 1.5-3 1.5-6 1.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></symbol>
+  </svg>
+
+  <div class="strip" id="strip" data-state="empty">
+    <div class="wrap strip-in">
+      <span class="meter" aria-hidden="true"><i id="strip-bar"></i></span>
+      <span id="strip-msg" aria-live="polite"><b>Fri frakt</b> när du handlar för 199 kr</span>
+      <span class="more">· 14 dagars ångerrätt · Kort, Klarna, PayPal</span>
+    </div>
+  </div>
+
+  <header class="top" id="top">
+    <div class="wrap">
+      <a class="logo" href="/" aria-label="slinkynsquishy, startsidan">slinky<span class="n">n</span>squishy</a>
+      <nav class="nav" aria-label="Sidan">
+        <a href="#sa-funkar-den">Så funkar den</a>
+        <a href="#squishies">Squishies</a>
+        <a href="#klassen">Hela klassen</a>
+        <a href="#fragor">Frågor</a>
+      </nav>
+      <button class="bag" id="open" type="button" aria-haspopup="dialog" aria-controls="cart"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>Korg <span id="count">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="name">
+      <div class="wrap hero-in">
+        <div class="hook-box">
+          <p class="badge-pre"><span class="dot" aria-hidden="true"></span>Förbokning öppen</p>
+          <p class="hook">Kläm. Släpp. <span class="sq">Kläm igen.</span></p>
+        </div>
+
+        <div class="media" id="media" data-film>
+          <div class="frame" id="frame" data-pick="smor">
+            <video id="film" src="img/klam.mp4" poster="img/klam.jpg" muted autoplay loop playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
+            <img id="still" src="" alt="" hidden>
+            <button class="klam" id="klam" type="button"><span class="pl" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span id="klam-t">Kläm igen</span></button>
+          </div>
+          <div class="stickers" aria-hidden="true">
+            <span class="stk-8"><span>reser sig på</span><b>8 sek</b></span>
+            <span class="stk-wet">Solid skum · ingen vätska</span>
+          </div>
+        </div>
+
+        <div class="info">
+          <div class="name-row">
+            <h1 id="name" tabindex="-1">Smöret</h1>
+            <p class="price" id="price">79 kr</p>
+          </div>
+          <p id="line">Håll inne. Den ger sig och reser sig på åtta sekunder.</p>
+          <ul class="checks" id="pts"></ul>
+
+          <fieldset class="packs" id="packs">
+            <legend>Hur många smör?</legend>
+            <div class="pack-row">
+              <button class="pack" type="button" data-pack="smor" aria-pressed="true">
+                <span class="on" aria-hidden="true"><svg><use href="#i-check"/></svg></span>
+                <span class="q">1 <small>st</small></span><span class="pp">79 kr</span><span class="sub">Prova ett</span>
+              </button>
+              <button class="pack" type="button" data-pack="tre" aria-pressed="false">
+                <span class="on" aria-hidden="true"><svg><use href="#i-check"/></svg></span>
+                <span class="ptag">Spara 38 kr</span>
+                <span class="q">3 <small>st</small></span><span class="pp">199 kr</span><span class="sub">Fri frakt</span>
+              </button>
+              <button class="pack" type="button" data-pack="klass" aria-pressed="false">
+                <span class="on" aria-hidden="true"><svg><use href="#i-check"/></svg></span>
+                <span class="ptag best">Bäst värde</span>
+                <span class="q">12 <small>st</small></span><span class="pp">249 kr</span><span class="sub">Under 21 kr/st</span>
+              </button>
+            </div>
+          </fieldset>
+
+          <button class="take" id="take" type="button"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Lägg i korgen</span><span class="tp" id="take-price">79 kr</span></button>
+          <p class="preorder"><svg class="ico" aria-hidden="true"><use href="#i-box"/></svg><span>Förboka nu – vi skickar så fort partiet är inne.</span></p>
+          <ul class="trust">
+            <li><svg class="ico" aria-hidden="true"><use href="#i-truck"/></svg>Fri frakt över 199 kr</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg>14 dagars ångerrätt</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-card"/></svg>Kort, Klarna, PayPal</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="mq-track">
+        <ul><li>Reser sig på åtta sekunder</li><li>Solid skum, ingen vätska</li><li>Fri frakt från 199 kr</li><li>Allt under 100 kr styck</li><li>14 dagars ångerrätt</li><li>Klarna, kort och PayPal</li><li>Tolv smör till hela klassen</li></ul>
+        <ul><li>Reser sig på åtta sekunder</li><li>Solid skum, ingen vätska</li><li>Fri frakt från 199 kr</li><li>Allt under 100 kr styck</li><li>14 dagars ångerrätt</li><li>Klarna, kort och PayPal</li><li>Tolv smör till hela klassen</li></ul>
+      </div>
+    </div>
+
+    <section class="sec how" id="sa-funkar-den" aria-labelledby="how-h">
+      <div class="wrap how-grid">
+        <div>
+          <p class="eyebrow">Så funkar den</p>
+          <h2 class="h2" id="how-h">Tre steg. Sen vill du igen.</h2>
+          <p class="lede">Smöret är gjort av solid skum. Det finns ingen vätska inuti – bara ett mjukt smör som ger sig när du trycker och sakta reser sig igen.</p>
+        </div>
+        <ol class="steps">
+          <li class="step">
+            <div class="step-pic zoom" style="--o:52% 50%"><img src="img/klam.jpg" alt="En tumme trycks ner i det gula smöret." loading="lazy" decoding="async" style="object-position:50% 52%"><span class="step-num">1</span></div>
+            <div class="txt"><h3>Håll inne</h3><p>Tryck ner tummen. Smöret ger sig direkt.</p></div>
+          </li>
+          <li class="step">
+            <div class="step-pic zoom" style="--o:62% 52%"><img src="img/hand.jpg" alt="En hand klämmer smöret i ett kök." loading="lazy" decoding="async" style="object-position:50% 56%"><span class="step-num">2</span></div>
+            <div class="txt"><h3>Kläm</h3><p>Med en tumme eller hela handen. Det är du som bestämmer.</p></div>
+          </li>
+          <li class="step step-8">
+            <div class="step-pic eight">
+              <svg class="ring" viewBox="0 0 40 40" aria-hidden="true"><circle class="bg" cx="20" cy="20" r="17"/><circle class="fg" cx="20" cy="20" r="17" pathLength="100"/></svg>
+              <b>8</b><span>sekunder</span><span class="step-num">3</span>
+            </div>
+            <div class="txt"><h3>Släpp och titta</h3><p>På åtta sekunder reser den sig. Sen är den redo igen.</p></div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <div id="grid">
+      <section class="sec more-sec" id="squishies" aria-labelledby="more-h">
+        <div class="wrap">
+          <div class="sec-head">
+            <div>
+              <p class="eyebrow">Fler att klämma på</p>
+              <h2 class="h2" id="more-h">Frukost, ost och fickformat.</h2>
+            </div>
+            <p class="pill-note"><svg class="ico" aria-hidden="true"><use href="#i-gift"/></svg>Allt under 100 kr – lagom till kalaspåsen</p>
+          </div>
+          <div class="cards">
+            <article class="card" data-id="toast" data-variant="58793534521675" data-price="79" data-img="img/toast.jpg" data-line="Tryck. Den kommer tillbaka." data-pts="Liten glad min|Kommer tillbaka|Solid skum">
+              <button class="pic" type="button" aria-pressed="false" aria-label="Visa Toasten"><img src="img/toast.jpg" alt="Toasten, en skiva toast i skum med ett litet leende." loading="lazy" decoding="async"><span class="tag">Glad min</span><span class="look" aria-hidden="true"><svg class="ico" style="width:14px;height:14px"><use href="#i-eye"/></svg>Visa</span></button>
+              <div class="card-body">
+                <h3 class="nm">Toasten</h3>
+                <p class="ln">Tryck. Den kommer tillbaka.</p>
+                <div class="card-buy"><span class="pr">79 kr</span><button class="add" type="button" data-add aria-label="Lägg Toasten i korgen, 79 kr"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span class="t">Lägg i korgen</span></button></div>
+              </div>
+            </article>
+            <article class="card" data-id="ost" data-variant="58793534587211" data-price="69" data-img="img/ost.jpg" data-line="Hål att trycka tummen i." data-pts="Hål för tummen|Solid skum|Ingen vätska">
+              <button class="pic" type="button" aria-pressed="false" aria-label="Visa Osten"><img src="img/ost.jpg" alt="Osten, en ostbit i skum med hål." loading="lazy" decoding="async"><span class="tag">Hål för tummen</span><span class="look" aria-hidden="true"><svg class="ico" style="width:14px;height:14px"><use href="#i-eye"/></svg>Visa</span></button>
+              <div class="card-body">
+                <h3 class="nm">Osten</h3>
+                <p class="ln">Hål att trycka tummen i.</p>
+                <div class="card-buy"><span class="pr">69 kr</span><button class="add" type="button" data-add aria-label="Lägg Osten i korgen, 69 kr"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span class="t">Lägg i korgen</span></button></div>
+              </div>
+            </article>
+            <article class="card" data-id="persika" data-variant="58793534816587" data-price="49" data-img="img/persika.jpg" data-line="Liten nog för fickan." data-pts="Får plats i fickan|Solid skum|Ingen vätska">
+              <button class="pic" type="button" aria-pressed="false" aria-label="Visa Persikan"><img src="img/persika.jpg" alt="Persikan, en persika i skum." loading="lazy" decoding="async"><span class="tag hot">Under 50 kr</span><span class="look" aria-hidden="true"><svg class="ico" style="width:14px;height:14px"><use href="#i-eye"/></svg>Visa</span></button>
+              <div class="card-body">
+                <h3 class="nm">Persikan</h3>
+                <p class="ln">Liten nog för fickan.</p>
+                <div class="card-buy"><span class="pr">49 kr</span><button class="add" type="button" data-add aria-label="Lägg Persikan i korgen, 49 kr"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span class="t">Lägg i korgen</span></button></div>
+              </div>
+            </article>
+            <article class="card" data-id="mochi" data-variant="58793534882123" data-price="99" data-img="img/mochi.jpg" data-line="Tre små: rosa björn, vit kanin och mint." data-pts="Tre i paketet|Solid skum|Ingen vätska">
+              <button class="pic" type="button" aria-pressed="false" aria-label="Visa Mochi"><img src="img/mochi.jpg" alt="Mochi, tre små skumfigurer: en rosa björn, en vit kanin och en mintgrön." loading="lazy" decoding="async"><span class="tag">3 i paketet</span><span class="look" aria-hidden="true"><svg class="ico" style="width:14px;height:14px"><use href="#i-eye"/></svg>Visa</span></button>
+              <div class="card-body">
+                <h3 class="nm">Mochi</h3>
+                <p class="ln">Tre små: rosa björn, vit kanin och mint.</p>
+                <div class="card-buy"><span class="pr">99 kr</span><button class="add" type="button" data-add aria-label="Lägg Mochi i korgen, 99 kr"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span class="t">Lägg i korgen</span></button></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec gift" id="klassen" aria-labelledby="gift-h">
+        <div class="wrap">
+          <div class="gift-head">
+            <div>
+              <p class="eyebrow">Kalas, klass eller present</p>
+              <h2 class="h2" id="gift-h">Ett smör till var och en i klassen.</h2>
+            </div>
+            <ul class="gift-facts">
+              <li><svg class="ico" aria-hidden="true"><use href="#i-gift"/></svg>Tolv smör för 249 kr – under 21 kr styck</li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-truck"/></svg>Fri frakt på Tre smör och Klassen</li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Varje squishy kostar under 100 kr</li>
+            </ul>
+          </div>
+          <div class="bundles">
+            <article class="card bcard star" data-id="klass" data-variant="58793535668555" data-price="249" data-img="img/hand.jpg" data-line="Tolv smör till bänken. För klasskalaset eller kalaspåsarna." data-pts="12 smör|Under 21 kr/st|Fri frakt">
+              <button class="pic" type="button" aria-pressed="false" aria-label="Visa Klassen"><img src="img/hand.jpg" alt="En hand klämmer ett gult smör i ett kök." loading="lazy" decoding="async"><span class="tag hot">Bäst värde</span><span class="look" aria-hidden="true"><svg class="ico" style="width:14px;height:14px"><use href="#i-eye"/></svg>Visa</span></button>
+              <div class="card-body">
+                <p class="bq">12 smör</p>
+                <h3 class="nm">Klassen</h3>
+                <p class="ln">Tolv smör till bänken. För klasskalaset, kalaspåsarna eller hela laget.</p>
+                <div class="chips"><span class="chip save">Spara 699 kr</span><span class="chip">12 st · under 21 kr/st</span><span class="chip free">Fri frakt</span></div>
+                <div class="card-buy"><span class="pr">249 kr<span class="per">12 × Smöret skulle kosta 948 kr</span></span><button class="add" type="button" data-add aria-label="Lägg Klassen i korgen, 249 kr"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span class="t">Lägg i korgen</span></button></div>
+              </div>
+            </article>
+            <article class="card bcard" data-id="tre" data-variant="58793535603019" data-price="199" data-img="img/tre.jpg" data-line="En till dig, två att ge bort." data-pts="3 smör|Spara 38 kr|Fri frakt">
+              <button class="pic" type="button" aria-pressed="false" aria-label="Visa Tre smör"><img src="img/tre.jpg" alt="Tre gula smör på en köksbänk." loading="lazy" decoding="async" style="object-position:50% 60%"></button>
+              <div class="card-body">
+                <p class="bq">3 smör</p>
+                <h3 class="nm">Tre smör</h3>
+                <p class="ln">En till dig, två att ge bort.</p>
+                <div class="chips"><span class="chip save">Spara 38 kr</span><span class="chip free">Fri frakt</span></div>
+                <div class="card-buy"><span class="pr">199 kr<span class="per">3 × Smöret skulle kosta 237 kr</span></span><button class="add" type="button" data-add aria-label="Lägg Tre smör i korgen, 199 kr"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span class="t">Lägg i korgen</span></button></div>
+              </div>
+            </article>
+            <article class="card bcard" data-id="smor" data-variant="58793534456139" data-price="79" data-img="img/klam.jpg" data-line="Håll inne. Den ger sig och reser sig på åtta sekunder." data-pts="Reser sig på 8 sek|14 cm|Ingen vätska">
+              <button class="pic" type="button" aria-pressed="true" aria-label="Visa Smöret"><img src="img/klam.jpg" alt="Smöret, ett gult smör i skum, med en tumme som trycker." loading="lazy" decoding="async" style="object-position:50% 72%"></button>
+              <div class="card-body">
+                <p class="bq">1 smör</p>
+                <h3 class="nm">Smöret</h3>
+                <p class="ln">Ett smör, 14 cm. Reser sig på åtta sekunder.</p>
+                <div class="chips"><span class="chip">14 cm</span><span class="chip">Reser sig på 8 sek</span></div>
+                <div class="card-buy"><span class="pr">79 kr<span class="per">Prova ett först</span></span><button class="add" type="button" data-add aria-label="Lägg Smöret i korgen, 79 kr"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span class="t">Lägg i korgen</span></button></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="sec faq-sec" id="fragor" aria-labelledby="faq-h">
+      <div class="wrap faq-grid">
+        <div>
+          <p class="eyebrow">Frågor</p>
+          <h2 class="h2" id="faq-h">Bra att veta innan du klämmer.</h2>
+          <div class="ask"><b>Förbeställning</b><p>Allt i butiken säljs som förbeställning. Vi skickar så fort partiet är inne. Det står även i korgen, innan du betalar.</p></div>
+        </div>
+        <div class="faq">
+          <details open>
+            <summary>När skickas min beställning?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="a"><p>Alla squishies är på förbeställning. Vi skickar din order så fort partiet är inne.</p></div>
+          </details>
+          <details>
+            <summary>Vad kostar frakten?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="a"><p>Frakten kostar 39 kr. Handlar du för 199 kr eller mer är frakten fri – och Tre smör och Klassen har alltid fri frakt.</p></div>
+          </details>
+          <details>
+            <summary>Kan jag ångra köpet?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="a"><p>Ja. Du har 14 dagars ångerrätt, precis som när du handlar på nätet i övrigt.</p></div>
+          </details>
+          <details>
+            <summary>Från vilken ålder?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="a"><p>Från tre år. Inte i munnen.</p></div>
+          </details>
+          <details>
+            <summary>Vad är de gjorda av?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="a"><p>Solid skum. Det finns ingen vätska inuti.</p></div>
+          </details>
+          <details>
+            <summary>Hur betalar jag?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="a"><p>I Shopifys kassa: med kort (Visa, Mastercard, Amex), Klarna eller PayPal.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec final" aria-labelledby="final-h">
+      <div class="wrap">
+        <div class="faces" aria-hidden="true"><img src="img/toast.jpg" alt="" loading="lazy" decoding="async"><img src="img/persika.jpg" alt="" loading="lazy" decoding="async"><img src="img/klam.jpg" alt="" loading="lazy" decoding="async" style="object-position:50% 62%"><img src="img/ost.jpg" alt="" loading="lazy" decoding="async"><img src="img/tre.jpg" alt="" loading="lazy" decoding="async" style="object-position:50% 58%"></div>
+        <p class="eyebrow">Redo?</p>
+        <h2 class="h2" id="final-h">Åtta sekunder. Om och om igen.</h2>
+        <p class="lede">Ta ett smör till dig själv, tre att dela eller tolv till hela klassen.</p>
+        <div class="final-cta"><button class="take" id="again" type="button"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span id="again-t">Lägg Smöret i korgen</span><span class="tp" id="again-price">79 kr</span></button></div>
+        <p class="preorder"><svg class="ico" aria-hidden="true"><use href="#i-box"/></svg><span>Förbeställning: vi skickar när partiet är inne.</span></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a class="logo" href="/">slinky<span class="n">n</span>squishy</a>
+          <p style="margin-top:10px;max-width:22rem">Squishies i solid skum att klämma på. Från tre år.</p>
+        </div>
+        <div><h3>Handla</h3><ul><li><a href="#squishies">Squishies</a></li><li><a href="#klassen">Tre smör och Klassen</a></li></ul></div>
+        <div><h3>Hjälp</h3><ul><li><a href="#fragor">Frakt och förbeställning</a></li><li><a href="#fragor">Ångerrätt</a></li></ul></div>
+        <div><h3>Betala med</h3><ul><li>Kort: Visa, Mastercard, Amex</li><li>Klarna</li><li>PayPal</li></ul></div>
+      </div>
+      <p class="legal">Säljs av Nytto Labs. Betalning hos Shopify. Fri frakt från 199 kr, annars 39 kr. 14 dagars ångerrätt.</p>
+    </div>
+  </footer>
+
+  <div class="bar" id="bar" aria-hidden="true">
+    <img id="bar-img" src="img/klam.jpg" alt="">
+    <div class="bar-txt"><b id="bar-name">Smöret</b><span id="bar-sub">79 kr · förbokas</span></div>
+    <button type="button" id="bar-add" tabindex="-1">Lägg i korgen</button>
+  </div>
+
+  <dialog class="cart" id="cart" aria-labelledby="cart-title">
+    <div class="sheet" id="sheet">
+      <div class="sheet-head">
+        <h2 id="cart-title" tabindex="-1">Din korg</h2>
+        <button class="close" id="close" type="button"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg>Stäng</button>
+      </div>
+      <div class="ship" id="ship">
+        <p id="ship-msg">Du är 199 kr från fri frakt</p>
+        <div class="meter" aria-hidden="true"><i id="ship-bar"></i></div>
+      </div>
+      <div class="scroll">
+        <div class="lines" id="lines"></div>
+        <div class="up" id="up" hidden></div>
+      </div>
+      <div class="sheet-foot">
+        <p class="pre-note"><svg class="ico" aria-hidden="true"><use href="#i-box"/></svg><span>Förbeställning: vi skickar när partiet är inne.</span></p>
+        <div class="sum"><span>Summa</span><span class="sum-cost" id="sum">0 kr</span></div>
+        <p class="note" id="note"></p>
+        <button class="pay" id="pay" type="button"><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg>Betala</button>
+        <p class="pay-ways">Kort, Klarna eller PayPal · 14 dagars ångerrätt</p>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    (() => {
+      const SHOP = "https://pqwbeh-yy.myshopify.com/cart/";
+      const FREE = 199;
+      const SHIPPING = 39;
+      const KEY = "slinkynsquishy-korg";
+      const $ = (id) => document.getElementById(id);
+
+      const film = $("film");
+      const still = $("still");
+      const frame = $("frame");
+      const media = $("media");
+      const cartDialog = $("cart");
+      const cards = [...document.querySelectorAll(".card")];
+      const packs = [...document.querySelectorAll("[data-pack]")];
+      const BUTTER = ["smor", "tre", "klass"];
+      const calm = matchMedia("(prefers-reduced-motion: reduce)");
+
+      const items = {};
+      for (const card of cards) {
+        const d = card.dataset;
+        items[d.id] = {
+          name: card.querySelector(".nm").textContent.trim(),
+          price: Number(d.price),
+          line: d.line,
+          img: d.img,
+          variant: d.variant,
+          pts: (d.pts || "").split("|").filter(Boolean)
+        };
+      }
+      // Hero copy for Smöret is longer than its card line.
+      items.smor.line = "Håll inne. Den ger sig och reser sig på åtta sekunder.";
+
+      const kr = (n) => n.toLocaleString("sv-SE") + " kr";
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+      let pick = "smor";
+
+      function play() {
+        film.currentTime = 0;
+        const p = film.play();
+        if (p) p.catch(() => {});
+      }
+
+      function drawPts(id) {
+        $("pts").innerHTML = items[id].pts.map((t) =>
+          `<li><span class="tick" aria-hidden="true"><svg><use href="#i-check"/></svg></span>${esc(t)}</li>`).join("");
+      }
+
+      function setFilm(on) {
+        media.toggleAttribute("data-film", on);
+        frame.toggleAttribute("data-still", !on);
+        $("klam-t").textContent = on ? "Kläm igen" : "Se smöret klämmas";
+      }
+
+      // keep: a pack change keeps the film running when it is already showing.
+      function show(id, keep) {
+        const item = items[id];
+        if (!item) return;
+        const was = pick;
+        pick = id;
+        $("name").textContent = item.name;
+        $("line").textContent = item.line;
+        $("price").textContent = kr(item.price);
+        $("take-price").textContent = kr(item.price);
+        $("again-t").textContent = `Lägg ${item.name} i korgen`;
+        $("again-price").textContent = kr(item.price);
+        $("bar-name").textContent = item.name;
+        $("bar-sub").textContent = `${kr(item.price)} · förbokas nu`;
+        $("bar-img").src = item.img;
+        drawPts(id);
+        for (const card of cards) card.querySelector(".pic").setAttribute("aria-pressed", String(card.dataset.id === id));
+        const butter = BUTTER.includes(id);
+        $("packs").hidden = !butter;
+        for (const b of packs) b.setAttribute("aria-pressed", String(b.dataset.pack === id));
+        frame.dataset.pick = id;
+        if (id === "smor" || (keep && !film.hidden)) {
+          still.hidden = true;
+          still.removeAttribute("src");
+          film.hidden = false;
+          setFilm(true);
+          if (was !== "smor" && !keep && film.autoplay) play();
+        } else {
+          film.pause();
+          film.hidden = true;
+          setFilm(false);
+          // Keep the frame empty rather than show the old photo under the new name.
+          const thumb = document.querySelector(`.card[data-id="${id}"] img`);
+          still.onload = () => { if (pick === id) still.hidden = false; };
+          still.src = item.img;
+          still.hidden = !(thumb && thumb.complete && thumb.naturalWidth);
+        }
+      }
+
+      // ---------- Cart ----------
+      function load() {
+        try {
+          let raw = localStorage.getItem(KEY);
+          if (raw === null) {
+            // Betala hands the cart to Shopify; only a Back from there brings it back.
+            const nav = performance.getEntriesByType("navigation")[0];
+            if (nav && nav.type === "back_forward") raw = sessionStorage.getItem(KEY);
+          }
+          const saved = JSON.parse(raw || "[]");
+          if (Array.isArray(saved)) {
+            return saved
+              .filter((l) => l && items[l.id] && Number.isInteger(l.qty) && l.qty > 0)
+              .map((l) => ({ id: l.id, qty: Math.min(l.qty, 99) }));
+          }
+        } catch (e) {}
+        return [];
+      }
+      function save() {
+        try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch (e) {}
+      }
+
+      let cart = load();
+      if (cart.length) save();
+
+      const SINGLES = ["persika", "ost", "toast", "smor", "mochi"];
+      function suggestion(total) {
+        const inCart = new Set(cart.map((l) => l.id));
+        if (!cart.length) return { id: "smor", head: "Börja här", why: "Reser sig på åtta sekunder" };
+        const left = FREE - total;
+        if (left > 0) {
+          const fresh = SINGLES.filter((id) => !inCart.has(id));
+          const pool = fresh.length ? fresh : SINGLES;
+          const reach = pool.filter((id) => items[id].price >= left).sort((a, b) => items[a].price - items[b].price);
+          if (reach.length) return { id: reach[0], head: "Fri frakt med ett klick", why: `Lägg till ${items[reach[0]].name} så blir frakten fri` };
+          // One Smöret short of free shipping: three butters cost 120 kr more and ship free.
+          if (inCart.has("smor")) return { id: "tre", swap: true, head: "Gör det till tre", why: `Två smör till för ${kr(items.tre.price - items.smor.price)} – och frakten blir fri` };
+          const big = pool.slice().sort((a, b) => items[b].price - items[a].price)[0];
+          return { id: big, head: "Närmare fri frakt", why: `${items[big].line}` };
+        }
+        const fresh = SINGLES.filter((id) => !inCart.has(id)).sort((a, b) => items[a].price - items[b].price);
+        if (!fresh.length) return null;
+        return { id: fresh[0], head: "Passar bra till", why: items[fresh[0]].line };
+      }
+
+      function drawCart() {
+        const count = cart.reduce((s, l) => s + l.qty, 0);
+        const total = cart.reduce((s, l) => s + items[l.id].price * l.qty, 0);
+        const left = Math.max(0, FREE - total);
+        const pct = Math.min(100, Math.round((total / FREE) * 100));
+        $("count").textContent = count;
+        $("open").toggleAttribute("data-full", count > 0);
+        $("open").setAttribute("aria-label", `Korg, ${count} ${count === 1 ? "vara" : "varor"}`);
+        $("lines").innerHTML = cart.length
+          ? "<ul>" + cart.map((l) => {
+              const item = items[l.id];
+              return `<li class="row">
+                <img class="row-pic" src="${item.img}" alt=""${l.id === "smor" ? ' style="object-position:50% 72%"' : ""}>
+                <div><span class="row-name">${esc(item.name)}</span><span class="row-cost">${kr(item.price * l.qty)}</span><span class="row-pre">Förbeställning</span></div>
+                <div class="qty">
+                  <button type="button" data-id="${l.id}" data-step="-1" aria-label="Minska ${esc(item.name)}" aria-describedby="q-${l.id}">−</button>
+                  <output id="q-${l.id}">${l.qty}</output>
+                  <button type="button" data-id="${l.id}" data-step="1" aria-label="Öka ${esc(item.name)}" aria-describedby="q-${l.id}">+</button>
+                </div>
+              </li>`;
+            }).join("") + "</ul>"
+          : `<div class="empty" tabindex="-1"><b>Korgen är tom.</b><span>Men det går fort att fixa.</span></div>`;
+        $("sum").textContent = kr(total);
+        $("note").textContent = total >= FREE ? "Fri frakt ingår." : `Plus frakt ${kr(SHIPPING)} – fri från ${kr(FREE)}.`;
+        $("sheet").toggleAttribute("data-empty", !cart.length);
+        $("pay").setAttribute("aria-disabled", String(!cart.length));
+
+        // Free-shipping progress: cart and top strip
+        $("ship").toggleAttribute("data-free", left === 0);
+        $("ship-msg").innerHTML = left === 0 ? "<b>Du har fri frakt!</b>" : `Du är <b>${kr(left)}</b> från fri frakt`;
+        $("ship-bar").style.width = pct + "%";
+        const strip = $("strip");
+        strip.dataset.state = !cart.length ? "empty" : left === 0 ? "free" : "part";
+        $("strip-bar").style.width = pct + "%";
+        $("strip-msg").innerHTML = !cart.length
+          ? "<b>Fri frakt</b> när du handlar för 199 kr"
+          : left === 0 ? "<b>Du har fri frakt!</b>" : `Du är <b>${kr(left)}</b> från fri frakt`;
+
+        // Upsell
+        const s = suggestion(total);
+        const up = $("up");
+        if (s) {
+          const it = items[s.id];
+          up.hidden = false;
+          up.innerHTML = `<p class="up-k">${s.head}</p><div class="up-card">
+            <img src="${it.img}" alt=""${s.id === "smor" ? ' style="object-position:50% 72%"' : ""}>
+            <div><b>${esc(it.name)} · ${kr(it.price)}</b><span>${esc(s.why)}</span></div>
+            ${s.swap
+              ? `<button type="button" data-swap aria-label="Byt ett Smöret mot Tre smör, ${kr(it.price)}">Byt till 3</button>`
+              : `<button type="button" data-up="${s.id}" aria-label="Lägg ${esc(it.name)} i korgen, ${kr(it.price)}">+ Lägg till</button>`}</div>`;
+        } else {
+          up.hidden = true;
+          up.innerHTML = "";
+        }
+      }
+
+      function bump() {
+        const b = $("open");
+        b.classList.remove("bump");
+        void b.offsetWidth;
+        b.classList.add("bump");
+      }
+
+      function add(id, open = true) {
+        const hit = cart.find((l) => l.id === id);
+        if (hit) hit.qty = Math.min(hit.qty + 1, 99);
+        else cart.push({ id, qty: 1 });
+        save();
+        drawCart();
+        bump();
+        if (open) openCart();
+      }
+
+      function openCart() {
+        if (cartDialog.open) return;
+        $("bar").removeAttribute("data-show");
+        // The page loses its scrollbar while the cart is open; hold its place.
+        const bar = innerWidth - document.documentElement.clientWidth;
+        if (bar > 0) document.documentElement.style.paddingRight = bar + "px";
+        cartDialog.showModal();
+      }
+
+      // ---------- Events ----------
+      $("grid").addEventListener("click", (e) => {
+        const addBtn = e.target.closest("[data-add]");
+        if (addBtn) {
+          const card = addBtn.closest(".card");
+          if (card) add(card.dataset.id);
+          return;
+        }
+        const pic = e.target.closest(".pic");
+        if (!pic) return;
+        const card = pic.closest(".card");
+        if (!card) return;
+        show(card.dataset.id);
+        window.scrollTo({ top: 0, behavior: calm.matches ? "auto" : "smooth" });
+        $("name").focus({ preventScroll: true });
+      });
+
+      for (const b of packs) b.addEventListener("click", () => show(b.dataset.pack, true));
+
+      $("klam").addEventListener("click", () => {
+        const back = pick !== "smor";
+        if (back || film.hidden) show("smor");
+        play();
+        if (back) $("name").focus({ preventScroll: true });
+      });
+
+      $("take").addEventListener("click", () => add(pick));
+      $("again").addEventListener("click", () => add(pick));
+      $("bar-add").addEventListener("click", () => add(pick));
+      $("open").addEventListener("click", openCart);
+      $("close").addEventListener("click", () => cartDialog.close());
+      // Close on a single click that starts and ends on the backdrop, so a double click on the buy button does not.
+      let downOnBackdrop = false;
+      cartDialog.addEventListener("pointerdown", (e) => { downOnBackdrop = e.target === cartDialog; });
+      cartDialog.addEventListener("click", (e) => {
+        if (e.target === cartDialog && downOnBackdrop && e.detail < 2) cartDialog.close();
+      });
+      cartDialog.addEventListener("close", () => { document.documentElement.style.paddingRight = ""; syncBar(); });
+
+      $("lines").addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-step]");
+        if (!btn) return;
+        const line = cart.find((l) => l.id === btn.dataset.id);
+        if (!line) return;
+        line.qty = Math.min(line.qty + Number(btn.dataset.step), 99);
+        const gone = line.qty < 1;
+        if (gone) cart = cart.filter((l) => l !== line);
+        save();
+        drawCart();
+        const again = $("lines").querySelector(`[data-id="${btn.dataset.id}"][data-step="${btn.dataset.step}"]`);
+        (again || $("lines").querySelector(".empty") || $("cart-title")).focus();
+      });
+
+      $("up").addEventListener("click", (e) => {
+        if (e.target.closest("[data-swap]")) {
+          const one = cart.find((l) => l.id === "smor");
+          if (one) {
+            one.qty -= 1;
+            if (one.qty < 1) cart = cart.filter((l) => l !== one);
+          }
+          add("tre", false);
+          $("cart-title").focus();
+          return;
+        }
+        const btn = e.target.closest("[data-up]");
+        if (!btn) return;
+        add(btn.dataset.up, false);
+        $("cart-title").focus();
+      });
+
+      $("pay").addEventListener("click", () => {
+        if (!cart.length) return;
+        const url = SHOP + cart.map((l) => `${items[l.id].variant}:${l.qty}`).join(",");
+        try {
+          sessionStorage.setItem(KEY, JSON.stringify(cart));
+          localStorage.removeItem(KEY);
+        } catch (e) {}
+        location.href = url;
+      });
+
+      // ---------- Sticky bar + header ----------
+      // Shown whenever the hero button is out of view (on short phones too), hidden by the final button.
+      let takeVisible = true;
+      let finalVisible = false;
+      function syncBar() {
+        $("bar").toggleAttribute("data-show", !takeVisible && !finalVisible && !cartDialog.open);
+      }
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(([e]) => { takeVisible = e.intersectionRatio > .85; syncBar(); }, { threshold: [0, .85, 1] }).observe($("take"));
+        new IntersectionObserver(([e]) => { finalVisible = e.isIntersecting; syncBar(); }).observe($("again"));
+        const hero = document.querySelector(".hero");
+        new IntersectionObserver(([e]) => {
+          $("top").toggleAttribute("data-solid", !e.isIntersecting);
+        }, { rootMargin: "-80px 0px 0px 0px" }).observe(hero);
+      }
+
+      // ---------- Film ----------
+      // Reduced motion: no autoplay, no loop. Kläm still plays it once.
+      function motion() {
+        film.autoplay = !calm.matches;
+        film.loop = !calm.matches;
+        if (calm.matches) film.pause();
+        else if (!film.hidden) film.play().catch(() => {});
+      }
+      motion();
+      calm.addEventListener("change", motion);
+
+      window.addEventListener("pageshow", (e) => {
+        if (!e.persisted) return;
+        if (cart.length) save();
+        if (!film.hidden && film.autoplay) film.play().catch(() => {});
+      });
+      window.addEventListener("storage", (e) => {
+        if (e.key === KEY) { cart = load(); drawCart(); }
+      });
+
+      drawPts("smor");
+      drawCart();
+    })();
+  </script>
+</body>
+</html>
