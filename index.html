@@ -5,193 +5,122 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>slinkynsquishy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,520;9..144,620&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --ink: #16110d;
-      --paper: #f3eee6;
-      --card: #fffcf8;
-      --line: #e7dccf;
-      --mute: #6e5e50;
-      --gold: #e7b23a;
-    }
+    :root { --ink:#0c0a09; --cream:#f4efe6; --gold:#e7b23a; --mute:rgba(244,239,230,.5); }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Outfit, system-ui, sans-serif; }
+    body { margin: 0; background: var(--ink); color: var(--cream); font-family: Outfit, system-ui, sans-serif; }
     button, a { font: inherit; color: inherit; }
     button { cursor: pointer; background: none; border: 0; padding: 0; }
-    img, video { display: block; max-width: 100%; }
-    .tick { background: var(--gold); color: var(--ink); text-align: center; font-size: .84rem; padding: 8px 16px; }
-    .bar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; height: 68px; padding: 0 28px; background: var(--ink); color: #f6f1ea; }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .logo { font-family: Fraunces, serif; font-size: 1.45rem; letter-spacing: -.03em; text-decoration: none; color: #f6f1ea; }
-    .links { position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 26px; }
-    .links button { color: #f6f1ea; opacity: .7; padding: 6px 0; border-bottom: 1px solid transparent; }
-    .links button.on, .links button:hover { opacity: 1; border-bottom-color: var(--gold); }
-    .bag, .burger { height: 40px; padding: 0 14px; border-radius: 999px; background: #f6f1ea; color: var(--ink); }
-    .burger { display: none; width: 44px; padding: 0; }
-    .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; max-width: 1180px; margin: 0 auto; padding: 42px 28px 18px; }
-    .kicker { margin: 0; letter-spacing: .16em; text-transform: uppercase; font-size: .75rem; color: var(--mute); }
-    .hero h1, .band h2, .shop-head h2, aside h2, footer h3 { font-family: Fraunces, serif; font-weight: 520; letter-spacing: -.03em; }
-    .hero h1 { font-size: clamp(4rem, 7vw, 6.4rem); line-height: .86; letter-spacing: -.045em; margin: 10px 0 14px; }
-    .lede { margin: 0; max-width: 28rem; font-size: 1.15rem; color: var(--mute); }
-    .price { font-family: Fraunces, serif; font-size: 2rem; margin: 22px 0; }
-    .row { display: flex; flex-wrap: wrap; gap: 10px; }
-    .solid { height: 52px; padding: 0 22px; border-radius: 999px; background: var(--ink); color: #f6f1ea; }
-    .ghost { height: 52px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--ink); }
-    .frame { position: relative; background: var(--card); border-radius: 28px; overflow: hidden; box-shadow: 0 24px 50px rgba(22,17,13,.12); aspect-ratio: 1; }
-    .frame video, .frame img { width: 100%; height: 100%; object-fit: cover; }
-    .replay { position: absolute; left: 14px; bottom: 14px; height: 40px; padding: 0 14px; border-radius: 999px; background: var(--card); }
-    .shop { max-width: 1180px; margin: 0 auto; padding: 28px 28px 72px; }
-    .shop-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin: 18px 0; }
-    .shop-head h2 { font-size: 2.6rem; margin: 0; }
-    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
-    .filters button { height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); }
-    .filters button.on { background: var(--ink); color: #f6f1ea; border-color: var(--ink); }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .card { background: var(--card); border: 1px solid rgba(22,17,13,.06); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 28px rgba(22,17,13,.05); display: flex; flex-direction: column; }
-    .card:hover { transform: translateY(-3px); }
-    .pic { aspect-ratio: 1; background: #efe8dc; }
-    .pic img { width: 100%; height: 100%; object-fit: cover; }
-    .info { padding: 14px 16px 16px; display: grid; gap: 4px; }
-    .info strong { font-family: Fraunces, serif; font-size: 1.35rem; font-weight: 520; }
-    .info span { color: var(--mute); }
-    .info em { font-style: normal; font-family: Fraunces, serif; font-size: 1.15rem; }
-    .add { justify-self: start; margin-top: 8px; text-decoration: underline; text-underline-offset: 3px; }
-    .band { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; max-width: 1180px; margin: 0 auto; padding: 10px 28px 80px; }
-    .band .frame { aspect-ratio: 4/5; }
-    .band h2 { font-size: clamp(2.8rem, 5vw, 4.4rem); line-height: .9; letter-spacing: -.04em; margin: 8px 0 12px; }
-    footer { background: var(--ink); color: #f6f1ea; padding: 48px 28px 28px; }
-    .foot { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 28px; }
-    footer h3 { font-size: 1.7rem; margin: 0 0 10px; }
-    footer p, footer button { color: rgba(246,241,234,.72); display: block; margin: 0 0 8px; text-align: left; }
-    .legal { max-width: 1180px; margin: 28px auto 0; padding-top: 16px; border-top: 1px solid rgba(246,241,234,.12); color: rgba(246,241,234,.5); font-size: .9rem; }
-    .sheet { display: none; position: fixed; inset: 0; background: rgba(22,17,13,.4); z-index: 40; }
+    img, video { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .side { position: fixed; inset: 0 auto 0 0; width: 240px; display: flex; flex-direction: column; padding: 32px 26px 24px; background: var(--ink); border-right: 1px solid rgba(231,178,58,.35); z-index: 20; }
+    .logo { display: block; font-family: Syne, sans-serif; font-weight: 800; font-size: 1.65rem; letter-spacing: -.045em; line-height: 1; color: var(--cream); text-decoration: none; }
+    .side nav { display: flex; flex-direction: column; gap: 2px; margin-top: 48px; }
+    .side nav button { text-align: left; font-family: Syne, sans-serif; font-weight: 700; font-size: 1.7rem; letter-spacing: -.04em; color: var(--mute); line-height: 1.2; }
+    .side nav button.on { color: var(--cream); }
+    .bag { margin-top: auto; height: 48px; border-radius: 999px; background: var(--cream); color: var(--ink); font-weight: 500; }
+    .top { display: none; }
+    main { margin-left: 240px; }
+    .hero { min-height: 100vh; display: grid; grid-template-columns: .9fr 1.1fr; }
+    .copy { display: flex; flex-direction: column; justify-content: flex-end; padding: 40px 40px 48px; }
+    .kicker { margin: 0 0 14px; color: var(--gold); letter-spacing: .18em; text-transform: uppercase; font-size: .72rem; }
+    h1, h2 { font-family: Syne, sans-serif; font-weight: 800; letter-spacing: -.055em; margin: 0; }
+    h1 { font-size: clamp(4.6rem, 8vw, 7.6rem); line-height: .82; }
+    .lede { margin: 18px 0 0; max-width: 16rem; color: var(--mute); font-size: 1.05rem; }
+    .price { font-family: Syne, sans-serif; font-weight: 700; font-size: 2rem; margin: 22px 0; }
+    .solid { height: 54px; padding: 0 26px; border-radius: 999px; background: var(--gold); color: var(--ink); font-weight: 600; width: fit-content; }
+    .media { position: relative; min-height: 100vh; background: #1a1511; }
+    .media video, .media img { position: absolute; inset: 0; }
+    .replay { position: absolute; left: 16px; bottom: 16px; height: 42px; padding: 0 16px; border-radius: 999px; background: var(--cream); color: var(--ink); z-index: 1; }
+    .shop { padding: 28px 22px 72px; }
+    .shop h2 { font-size: clamp(3rem, 6vw, 5rem); line-height: .9; margin: 10px 6px 18px; }
+    .bento { display: grid; grid-template-columns: 1.15fr .85fr; gap: 22px 16px; }
+    .tile { text-align: left; }
+    .pic { border-radius: 18px; overflow: hidden; aspect-ratio: 1; background: #1a1511; }
+    .wide { grid-column: 1 / -1; }
+    .wide .pic { aspect-ratio: 2.15 / 1; }
+    .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 4px 0; }
+    .meta strong { font-family: Syne, sans-serif; font-weight: 700; font-size: 1.45rem; letter-spacing: -.03em; }
+    .meta span { color: var(--mute); }
+    .add { margin-top: 2px; color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+    footer { padding: 10px 28px 36px; color: var(--mute); display: flex; justify-content: space-between; gap: 16px; }
+    .sheet { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 40; }
     .sheet.on { display: block; }
-    aside { position: absolute; top: 0; right: 0; bottom: 0; width: min(100%, 26rem); background: var(--card); color: var(--ink); padding: 22px; display: flex; flex-direction: column; }
+    aside { position: absolute; top: 0; right: 0; bottom: 0; width: min(100%, 26rem); background: var(--cream); color: var(--ink); padding: 22px; display: flex; flex-direction: column; }
     .aside-top, .line { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    aside h2 { font-size: 2.2rem; margin: 0; }
-    .x { width: 40px; height: 40px; border-radius: 999px; background: var(--paper); color: var(--ink); }
-    .line { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    aside h2 { font-size: 2.2rem; }
+    .x { width: 40px; height: 40px; border-radius: 999px; background: var(--ink); color: var(--cream); }
+    .line { padding: 14px 0; border-bottom: 1px solid #e4d8c8; }
     .qty { display: flex; align-items: center; gap: 8px; }
-    .qty button { width: 36px; height: 36px; border-radius: 999px; background: var(--paper); }
-    .pay { margin-top: 16px; height: 54px; border-radius: 999px; background: var(--ink); color: #f6f1ea; }
-    .menu { display: none; position: fixed; inset: 0; z-index: 50; background: var(--ink); color: #f6f1ea; padding: 22px 24px; flex-direction: column; }
-    .menu.on { display: flex; }
-    .menu-top { display: flex; justify-content: space-between; align-items: center; }
-    .menu nav { display: flex; flex-direction: column; gap: 4px; margin-top: 40px; }
-    .menu nav button { font-family: Fraunces, serif; font-size: clamp(2.7rem, 11vw, 4.2rem); text-align: left; color: #f6f1ea; letter-spacing: -.04em; line-height: 1.05; }
-    @media (max-width: 860px) {
-      .burger { display: grid; place-items: center; }
-      .links { display: none; }
-      .bar, .hero, .shop, .band { padding-left: 16px; padding-right: 16px; }
-      .bar { padding-top: 0; padding-bottom: 0; }
-      .hero, .band { grid-template-columns: 1fr; gap: 22px; }
-      .hero { padding-top: 22px; }
-      .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .shop-head { flex-direction: column; align-items: start; }
-      .foot { grid-template-columns: 1fr; }
-      .card:hover { transform: none; }
+    .qty button { width: 36px; height: 36px; border-radius: 999px; background: #efe6da; }
+    .pay { margin-top: 16px; height: 54px; border-radius: 999px; background: var(--ink); color: var(--cream); }
+    .veil { display: none; }
+    @media (max-width: 900px) {
+      .side { transform: translateX(-105%); transition: transform .25s ease; width: min(86vw, 320px); }
+      .side.on { transform: none; }
+      .veil.on { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 15; }
+      .top { display: flex; position: sticky; top: 0; z-index: 10; align-items: center; justify-content: space-between; height: 60px; padding: 0 14px; background: rgba(12,10,9,.92); backdrop-filter: blur(10px); }
+      .top .logo { font-size: 1.05rem; line-height: .95; }
+      .icon { height: 40px; padding: 0 12px; border-radius: 999px; background: var(--cream); color: var(--ink); }
+      main { margin-left: 0; }
+      .hero { min-height: 0; display: flex; flex-direction: column; }
+      .media { order: -1; min-height: 58vh; height: 58vh; }
+      .copy { padding: 22px 16px 8px; }
+      h1 { font-size: 3.15rem; }
+      .shop { padding: 18px 14px 48px; }
+      .bento { grid-template-columns: 1fr 1fr; gap: 14px 10px; }
+      .wide { grid-column: 1 / -1; }
+      .wide .pic { aspect-ratio: 1.5 / 1; }
+      .meta strong { font-size: 1.05rem; }
+      footer { flex-direction: column; padding: 8px 16px 28px; }
     }
   </style>
 </head>
 <body>
-  <div class="tick">Fri frakt över 199 kr. Annars 39 kr. Från tre år.</div>
-  <header class="bar">
-    <div class="brand">
-      <button class="burger" id="openMenu" type="button" aria-label="Meny">Meny</button>
-      <a class="logo" href="#top">slinkynsquishy</a>
-    </div>
-    <nav class="links">
-      <button type="button" data-go="alla">Butiken</button>
+  <div class="veil" id="veil"></div>
+  <aside class="side" id="side">
+    <a class="logo" href="#top">slinkyn<br>squishy</a>
+    <nav>
+      <button type="button" data-go="alla" class="on">Butiken</button>
       <button type="button" data-go="smor">Smör</button>
       <button type="button" data-go="mat">Mat</button>
       <button type="button" data-go="paket">Paket</button>
       <button type="button" data-go="klam">Kläm</button>
     </nav>
     <button class="bag" id="openCart" type="button">Korg <span id="n">0</span></button>
-  </header>
+  </aside>
 
-  <div class="menu" id="menu">
-    <div class="menu-top">
-      <span class="logo">slinkynsquishy</span>
-      <button class="x" id="closeMenu" type="button" aria-label="Stäng">×</button>
-    </div>
-    <nav>
-      <button type="button" data-go="alla">Butiken</button>
-      <button type="button" data-go="smor">Smör</button>
-      <button type="button" data-go="mat">Mat</button>
-      <button type="button" data-go="paket">Paket</button>
-      <button type="button" data-go="klam">Kläm</button>
-    </nav>
+  <div class="top">
+    <button class="icon" id="openMenu" type="button">Meny</button>
+    <a class="logo" href="#top">slinkynsquishy</a>
+    <button class="icon" id="openCart2" type="button">Korg <span id="n2">0</span></button>
   </div>
 
   <main id="top">
     <section class="hero">
-      <div>
-        <p class="kicker">Butiken</p>
+      <div class="copy">
+        <p class="kicker">Squishy</p>
         <h1>Smöret.</h1>
-        <p class="lede">Ett gult stycke skum. Håll inne. Det ger sig, och kommer tillbaka.</p>
+        <p class="lede">Håll inne. Det kommer tillbaka.</p>
         <p class="price">79 kr</p>
-        <div class="row">
-          <button class="solid" id="takeHero" type="button">Ta smöret</button>
-          <button class="ghost" type="button" data-go="alla">Se butiken</button>
-        </div>
+        <button class="solid" id="takeHero" type="button">Ta den</button>
       </div>
-      <div class="frame">
-        <img src="img/smor.jpg" alt="Smöret">
+      <div class="media">
+        <video id="film" src="img/klam.mp4" poster="img/klam.jpg" muted playsinline autoplay loop></video>
+        <button class="replay" id="replay" type="button">Kläm</button>
       </div>
     </section>
 
     <section class="shop" id="butik">
-      <div class="shop-head">
-        <h2>Sortimentet</h2>
-        <div class="filters" id="filters">
-          <button type="button" data-go="alla" class="on">Allt</button>
-          <button type="button" data-go="smor">Smör</button>
-          <button type="button" data-go="mat">Mat</button>
-          <button type="button" data-go="paket">Paket</button>
-        </div>
-      </div>
-      <div class="grid" id="grid"></div>
-    </section>
-
-    <section class="band" id="klam">
-      <div class="frame">
-        <video id="film" src="img/klam.mp4" poster="img/klam.jpg" muted playsinline loop></video>
-        <button class="replay" id="replay" type="button">Kläm</button>
-      </div>
-      <div>
-        <p class="kicker">Kläm</p>
-        <h2>Tummen in. Sen upp igen.</h2>
-        <p class="lede">Ingen vätska. Bara skum. Från tre år, inte i munnen.</p>
-        <p class="price">79 kr</p>
-        <button class="solid" id="takeKlam" type="button">Ta smöret</button>
-      </div>
+      <h2 id="heading">Butiken</h2>
+      <div class="bento" id="grid"></div>
     </section>
   </main>
 
   <footer>
-    <div class="foot">
-      <div>
-        <h3>slinkynsquishy</h3>
-        <p>Mjuka saker att hålla i. Smör, toast, ost, persika och mochi.</p>
-      </div>
-      <div>
-        <h3>Butiken</h3>
-        <button type="button" data-go="alla">Allt</button>
-        <button type="button" data-go="smor">Smör</button>
-        <button type="button" data-go="mat">Mat</button>
-        <button type="button" data-go="paket">Paket</button>
-      </div>
-      <div>
-        <h3>Frakt</h3>
-        <p>39 kr under 199 kr.</p>
-        <p>Fri frakt över 199 kr.</p>
-        <p>Förbeställning. Vi skickar när partiet är inne.</p>
-      </div>
-    </div>
-    <p class="legal">slinkynsquishy · Nytto Labs</p>
+    <span>Fri frakt över 199 kr. Annars 39 kr.</span>
+    <span>Från tre år. Inte i munnen. Nytto Labs.</span>
   </footer>
 
   <div class="sheet" id="sheet">
@@ -209,14 +138,15 @@
   <script>
     const shop = "https://pqwbeh-yy.myshopify.com/cart/";
     const items = [
-      { id: "smor", cat: "smor", name: "Smöret", price: 79, line: "14 cm", img: "img/smor.jpg", variant: "58793534456139" },
-      { id: "toast", cat: "mat", name: "Toasten", price: 79, line: "En skiva", img: "img/toast.jpg", variant: "58793534521675" },
-      { id: "ost", cat: "mat", name: "Osten", price: 69, line: "En bit", img: "img/ost.jpg", variant: "58793534587211" },
-      { id: "persika", cat: "mat", name: "Persikan", price: 49, line: "En frukt", img: "img/persika.jpg", variant: "58793534816587" },
-      { id: "mochi", cat: "mat", name: "Mochi", price: 99, line: "Tre små", img: "img/mochi.jpg", variant: "58793534882123" },
-      { id: "tre", cat: "paket", name: "Tre smör", price: 199, line: "Fri frakt", img: "img/tre.jpg", variant: "58793535603019" },
-      { id: "klass", cat: "paket", name: "Klassen", price: 249, line: "Tolv stycken", img: "img/hand.jpg", variant: "58793535668555" }
+      { id: "toast", cat: "mat", name: "Toasten", price: 79, img: "img/toast.jpg", variant: "58793534521675" },
+      { id: "persika", cat: "mat", name: "Persikan", price: 49, img: "img/persika.jpg", variant: "58793534816587" },
+      { id: "mochi", cat: "mat", name: "Mochi", price: 99, img: "img/mochi.jpg", variant: "58793534882123", wide: true },
+      { id: "ost", cat: "mat", name: "Osten", price: 69, img: "img/ost.jpg", variant: "58793534587211" },
+      { id: "smor", cat: "smor", name: "Smöret", price: 79, img: "img/smor.jpg", variant: "58793534456139" },
+      { id: "tre", cat: "paket", name: "Tre smör", price: 199, img: "img/tre.jpg", variant: "58793535603019", wide: true },
+      { id: "klass", cat: "paket", name: "Klassen", price: 249, img: "img/hand.jpg", variant: "58793535668555", wide: true }
     ];
+    const titles = { alla: "Butiken", smor: "Smör", mat: "Mat", paket: "Paket" };
     const byId = Object.fromEntries(items.map((item) => [item.id, item]));
     let filter = "alla";
     let cart = [];
@@ -224,23 +154,20 @@
 
     function visible() {
       if (filter === "alla") return items;
-      if (filter === "smor") return items.filter((item) => item.cat === "smor" || item.cat === "paket");
+      if (filter === "smor") return items.filter((item) => item.cat === "smor" || item.id === "tre");
       return items.filter((item) => item.cat === filter);
     }
 
     function drawGrid() {
+      document.getElementById("heading").textContent = titles[filter] || "Butiken";
       document.getElementById("grid").innerHTML = visible().map((item) => `
-        <article class="card">
+        <article class="tile ${filter === "alla" && item.wide ? "wide" : ""}">
           <div class="pic"><img src="${item.img}" alt="${item.name}"></div>
-          <div class="info">
-            <strong>${item.name}</strong>
-            <span>${item.line}</span>
-            <em>${item.price} kr</em>
-            <button class="add" type="button" data-add="${item.id}">Lägg i</button>
-          </div>
+          <div class="meta"><strong>${item.name}</strong><span>${item.price} kr</span></div>
+          <button class="add" type="button" data-add="${item.id}">Lägg i</button>
         </article>`).join("");
-      document.querySelectorAll(".links [data-go], .filters [data-go]").forEach((node) => {
-        node.classList.toggle("on", node.dataset.go === filter);
+      document.querySelectorAll(".side [data-go]").forEach((node) => {
+        node.classList.toggle("on", node.dataset.go === filter || (filter === "alla" && node.dataset.go === "alla"));
       });
     }
 
@@ -248,6 +175,7 @@
       const count = cart.reduce((sum, line) => sum + line.qty, 0);
       const goods = cart.reduce((sum, line) => sum + byId[line.id].price * line.qty, 0);
       document.getElementById("n").textContent = count;
+      document.getElementById("n2").textContent = count;
       document.getElementById("lines").innerHTML = cart.map((line) => `
         <div class="line">
           <div><strong>${byId[line.id].name}</strong><div>${byId[line.id].price} kr</div></div>
@@ -268,10 +196,15 @@
       document.getElementById("sheet").classList.add("on");
     }
 
+    function closeMenu() {
+      document.getElementById("side").classList.remove("on");
+      document.getElementById("veil").classList.remove("on");
+    }
+
     function go(key) {
-      document.getElementById("menu").classList.remove("on");
+      closeMenu();
       if (key === "klam") {
-        document.getElementById("klam").scrollIntoView({ behavior: "smooth" });
+        document.getElementById("top").scrollIntoView({ behavior: "smooth" });
         film.currentTime = 0;
         film.play();
         return;
@@ -295,23 +228,22 @@
       drawCart();
     });
 
+    function openCart() { document.getElementById("sheet").classList.add("on"); }
     document.getElementById("takeHero").onclick = () => add("smor");
-    document.getElementById("takeKlam").onclick = () => add("smor");
     document.getElementById("replay").onclick = () => { film.currentTime = 0; film.play(); };
-    document.getElementById("openCart").onclick = () => document.getElementById("sheet").classList.add("on");
+    document.getElementById("openCart").onclick = openCart;
+    document.getElementById("openCart2").onclick = openCart;
     document.getElementById("closeCart").onclick = () => document.getElementById("sheet").classList.remove("on");
     document.getElementById("sheet").onclick = (event) => { if (event.target.id === "sheet") event.currentTarget.classList.remove("on"); };
-    document.getElementById("openMenu").onclick = () => document.getElementById("menu").classList.add("on");
-    document.getElementById("closeMenu").onclick = () => document.getElementById("menu").classList.remove("on");
+    document.getElementById("openMenu").onclick = () => {
+      document.getElementById("side").classList.add("on");
+      document.getElementById("veil").classList.add("on");
+    };
+    document.getElementById("veil").onclick = closeMenu;
     document.getElementById("pay").onclick = () => {
       if (!cart.length) return;
       location.href = shop + cart.map((line) => byId[line.id].variant + ":" + line.qty).join(",");
     };
-
-    new IntersectionObserver((entries) => {
-      entries.forEach((entry) => { if (entry.isIntersecting) film.play(); });
-    }, { threshold: 0.45 }).observe(document.getElementById("klam"));
-
     drawGrid();
     drawCart();
   </script>
