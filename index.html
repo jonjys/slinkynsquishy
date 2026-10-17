@@ -5,245 +5,205 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>slinkynsquishy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root { --ink:#0c0a09; --cream:#f4efe6; --gold:#e7b23a; --mute:rgba(244,239,230,.5); }
+    :root { --ink:#1a140f; --paper:#f3efe8; --card:#fff; --line:#e6dfd4; --mute:#6f6256; }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: var(--ink); color: var(--cream); font-family: Outfit, system-ui, sans-serif; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Outfit, system-ui, sans-serif; }
     button, a { font: inherit; color: inherit; }
     button { cursor: pointer; background: none; border: 0; padding: 0; }
     img, video { display: block; width: 100%; height: 100%; object-fit: cover; }
-    .side { position: fixed; inset: 0 auto 0 0; width: 240px; display: flex; flex-direction: column; padding: 32px 26px 24px; background: var(--ink); border-right: 1px solid rgba(231,178,58,.35); z-index: 20; }
-    .logo { display: block; font-family: Syne, sans-serif; font-weight: 800; font-size: 1.65rem; letter-spacing: -.045em; line-height: 1; color: var(--cream); text-decoration: none; }
-    .side nav { display: flex; flex-direction: column; gap: 2px; margin-top: 48px; }
-    .side nav button { text-align: left; font-family: Syne, sans-serif; font-weight: 700; font-size: 1.7rem; letter-spacing: -.04em; color: var(--mute); line-height: 1.2; }
-    .side nav button.on { color: var(--cream); }
-    .bag { margin-top: auto; height: 48px; border-radius: 999px; background: var(--cream); color: var(--ink); font-weight: 500; }
+    .rail { position: fixed; inset: 0 auto 0 0; width: 212px; display: flex; flex-direction: column; padding: 22px 18px 18px; background: var(--card); border-right: 1px solid var(--line); z-index: 20; }
+    .logo { font-family: Fraunces, serif; font-size: 1.35rem; letter-spacing: -.03em; line-height: 1; text-decoration: none; }
+    .rail nav { display: flex; flex-direction: column; gap: 2px; margin-top: 22px; flex: none; }
+    .rail nav button { flex: none; display: flex; align-items: center; text-align: left; height: 38px; padding: 0 12px; border-radius: 999px; color: var(--mute); }
+    .rail nav button.on, .rail nav button:hover { background: var(--ink); color: var(--paper); }
+    .ship { margin-top: auto; color: var(--mute); font-size: .9rem; line-height: 1.35; }
+    .bag { margin-top: 14px; height: 46px; border-radius: 999px; background: var(--ink); color: var(--paper); }
     .top { display: none; }
-    main { margin-left: 240px; }
-    .hero { min-height: 100vh; display: grid; grid-template-columns: .9fr 1.1fr; }
-    .copy { display: flex; flex-direction: column; justify-content: flex-end; padding: 40px 40px 48px; }
-    .kicker { margin: 0 0 14px; color: var(--gold); letter-spacing: .18em; text-transform: uppercase; font-size: .72rem; }
-    h1, h2 { font-family: Syne, sans-serif; font-weight: 800; letter-spacing: -.055em; margin: 0; }
-    h1 { font-size: clamp(4.6rem, 8vw, 7.6rem); line-height: .82; }
-    .lede { margin: 18px 0 0; max-width: 16rem; color: var(--mute); font-size: 1.05rem; }
-    .price { font-family: Syne, sans-serif; font-weight: 700; font-size: 2rem; margin: 22px 0; }
-    .solid { height: 54px; padding: 0 26px; border-radius: 999px; background: var(--gold); color: var(--ink); font-weight: 600; width: fit-content; }
-    .media { position: relative; min-height: 100vh; background: #1a1511; }
-    .media video, .media img { position: absolute; inset: 0; }
-    .replay { position: absolute; left: 16px; bottom: 16px; height: 42px; padding: 0 16px; border-radius: 999px; background: var(--cream); color: var(--ink); z-index: 1; }
-    .shop { padding: 28px 22px 72px; }
-    .shop h2 { font-size: clamp(3rem, 6vw, 5rem); line-height: .9; margin: 10px 6px 18px; }
-    .bento { display: grid; grid-template-columns: 1.15fr .85fr; gap: 22px 16px; }
-    .tile { text-align: left; }
-    .pic { border-radius: 18px; overflow: hidden; aspect-ratio: 1; background: #1a1511; }
-    .wide { grid-column: 1 / -1; }
-    .wide .pic { aspect-ratio: 2.15 / 1; }
-    .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 4px 0; }
-    .meta strong { font-family: Syne, sans-serif; font-weight: 700; font-size: 1.45rem; letter-spacing: -.03em; }
-    .meta span { color: var(--mute); }
-    .add { margin-top: 2px; color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
-    footer { padding: 10px 28px 36px; color: var(--mute); display: flex; justify-content: space-between; gap: 16px; }
-    .sheet { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 40; }
+    main { margin-left: 212px; }
+    .stage { height: 100vh; display: grid; grid-template-columns: 1.25fr .9fr; grid-template-rows: 1fr 1fr; gap: 12px; padding: 12px; }
+    .cell { display: grid; grid-template-rows: 1fr auto; min-height: 0; background: var(--card); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 28px rgba(40,28,16,.06); }
+    .cell.big { grid-row: 1 / span 2; }
+    .pic { min-height: 0; background: #efe8dc; }
+    .cap { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; }
+    .cap strong { font-family: Fraunces, serif; font-size: 1.35rem; font-weight: 560; }
+    .cap span { color: var(--mute); }
+    .add { height: 36px; padding: 0 14px; border-radius: 999px; background: var(--ink); color: var(--paper); white-space: nowrap; flex: none; }
+    .band, .more { padding: 8px 12px 20px; }
+    .band { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; padding: 28px 28px 12px; }
+    .frame { position: relative; aspect-ratio: 1; border-radius: 22px; overflow: hidden; background: #efe8dc; box-shadow: 0 10px 28px rgba(40,28,16,.06); }
+    .replay { position: absolute; left: 12px; bottom: 12px; height: 38px; padding: 0 14px; border-radius: 999px; background: var(--card); }
+    .kicker { margin: 0; letter-spacing: .14em; text-transform: uppercase; font-size: .72rem; color: var(--mute); }
+    h1 { font-family: Fraunces, serif; font-weight: 560; font-size: clamp(3.2rem, 5vw, 4.6rem); letter-spacing: -.04em; line-height: .9; margin: 8px 0; }
+    .lede { margin: 0; color: var(--mute); max-width: 22rem; }
+    .price { font-family: Fraunces, serif; font-size: 1.8rem; margin: 16px 0; }
+    .more h2 { font-family: Fraunces, serif; font-weight: 560; font-size: 2rem; margin: 12px 8px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .grid .cell { grid-template-rows: auto auto; }
+    .grid .pic { aspect-ratio: 1; }
+    footer { padding: 8px 28px 28px; color: var(--mute); }
+    .sheet { display: none; position: fixed; inset: 0; background: rgba(26,20,15,.35); z-index: 40; }
     .sheet.on { display: block; }
-    aside { position: absolute; top: 0; right: 0; bottom: 0; width: min(100%, 26rem); background: var(--cream); color: var(--ink); padding: 22px; display: flex; flex-direction: column; }
+    aside.cart { position: absolute; top: 0; right: 0; bottom: 0; width: min(100%, 24rem); background: var(--card); padding: 20px; display: flex; flex-direction: column; }
     .aside-top, .line { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    aside h2 { font-size: 2.2rem; }
-    .x { width: 40px; height: 40px; border-radius: 999px; background: var(--ink); color: var(--cream); }
-    .line { padding: 14px 0; border-bottom: 1px solid #e4d8c8; }
+    aside.cart h2 { font-family: Fraunces, serif; font-weight: 560; font-size: 2rem; margin: 0; }
+    .x { width: 38px; height: 38px; border-radius: 999px; background: var(--paper); }
+    .line { padding: 12px 0; border-bottom: 1px solid var(--line); }
     .qty { display: flex; align-items: center; gap: 8px; }
-    .qty button { width: 36px; height: 36px; border-radius: 999px; background: #efe6da; }
-    .pay { margin-top: 16px; height: 54px; border-radius: 999px; background: var(--ink); color: var(--cream); }
+    .qty button { width: 34px; height: 34px; border-radius: 999px; background: var(--paper); }
+    .pay { margin-top: 14px; height: 50px; border-radius: 999px; background: var(--ink); color: var(--paper); }
     .veil { display: none; }
     @media (max-width: 900px) {
-      .side { transform: translateX(-105%); transition: transform .25s ease; width: min(86vw, 320px); }
-      .side.on { transform: none; }
-      .veil.on { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 15; }
-      .top { display: flex; position: sticky; top: 0; z-index: 10; align-items: center; justify-content: space-between; height: 60px; padding: 0 14px; background: rgba(12,10,9,.92); backdrop-filter: blur(10px); }
-      .top .logo { font-size: 1.05rem; line-height: .95; }
-      .icon { height: 40px; padding: 0 12px; border-radius: 999px; background: var(--cream); color: var(--ink); }
+      .rail { transform: translateX(-105%); width: min(84vw, 280px); transition: transform .25s ease; }
+      .rail.on { transform: none; }
+      .veil.on { display: block; position: fixed; inset: 0; background: rgba(26,20,15,.35); z-index: 15; }
+      .top { display: flex; position: sticky; top: 0; z-index: 10; align-items: center; justify-content: space-between; height: 58px; padding: 0 12px; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+      .top .logo { font-size: 1.15rem; }
+      .icon { height: 36px; padding: 0 12px; border-radius: 999px; background: var(--ink); color: var(--paper); }
       main { margin-left: 0; }
-      .hero { min-height: 0; display: flex; flex-direction: column; }
-      .media { order: -1; min-height: 58vh; height: 58vh; }
-      .copy { padding: 22px 16px 8px; }
-      h1 { font-size: 3.15rem; }
-      .shop { padding: 18px 14px 48px; }
-      .bento { grid-template-columns: 1fr 1fr; gap: 14px 10px; }
-      .wide { grid-column: 1 / -1; }
-      .wide .pic { aspect-ratio: 1.5 / 1; }
-      .meta strong { font-size: 1.05rem; }
-      footer { flex-direction: column; padding: 8px 16px 28px; }
+      .stage { height: auto; grid-template-columns: 1fr 1fr; grid-template-rows: auto; padding: 10px; }
+      .cell.big { grid-column: 1 / -1; grid-row: auto; }
+      .cell.big .pic { aspect-ratio: 1; }
+      .cell .pic { aspect-ratio: 1; }
+      .band { grid-template-columns: 1fr; padding: 18px 14px; gap: 16px; }
+      .grid { grid-template-columns: 1fr 1fr; }
+      .grid .cell:last-child { grid-column: 1 / -1; }
+      .cap strong { font-size: 1.05rem; }
+      .add { height: 32px; padding: 0 10px; font-size: .85rem; }
     }
   </style>
 </head>
 <body>
   <div class="veil" id="veil"></div>
-  <aside class="side" id="side">
-    <a class="logo" href="#top">slinkyn<br>squishy</a>
+  <aside class="rail" id="rail">
+    <a class="logo" href="#top">slinkynsquishy</a>
     <nav>
-      <button type="button" data-go="alla" class="on">Butiken</button>
-      <button type="button" data-go="smor">Smör</button>
+      <button type="button" data-go="butik" class="on">Butiken</button>
       <button type="button" data-go="mat">Mat</button>
+      <button type="button" data-go="smor">Smör</button>
       <button type="button" data-go="paket">Paket</button>
-      <button type="button" data-go="klam">Kläm</button>
     </nav>
+    <p class="ship">Fri frakt över 199 kr.<br>Annars 39 kr.</p>
     <button class="bag" id="openCart" type="button">Korg <span id="n">0</span></button>
   </aside>
-
   <div class="top">
     <button class="icon" id="openMenu" type="button">Meny</button>
     <a class="logo" href="#top">slinkynsquishy</a>
     <button class="icon" id="openCart2" type="button">Korg <span id="n2">0</span></button>
   </div>
-
   <main id="top">
-    <section class="hero">
-      <div class="copy">
-        <p class="kicker">Squishy</p>
-        <h1>Smöret.</h1>
-        <p class="lede">Håll inne. Det kommer tillbaka.</p>
-        <p class="price">79 kr</p>
-        <button class="solid" id="takeHero" type="button">Ta den</button>
-      </div>
-      <div class="media">
-        <video id="film" src="img/klam.mp4" poster="img/klam.jpg" muted playsinline autoplay loop></video>
+    <section class="stage" id="butik">
+      <article class="cell big">
+        <div class="pic"><img src="img/toast.jpg" alt="Toasten"></div>
+        <div class="cap"><div><strong>Toasten</strong><div><span>79 kr</span></div></div><button class="add" type="button" data-add="toast">Lägg i</button></div>
+      </article>
+      <article class="cell">
+        <div class="pic"><img src="img/persika.jpg" alt="Persikan" style="object-position:center 45%"></div>
+        <div class="cap"><div><strong>Persikan</strong><div><span>49 kr</span></div></div><button class="add" type="button" data-add="persika">Lägg i</button></div>
+      </article>
+      <article class="cell">
+        <div class="pic"><img src="img/mochi.jpg" alt="Mochi" style="object-position:center 40%"></div>
+        <div class="cap"><div><strong>Mochi</strong><div><span>99 kr</span></div></div><button class="add" type="button" data-add="mochi">Lägg i</button></div>
+      </article>
+    </section>
+    <section class="band" id="smor">
+      <div class="frame">
+        <video id="film" src="img/klam.mp4" poster="img/klam.jpg" muted playsinline loop></video>
         <button class="replay" id="replay" type="button">Kläm</button>
       </div>
+      <div>
+        <p class="kicker">Smör</p>
+        <h1>Smöret.</h1>
+        <p class="lede">Håll inne. Det kommer tillbaka. Från tre år, inte i munnen.</p>
+        <p class="price">79 kr</p>
+        <button class="add" id="take" type="button">Ta den</button>
+      </div>
     </section>
-
-    <section class="shop" id="butik">
-      <h2 id="heading">Butiken</h2>
-      <div class="bento" id="grid"></div>
+    <section class="more" id="paket">
+      <h2 id="rest">Resten</h2>
+      <div class="grid" id="grid"></div>
     </section>
   </main>
-
-  <footer>
-    <span>Fri frakt över 199 kr. Annars 39 kr.</span>
-    <span>Från tre år. Inte i munnen. Nytto Labs.</span>
-  </footer>
-
+  <footer>slinkynsquishy · Nytto Labs</footer>
   <div class="sheet" id="sheet">
-    <aside>
-      <div class="aside-top">
-        <h2>Korgen</h2>
-        <button class="x" id="closeCart" type="button" aria-label="Stäng">×</button>
-      </div>
+    <aside class="cart">
+      <div class="aside-top"><h2>Korgen</h2><button class="x" id="closeCart" type="button" aria-label="Stäng">×</button></div>
       <div id="lines" style="flex:1;overflow:auto"></div>
       <p class="price" id="sum"></p>
       <button class="pay" id="pay" type="button">Betala</button>
     </aside>
   </div>
-
   <script>
     const shop = "https://pqwbeh-yy.myshopify.com/cart/";
-    const items = [
-      { id: "toast", cat: "mat", name: "Toasten", price: 79, img: "img/toast.jpg", variant: "58793534521675" },
-      { id: "persika", cat: "mat", name: "Persikan", price: 49, img: "img/persika.jpg", variant: "58793534816587" },
-      { id: "mochi", cat: "mat", name: "Mochi", price: 99, img: "img/mochi.jpg", variant: "58793534882123", wide: true },
-      { id: "ost", cat: "mat", name: "Osten", price: 69, img: "img/ost.jpg", variant: "58793534587211" },
-      { id: "smor", cat: "smor", name: "Smöret", price: 79, img: "img/smor.jpg", variant: "58793534456139" },
-      { id: "tre", cat: "paket", name: "Tre smör", price: 199, img: "img/tre.jpg", variant: "58793535603019", wide: true },
-      { id: "klass", cat: "paket", name: "Klassen", price: 249, img: "img/hand.jpg", variant: "58793535668555", wide: true }
-    ];
-    const titles = { alla: "Butiken", smor: "Smör", mat: "Mat", paket: "Paket" };
-    const byId = Object.fromEntries(items.map((item) => [item.id, item]));
-    let filter = "alla";
+    const items = {
+      toast: { name: "Toasten", price: 79, variant: "58793534521675" },
+      persika: { name: "Persikan", price: 49, variant: "58793534816587" },
+      mochi: { name: "Mochi", price: 99, variant: "58793534882123" },
+      smor: { name: "Smöret", price: 79, variant: "58793534456139" },
+      ost: { name: "Osten", price: 69, img: "img/ost.jpg", variant: "58793534587211" },
+      tre: { name: "Tre smör", price: 199, img: "img/tre.jpg", variant: "58793535603019" },
+      klass: { name: "Klassen", price: 249, img: "img/hand.jpg", variant: "58793535668555" }
+    };
+    const rest = ["ost", "tre", "klass"];
     let cart = [];
     const film = document.getElementById("film");
 
-    function visible() {
-      if (filter === "alla") return items;
-      if (filter === "smor") return items.filter((item) => item.cat === "smor" || item.id === "tre");
-      return items.filter((item) => item.cat === filter);
-    }
-
     function drawGrid() {
-      document.getElementById("heading").textContent = titles[filter] || "Butiken";
-      document.getElementById("grid").innerHTML = visible().map((item) => `
-        <article class="tile ${filter === "alla" && item.wide ? "wide" : ""}">
-          <div class="pic"><img src="${item.img}" alt="${item.name}"></div>
-          <div class="meta"><strong>${item.name}</strong><span>${item.price} kr</span></div>
-          <button class="add" type="button" data-add="${item.id}">Lägg i</button>
-        </article>`).join("");
-      document.querySelectorAll(".side [data-go]").forEach((node) => {
-        node.classList.toggle("on", node.dataset.go === filter || (filter === "alla" && node.dataset.go === "alla"));
-      });
+      document.getElementById("grid").innerHTML = rest.map((id) => {
+        const item = items[id];
+        return `<article class="cell"><div class="pic"><img src="${item.img}" alt="${item.name}"></div><div class="cap"><div><strong>${item.name}</strong><div><span>${item.price} kr</span></div></div><button class="add" type="button" data-add="${id}">Lägg i</button></div></article>`;
+      }).join("");
     }
-
     function drawCart() {
-      const count = cart.reduce((sum, line) => sum + line.qty, 0);
-      const goods = cart.reduce((sum, line) => sum + byId[line.id].price * line.qty, 0);
+      const count = cart.reduce((s, l) => s + l.qty, 0);
+      const goods = cart.reduce((s, l) => s + items[l.id].price * l.qty, 0);
       document.getElementById("n").textContent = count;
       document.getElementById("n2").textContent = count;
-      document.getElementById("lines").innerHTML = cart.map((line) => `
-        <div class="line">
-          <div><strong>${byId[line.id].name}</strong><div>${byId[line.id].price} kr</div></div>
-          <div class="qty">
-            <button type="button" data-m="${line.id}">−</button>
-            <span>${line.qty}</span>
-            <button type="button" data-p="${line.id}">+</button>
-          </div>
-        </div>`).join("") || "<p>Korgen är tom.</p>";
+      document.getElementById("lines").innerHTML = cart.map((l) => `<div class="line"><div><strong>${items[l.id].name}</strong><div>${items[l.id].price} kr</div></div><div class="qty"><button type="button" data-m="${l.id}">−</button><span>${l.qty}</span><button type="button" data-p="${l.id}">+</button></div></div>`).join("") || "<p>Korgen är tom.</p>";
       document.getElementById("sum").textContent = goods ? goods + " kr" : "";
     }
-
     function add(id) {
-      const hit = cart.find((line) => line.id === id);
-      if (hit) hit.qty += 1;
-      else cart.push({ id, qty: 1 });
+      const hit = cart.find((l) => l.id === id);
+      if (hit) hit.qty += 1; else cart.push({ id, qty: 1 });
       drawCart();
       document.getElementById("sheet").classList.add("on");
     }
-
     function closeMenu() {
-      document.getElementById("side").classList.remove("on");
+      document.getElementById("rail").classList.remove("on");
       document.getElementById("veil").classList.remove("on");
     }
-
-    function go(key) {
-      closeMenu();
-      if (key === "klam") {
-        document.getElementById("top").scrollIntoView({ behavior: "smooth" });
-        film.currentTime = 0;
-        film.play();
-        return;
-      }
-      filter = key;
-      drawGrid();
-      document.getElementById("butik").scrollIntoView({ behavior: "smooth" });
-    }
-
     document.body.addEventListener("click", (event) => {
-      const goBtn = event.target.closest("[data-go]");
-      if (goBtn) go(goBtn.dataset.go);
+      const go = event.target.closest("[data-go]");
+      if (go) {
+        closeMenu();
+        document.querySelectorAll(".rail [data-go]").forEach((n) => n.classList.toggle("on", n === go));
+        const id = go.dataset.go === "mat" ? "butik" : go.dataset.go;
+        document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+        if (go.dataset.go === "smor") { film.currentTime = 0; film.play(); }
+      }
       const addBtn = event.target.closest("[data-add]");
       if (addBtn) add(addBtn.dataset.add);
       const id = event.target.dataset.m || event.target.dataset.p;
-      if (!id || !byId[id]) return;
-      const line = cart.find((entry) => entry.id === id);
+      if (!id || !items[id]) return;
+      const line = cart.find((l) => l.id === id);
       if (!line) return;
       line.qty += event.target.dataset.p ? 1 : -1;
-      if (line.qty < 1) cart = cart.filter((entry) => entry.id !== id);
+      if (line.qty < 1) cart = cart.filter((l) => l.id !== id);
       drawCart();
     });
-
-    function openCart() { document.getElementById("sheet").classList.add("on"); }
-    document.getElementById("takeHero").onclick = () => add("smor");
+    document.getElementById("take").onclick = () => add("smor");
     document.getElementById("replay").onclick = () => { film.currentTime = 0; film.play(); };
+    const openCart = () => document.getElementById("sheet").classList.add("on");
     document.getElementById("openCart").onclick = openCart;
     document.getElementById("openCart2").onclick = openCart;
     document.getElementById("closeCart").onclick = () => document.getElementById("sheet").classList.remove("on");
-    document.getElementById("sheet").onclick = (event) => { if (event.target.id === "sheet") event.currentTarget.classList.remove("on"); };
-    document.getElementById("openMenu").onclick = () => {
-      document.getElementById("side").classList.add("on");
-      document.getElementById("veil").classList.add("on");
-    };
+    document.getElementById("sheet").onclick = (e) => { if (e.target.id === "sheet") e.currentTarget.classList.remove("on"); };
+    document.getElementById("openMenu").onclick = () => { document.getElementById("rail").classList.add("on"); document.getElementById("veil").classList.add("on"); };
     document.getElementById("veil").onclick = closeMenu;
-    document.getElementById("pay").onclick = () => {
-      if (!cart.length) return;
-      location.href = shop + cart.map((line) => byId[line.id].variant + ":" + line.qty).join(",");
-    };
+    document.getElementById("pay").onclick = () => { if (!cart.length) return; location.href = shop + cart.map((l) => items[l.id].variant + ":" + l.qty).join(","); };
+    new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) film.play(); }), { threshold: 0.4 }).observe(document.getElementById("smor"));
     drawGrid();
     drawCart();
   </script>
